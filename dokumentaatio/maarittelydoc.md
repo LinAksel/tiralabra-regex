@@ -19,7 +19,9 @@ Haluan myös oppia ymmärtämään säännöllisten lauseiden koostamista paremm
 
 ## Lähteet
 
-[https://en.wikipedia.org/wiki/Regular_expression](https://en.wikipedia.org/wiki/Regular_expression)
-[https://www.cs.helsinki.fi/u/hisahi/sanastot/regex.html](https://www.cs.helsinki.fi/u/hisahi/sanastot/regex.html)
-[https://swtch.com/~rsc/regexp/regexp1.html](https://swtch.com/~rsc/regexp/regexp1.html)
+* [https://en.wikipedia.org/wiki/Regular_expression](https://en.wikipedia.org/wiki/Regular_expression)
+
+* [https://www.cs.helsinki.fi/u/hisahi/sanastot/regex.html](https://www.cs.helsinki.fi/u/hisahi/sanastot/regex.html)
+
+* [https://swtch.com/~rsc/regexp/regexp1.html](https://swtch.com/~rsc/regexp/regexp1.html)
 
