@@ -5,10 +5,20 @@
  */
 package regex;
 
+
 /**
  *
  * @author linaksel
  */
 public class Main {
+    
+    /**
+     * Käynnistämiseen valjastettu main luo uuden regex-olion ja ajaa sen.
+     * @param args 
+     */
+    public static void main(String[] args) {
+    	Regex regex = new Regex(new KonsoliIO());
+        regex.suorita();
+    }
     
 }
