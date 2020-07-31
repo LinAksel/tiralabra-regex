@@ -11,7 +11,7 @@ import java.util.Scanner;
  *
  * @author linaksel
  */
-public class KonsoliIO implements IO{
+public class KonsoliIO implements IO {
     
     private Scanner lukija;
 

@@ -10,14 +10,14 @@ package regex;
  * @author linaksel
  */
 
-public class TestiIO implements IO{
+public class TestiIO implements IO {
 
     private String regex;
     private String sana;
     private Boolean reSyotetty;
     private String tosi;
     
-    public TestiIO(String regex, String sana){
+    public TestiIO(String regex, String sana) {
         this.regex = regex;
         this.sana = sana;
         this.reSyotetty = false;
@@ -25,7 +25,7 @@ public class TestiIO implements IO{
     
     @Override
     public String next() {
-        if(reSyotetty){
+        if (reSyotetty) {
             return sana;
         } else {
             reSyotetty = true;
@@ -38,8 +38,8 @@ public class TestiIO implements IO{
         this.tosi = tuloste;
     }
     
-    public Boolean loytyi(){
-        if(tosi.equals("true")){
+    public Boolean loytyi() {
+        if (tosi.equals("true")) {
             return true;
         }
         return false;
