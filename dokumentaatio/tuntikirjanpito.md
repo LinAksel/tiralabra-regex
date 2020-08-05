@@ -10,4 +10,6 @@ Päivä      | Aika (h)| Mitä tein |
 28.6.2020  | 4       | Opiskelua aiheesta ja ensimmäiset ohjelmakokeilut rekursiolla |
 30.6.2020  | 4       | Lisää lukua aiheesta ja ohjelman ensimmäinen, hyvin suppea versio |
 31.6.2020  | 5       | Tai-ominaisuuden luominen ensimmäiseen tulkkiin, testien ja dokumentoinnin tekoa, viikkopalautukseen valmistelua |
-YHTEENSÄ   | 18       | |
+5.7.2020   | 2       | Sulkujen oikean toiminnan rakentaminen |
+6.7.2020   | 2       | Sulkujen oikean toiminnan viimeistely tämänhetkisille operaattoreille |
+YHTEENSÄ   | 22       | |
