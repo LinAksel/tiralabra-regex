@@ -5,8 +5,6 @@
  */
 package regex;
 
-import java.util.Scanner;
-
 /**
  *
  * @author linaksel
@@ -16,19 +14,11 @@ public class Regex {
     private String regex;
     private String sana;
     private Boolean lukko;
-    private IO io;
     
-    public Regex(IO io) {
-    	this.io = io;
+    public Regex() {
         this.lukko = false;
     }
     
-    public void suorita() {
-        regex = io.next();
-        sana = io.next();
-        tulkki("", regex.length() - 1);
-        io.print(lukko.toString());
-    }
     /** 
      * Metodi varmistaa, että liitettävä yksittäinen merkki ei ole jokin metamerkki.
      * @param kohta Säännöllisen lauseen kohta
@@ -173,5 +163,31 @@ public class Regex {
             tulkki(uustesti, kohta - 1);
             
         }
+    }
+    
+    //Getterit ja setterit UI-luokan erottamiseksi
+    
+    public void setFalse() {
+        this.lukko = false;
+    }
+    
+    public void setRegex(String regex) {
+        this.regex = regex;
+    }
+    
+    public void setSana(String sana) {
+        this.sana = sana;
+    }
+    
+    public String getFound() {
+        return lukko.toString();
+    }
+    
+    public String getSana() {
+        return sana;
+    }
+    
+    public String getRegex() {
+        return regex;
     }
 }

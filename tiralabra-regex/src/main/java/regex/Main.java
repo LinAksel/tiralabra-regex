@@ -17,8 +17,8 @@ public class Main {
      * @param args 
      */
     public static void main(String[] args) {
-    	Regex regex = new Regex(new KonsoliIO());
-        regex.suorita();
+    	UI ui = new UI(new KonsoliIO());
+        ui.suorita();
     }
     
 }

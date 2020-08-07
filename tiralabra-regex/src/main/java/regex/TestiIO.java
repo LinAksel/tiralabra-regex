@@ -14,23 +14,38 @@ public class TestiIO implements IO {
 
     private String regex;
     private String sana;
+    private String exit;
+    private String exitConf;
     private Boolean reSyotetty;
+    private Boolean saSyotetty;
+    private Boolean eSyotetty;
     private String tosi;
     
     public TestiIO(String regex, String sana) {
         this.regex = regex;
         this.sana = sana;
+        this.exit = "exit!";
+        this.exitConf = "e";
         this.reSyotetty = false;
+        this.saSyotetty = false;
+        this.eSyotetty = false;
     }
     
     @Override
     public String next() {
-        if (reSyotetty) {
-            return sana;
-        } else {
-            reSyotetty = true;
-            return regex;
+        if (eSyotetty) {
+            return exitConf;
         }
+        if (saSyotetty) {
+            eSyotetty = true;
+            return exit;
+        }
+        if (reSyotetty) {
+            saSyotetty = true;
+            return sana;
+        }
+        reSyotetty = true;
+        return regex;
     }
 
     @Override
