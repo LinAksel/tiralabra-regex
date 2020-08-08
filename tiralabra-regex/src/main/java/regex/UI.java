@@ -14,7 +14,7 @@ public class UI {
     private IO io;
     private Regex regex;
             
-    public UI(IO io){
+    public UI(IO io) {
         this.io = io;
         this.regex = new Regex();
     }
@@ -22,17 +22,17 @@ public class UI {
     public void suorita() {
         System.out.println("Enter regular expression");
         regex.setRegex(io.next());
-        while(true) {
+        while (true) {
             regex.setSana(io.next());
             if (regex.getSana().equals("exit!")) {
                 System.out.println("To exit, enter 'e', else compare");
-                if(io.next().toLowerCase().equals("e")){
+                if (io.next().toLowerCase().equals("e")) {
                     break;
                 }
             }
             if (regex.getSana().equals("change!")) {
                 System.out.println("To change regex, enter 'r', else compare");
-                if(io.next().toLowerCase().equals("r")){
+                if (io.next().toLowerCase().equals("r")) {
                     System.out.println("Enter regular expression");
                     regex.setRegex(io.next());
                     continue;
@@ -41,7 +41,7 @@ public class UI {
             
             if (regex.getSana().equals("regex!")) {
                 System.out.println("To print regex, enter 'r', else compare");
-                if(io.next().toLowerCase().equals("r")){
+                if (io.next().toLowerCase().equals("r")) {
                     System.out.println(regex.getRegex());
                     continue;
                 }

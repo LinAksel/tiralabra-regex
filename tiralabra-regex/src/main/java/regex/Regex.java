@@ -55,9 +55,9 @@ public class Regex {
     }
     
     public int etsiLoppu(int kohta) {
-       int sulut = 0;
+        int sulut = 0;
         int sullut = 0;
-        while (kohta < regex.length()-1) {
+        while (kohta < regex.length()) {
             kohta++;
             if (regex.charAt(kohta) == ')' && sulut == sullut) {
                 return kohta;
@@ -67,7 +67,7 @@ public class Regex {
                 sulut++;
             }
         }
-        return regex.length()-1; 
+        return regex.length() - 1; 
     }
     /**
      * Metodi etsii käsitelävällä sulkutasolla mahdollisesti olevan tai-merkin
@@ -111,45 +111,45 @@ public class Regex {
             }
             return;
         }
-        if (kohta == regex.length()-1 || regex.charAt(kohta+1) == ')') {
+        if (kohta == regex.length() - 1 || regex.charAt(kohta + 1) == ')') {
             int uusikohta = etsiTai(kohta);
-            while(uusikohta > 0){
-                tulkki(testi, uusikohta-1);
-                uusikohta = etsiTai(uusikohta-1);
+            while (uusikohta > 0) {
+                tulkki(testi, uusikohta - 1);
+                uusikohta = etsiTai(uusikohta - 1);
             }
         }
         if (regex.charAt(kohta) == '(') {
             int uusikohta = etsiLoppu(kohta);
-            tulkki(testi, kohta-1);
-            if(uusikohta < regex.length()-1 && (regex.charAt(uusikohta+1) == '+' || regex.charAt(uusikohta+1) == '*')) {
+            tulkki(testi, kohta - 1);
+            if (uusikohta < regex.length() - 1 && (regex.charAt(uusikohta + 1) == '+' || regex.charAt(uusikohta + 1) == '*')) {
                 tulkki(testi, uusikohta);
             }
         } else if (regex.charAt(kohta) == '+') {
             
             String uustesti = lisaaja(kohta - 1, testi);
             tulkki(uustesti, kohta - 2);
-            if(!uustesti.equals(testi)){
+            if (!uustesti.equals(testi)) {
                 tulkki(uustesti, kohta);
             }
             
         } else if (regex.charAt(kohta) == '*') {
             
             String uustesti = lisaaja(kohta - 1, testi);
-            if(!uustesti.equals(testi)){
-                tulkki(uustesti, kohta - 2);
+            if (!uustesti.equals(testi)) {
                 tulkki(uustesti, kohta);
+                tulkki(uustesti, kohta - 2);
             } else {
-                tulkki(testi, etsiAlku(kohta-1));
+                tulkki(testi, etsiAlku(kohta - 1));
             }
             tulkki(testi, kohta - 2);
             
         } else if (regex.charAt(kohta) == '?') {
             
             String uustesti = lisaaja(kohta - 1, testi);
-            if(!uustesti.equals(testi)){
+            if (!uustesti.equals(testi)) {
                 tulkki(uustesti, kohta - 2);
             } else {
-                tulkki(testi, etsiAlku(kohta-1));
+                tulkki(testi, etsiAlku(kohta - 1));
             }
             tulkki(testi, kohta - 2);
             

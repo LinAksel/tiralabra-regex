@@ -12,10 +12,14 @@ package regex;
  */
 <span class="nc" id="L13">public class Main {</span>
     
+    /**
+     * Käynnistämiseen valjastettu main luo uuden regex-olion ja ajaa sen.
+     * @param args 
+     */
     public static void main(String[] args) {
-<span class="nc" id="L16">    	Regex regex = new Regex(new KonsoliIO());</span>
-<span class="nc" id="L17">        regex.suorita();</span>
-<span class="nc" id="L18">    }</span>
+<span class="nc" id="L20">    	UI ui = new UI(new KonsoliIO());</span>
+<span class="nc" id="L21">        ui.suorita();</span>
+<span class="nc" id="L22">    }</span>
     
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

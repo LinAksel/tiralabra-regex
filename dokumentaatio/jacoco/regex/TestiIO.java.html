@@ -6,42 +6,58 @@
 package regex;
 
 /**
- *
+ * Nopeasti testejä varten räätälöity IO-luokka.
  * @author linaksel
  */
-public class TestiIO implements IO{
+
+public class TestiIO implements IO {
 
     private String regex;
     private String sana;
+    private String exit;
+    private String exitConf;
     private Boolean reSyotetty;
+    private Boolean saSyotetty;
+    private Boolean eSyotetty;
     private String tosi;
     
-<span class="fc" id="L19">    public TestiIO(String regex, String sana){</span>
-<span class="fc" id="L20">        this.regex = regex;</span>
-<span class="fc" id="L21">        this.sana = sana;</span>
-<span class="fc" id="L22">        this.reSyotetty = false;</span>
-<span class="fc" id="L23">    }</span>
+<span class="fc" id="L24">    public TestiIO(String regex, String sana) {</span>
+<span class="fc" id="L25">        this.regex = regex;</span>
+<span class="fc" id="L26">        this.sana = sana;</span>
+<span class="fc" id="L27">        this.exit = &quot;exit!&quot;;</span>
+<span class="fc" id="L28">        this.exitConf = &quot;e&quot;;</span>
+<span class="fc" id="L29">        this.reSyotetty = false;</span>
+<span class="fc" id="L30">        this.saSyotetty = false;</span>
+<span class="fc" id="L31">        this.eSyotetty = false;</span>
+<span class="fc" id="L32">    }</span>
     
     @Override
     public String next() {
-<span class="fc bfc" id="L27" title="All 2 branches covered.">        if(reSyotetty){</span>
-<span class="fc" id="L28">            return sana;</span>
-        } else {
-<span class="fc" id="L30">            reSyotetty = true;</span>
-<span class="fc" id="L31">            return regex;</span>
+<span class="fc bfc" id="L36" title="All 2 branches covered.">        if (eSyotetty) {</span>
+<span class="fc" id="L37">            return exitConf;</span>
         }
+<span class="fc bfc" id="L39" title="All 2 branches covered.">        if (saSyotetty) {</span>
+<span class="fc" id="L40">            eSyotetty = true;</span>
+<span class="fc" id="L41">            return exit;</span>
+        }
+<span class="fc bfc" id="L43" title="All 2 branches covered.">        if (reSyotetty) {</span>
+<span class="fc" id="L44">            saSyotetty = true;</span>
+<span class="fc" id="L45">            return sana;</span>
+        }
+<span class="fc" id="L47">        reSyotetty = true;</span>
+<span class="fc" id="L48">        return regex;</span>
     }
 
     @Override
     public void print(String tuloste) {
-<span class="fc" id="L37">        this.tosi = tuloste;</span>
-<span class="fc" id="L38">    }</span>
+<span class="fc" id="L53">        this.tosi = tuloste;</span>
+<span class="fc" id="L54">    }</span>
     
-    public Boolean loytyi(){
-<span class="fc bfc" id="L41" title="All 2 branches covered.">        if(tosi.equals(&quot;true&quot;)){</span>
-<span class="fc" id="L42">            return true;</span>
+    public Boolean loytyi() {
+<span class="fc bfc" id="L57" title="All 2 branches covered.">        if (tosi.equals(&quot;true&quot;)) {</span>
+<span class="fc" id="L58">            return true;</span>
         }
-<span class="fc" id="L44">        return false;</span>
+<span class="fc" id="L60">        return false;</span>
     }
     
 }

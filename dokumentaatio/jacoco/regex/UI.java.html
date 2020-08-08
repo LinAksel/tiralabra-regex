@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UI.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">tiralabra-regex</a> &gt; <a href="index.source.html" class="el_package">regex</a> &gt; <span class="el_source">UI.java</span></div><h1>UI.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package regex;
+
+/**
+ *
+ * @author linaksel
+ */
+public class UI {
+    
+    private IO io;
+    private Regex regex;
+            
+<span class="fc" id="L17">    public UI(IO io){</span>
+<span class="fc" id="L18">        this.io = io;</span>
+<span class="fc" id="L19">        this.regex = new Regex();</span>
+<span class="fc" id="L20">    }</span>
+    
+    public void suorita() {
+<span class="fc" id="L23">        System.out.println(&quot;Enter regular expression&quot;);</span>
+<span class="fc" id="L24">        regex.setRegex(io.next());</span>
+        while(true) {
+<span class="fc" id="L26">            regex.setSana(io.next());</span>
+<span class="fc bfc" id="L27" title="All 2 branches covered.">            if (regex.getSana().equals(&quot;exit!&quot;)) {</span>
+<span class="fc" id="L28">                System.out.println(&quot;To exit, enter 'e', else compare&quot;);</span>
+<span class="pc bpc" id="L29" title="1 of 2 branches missed.">                if(io.next().toLowerCase().equals(&quot;e&quot;)){</span>
+<span class="fc" id="L30">                    break;</span>
+                }
+            }
+<span class="pc bpc" id="L33" title="1 of 2 branches missed.">            if (regex.getSana().equals(&quot;change!&quot;)) {</span>
+<span class="nc" id="L34">                System.out.println(&quot;To change regex, enter 'r', else compare&quot;);</span>
+<span class="nc bnc" id="L35" title="All 2 branches missed.">                if(io.next().toLowerCase().equals(&quot;r&quot;)){</span>
+<span class="nc" id="L36">                    System.out.println(&quot;Enter regular expression&quot;);</span>
+<span class="nc" id="L37">                    regex.setRegex(io.next());</span>
+<span class="nc" id="L38">                    continue;</span>
+                }
+            }
+            
+<span class="pc bpc" id="L42" title="1 of 2 branches missed.">            if (regex.getSana().equals(&quot;regex!&quot;)) {</span>
+<span class="nc" id="L43">                System.out.println(&quot;To print regex, enter 'r', else compare&quot;);</span>
+<span class="nc bnc" id="L44" title="All 2 branches missed.">                if(io.next().toLowerCase().equals(&quot;r&quot;)){</span>
+<span class="nc" id="L45">                    System.out.println(regex.getRegex());</span>
+<span class="nc" id="L46">                    continue;</span>
+                }
+            }
+<span class="fc" id="L49">            regex.tulkki(&quot;&quot;, regex.getRegex().length() - 1);</span>
+<span class="fc" id="L50">            io.print(regex.getFound());</span>
+<span class="fc" id="L51">            regex.setFalse();</span>
+        }
+<span class="fc" id="L53">    }</span>
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

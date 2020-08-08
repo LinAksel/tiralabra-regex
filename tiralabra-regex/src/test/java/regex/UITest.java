@@ -12,7 +12,7 @@ import static org.junit.Assert.*;
  *
  * @author linaksel
  */
-public class TestRegex {
+public class UITest {
     
     @Test
     public void testaaTai() {
