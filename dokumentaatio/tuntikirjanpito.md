@@ -13,4 +13,5 @@ Päivä      | Aika (h)| Mitä tein |
 5.8.2020   | 2       | Sulkujen oikean toiminnan rakentaminen |
 6.8.2020   | 2       | Sulkujen oikean toiminnan viimeistely tämänhetkisille operaattoreille |
 7.8.2020   | 2       | Konsolikäyttöliittymä erotettu toiminnallisuudesta, refaktoroinnin suunnittelua |
-YHTEENSÄ   | 24       | |
+8.8.2020   | 2       | Debuggausta ja säätöä |
+YHTEENSÄ   | 26       | |
