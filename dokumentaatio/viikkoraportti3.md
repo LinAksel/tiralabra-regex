@@ -18,7 +18,7 @@ Tietysti jos haluan käyttää jossain kohdin dynaamista listaa, voisin rakentaa
 
 ## Tehdyt työt ja edistyminen
 
-Tällä viikolla sain (ainakin suurimassa osassa tilanteita, ongelmiakin on) toimimaan perustoiminnalliset operaattorit!
+Tällä viikolla sain sulkeet toimimaan muiden operaattorien ja sisäkkäisyyksien kanssa pitkälti oikein!
 Myös manuaalista testausta ja käyttöä helpottava komentorivikäyttöliittymä. Projekti edistyy siis aikataulun suhteen hyvin.
 
 ## Epäselvyyksiä
