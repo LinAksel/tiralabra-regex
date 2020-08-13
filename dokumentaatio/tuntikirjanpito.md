@@ -14,4 +14,6 @@ Päivä      | Aika (h)| Mitä tein |
 6.8.2020   | 2       | Sulkujen oikean toiminnan viimeistely tämänhetkisille operaattoreille |
 7.8.2020   | 2       | Konsolikäyttöliittymä erotettu toiminnallisuudesta, refaktoroinnin suunnittelua |
 8.8.2020   | 2       | Debuggausta ja säätöä |
-YHTEENSÄ   | 26       | |
+12.8.2020  | 2       | Bugien etsintää, löytämistä ja suunnittelua niiden poistamiseen |
+13.8.2020  | 7       | Bugikorjausta, useita uusia ominaisuuksia (tyhjä syöte/lause, .-operaattori, escape, regexin oikeellisuustarkistus) |
+YHTEENSÄ   | 35       | |

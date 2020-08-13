@@ -21,7 +21,7 @@ public class KonsoliIO implements IO {
 
     @Override
     public String next() {
-        return lukija.next();
+        return lukija.nextLine();
     }
 
     @Override

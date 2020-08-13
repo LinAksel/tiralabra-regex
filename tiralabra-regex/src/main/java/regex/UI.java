@@ -13,6 +13,7 @@ public class UI {
     
     private IO io;
     private Regex regex;
+    private Tarkastaja tarkastaja;
             
     public UI(IO io) {
         this.io = io;
@@ -22,6 +23,12 @@ public class UI {
     public void suorita() {
         System.out.println("Enter regular expression");
         regex.setRegex(io.next());
+        tarkastaja = new Tarkastaja(regex.getRegex());
+        while(!tarkastaja.tarkasta()) {
+            io.print(tarkastaja.getViesti());
+            regex.setRegex(io.next());
+            tarkastaja = new Tarkastaja(regex.getRegex());
+        }
         while (true) {
             regex.setSana(io.next());
             if (regex.getSana().equals("exit!")) {
@@ -34,7 +41,13 @@ public class UI {
                 System.out.println("To change regex, enter 'r', else compare");
                 if (io.next().toLowerCase().equals("r")) {
                     System.out.println("Enter regular expression");
-                    regex.setRegex(io.next());
+                    String uusregex = io.next();
+                    tarkastaja = new Tarkastaja(uusregex);
+                    if(tarkastaja.tarkasta()) {
+                        regex.setRegex(uusregex);
+                    } else {
+                        io.print(tarkastaja.getViesti() + ". Backing down to previous regular expression");
+                    }
                     continue;
                 }
             }
@@ -46,6 +59,7 @@ public class UI {
                     continue;
                 }
             }
+            
             regex.tulkki("", regex.getRegex().length() - 1);
             io.print(regex.getFound());
             regex.setFalse();

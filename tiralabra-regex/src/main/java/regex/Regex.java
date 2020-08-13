@@ -14,6 +14,8 @@ public class Regex {
     private String regex;
     private String sana;
     private Boolean lukko;
+    private int[] maarat;
+    private int maara = 0;
     
     public Regex() {
         this.lukko = false;
@@ -27,10 +29,23 @@ public class Regex {
      */
     public String lisaaja(int kohta, String testi) {
         char merkki = regex.charAt(kohta);
-        if (merkki != ')' && merkki != '(') {
+        int erotus = sana.length() - testi.length();
+        if (merkki != ')' && merkki != '(' && merkki != '*' && merkki != '?' && merkki != '+' && merkki != '.' && merkki != '|' && merkki != (char) 92) {
+            return merkki + testi;
+        } else if (!onErikoismerkki(kohta)){
+            return merkki + testi;
+        } else if (regex.charAt(kohta) == '.' && erotus > 0){
+            merkki = sana.charAt(erotus - 1);
             return merkki + testi;
         }
         return testi;
+    }
+    
+    public boolean onErikoismerkki(int kohta){
+        if(kohta > 0 && regex.charAt(kohta - 1) == (char) 92){
+            return false;
+        }
+        return true;
     }
     
     /**
@@ -43,11 +58,11 @@ public class Regex {
         int sullut = 0;
         while (kohta > 0) {
             kohta--;
-            if (regex.charAt(kohta) == '(' && sulut == sullut) {
+            if (regex.charAt(kohta) == '(' && onErikoismerkki(kohta) && sulut == sullut) {
                 return kohta;
-            } else if (regex.charAt(kohta) == ')') {
+            } else if (regex.charAt(kohta) == ')' && onErikoismerkki(kohta)) {
                 sullut++;
-            } else if (regex.charAt(kohta) == '(') {
+            } else if (regex.charAt(kohta) == '(' && onErikoismerkki(kohta)) {
                 sulut++;
             }
         }
@@ -59,11 +74,11 @@ public class Regex {
         int sullut = 0;
         while (kohta < regex.length()) {
             kohta++;
-            if (regex.charAt(kohta) == ')' && sulut == sullut) {
+            if (regex.charAt(kohta) == ')' && onErikoismerkki(kohta) && sulut == sullut) {
                 return kohta;
-            } else if (regex.charAt(kohta) == ')') {
+            } else if (regex.charAt(kohta) == ')' && onErikoismerkki(kohta)) {
                 sullut++;
-            } else if (regex.charAt(kohta) == '(') {
+            } else if (regex.charAt(kohta) == '(' && onErikoismerkki(kohta)) {
                 sulut++;
             }
         }
@@ -79,19 +94,16 @@ public class Regex {
         int sullut = 0;
         while (kohta > 0) {
             kohta--;
-            if (regex.charAt(kohta) == '(') {
+            if (regex.charAt(kohta) == '(' && onErikoismerkki(kohta)) {
                 sulut++;
-            } else if (regex.charAt(kohta) == ')') {
+            } else if (regex.charAt(kohta) == ')' && onErikoismerkki(kohta)) {
                 sullut++;
-            } else if (regex.charAt(kohta) == '|' && sulut == sullut) {
+            } else if (regex.charAt(kohta) == '|' && onErikoismerkki(kohta) && sulut == sullut) {
                 return kohta;
             }
         }
         return kohta;
     }
-    
-    //HUOM! Toimiessaan tulkin ehtolauseet hajotetaan selkeämmin luettaviin osiin.
-    //Tällä hetkellä toimivat *,?,+,| ja |-merkin ympärillä sulkuryhmät (!)
     
     /**
      * Tulkin toiminnallinen osa. Metodi käy läpi annettua säännöllistä lausetta oikealta vasemmalle,
@@ -102,6 +114,11 @@ public class Regex {
      * @param kohta Säännöllisen lauseen kohta
      */
     public void tulkki(String testi, int kohta) {
+        //if(kohta >= 0 && !lukko){
+        //    maara++;
+        //    System.out.println(testi + " " + kohta);
+        //}
+        
         if (testi.length() > sana.length() || !sana.endsWith(testi) || lukko || kohta < -1) {
             return;
         }
@@ -111,49 +128,58 @@ public class Regex {
             }
             return;
         }
-        if (kohta == regex.length() - 1 || regex.charAt(kohta + 1) == ')') {
-            int uusikohta = etsiTai(kohta);
+        if (kohta == regex.length() - 1 || (regex.charAt(kohta) == ')' && onErikoismerkki(kohta))) {
+            int uusikohta = etsiTai(kohta - 1);
+            if(kohta != regex.length() - 1){
+                maarat[kohta] = testi.length();
+            }
             while (uusikohta > 0) {
                 tulkki(testi, uusikohta - 1);
-                uusikohta = etsiTai(uusikohta - 1);
+                uusikohta = etsiTai(uusikohta);
             }
         }
-        if (regex.charAt(kohta) == '(') {
+        if (regex.charAt(kohta) == '(' && onErikoismerkki(kohta)) {
+            
             int uusikohta = etsiLoppu(kohta);
             tulkki(testi, kohta - 1);
-            if (uusikohta < regex.length() - 1 && (regex.charAt(uusikohta + 1) == '+' || regex.charAt(uusikohta + 1) == '*')) {
+            if (uusikohta < regex.length() - 1 && (regex.charAt(uusikohta + 1) == '+' || regex.charAt(uusikohta + 1) == '*') && testi.length() > 0 && maarat[uusikohta] < testi.length()) {
                 tulkki(testi, uusikohta);
             }
-        } else if (regex.charAt(kohta) == '+') {
             
-            String uustesti = lisaaja(kohta - 1, testi);
-            tulkki(uustesti, kohta - 2);
-            if (!uustesti.equals(testi)) {
-                tulkki(uustesti, kohta);
-            }
-            
-        } else if (regex.charAt(kohta) == '*') {
+        } else if (regex.charAt(kohta) == '+' && onErikoismerkki(kohta)) {
             
             String uustesti = lisaaja(kohta - 1, testi);
             if (!uustesti.equals(testi)) {
                 tulkki(uustesti, kohta);
                 tulkki(uustesti, kohta - 2);
             } else {
-                tulkki(testi, etsiAlku(kohta - 1));
+                tulkki(testi, kohta-1);
             }
-            tulkki(testi, kohta - 2);
             
-        } else if (regex.charAt(kohta) == '?') {
+        } else if (regex.charAt(kohta) == '*' && onErikoismerkki(kohta)) {
+            
+            String uustesti = lisaaja(kohta - 1, testi);
+            if (!uustesti.equals(testi)) {
+                tulkki(uustesti, kohta);
+                tulkki(uustesti, kohta - 2);
+                tulkki(testi, kohta - 2);
+            } else {
+                tulkki(testi, etsiAlku(kohta - 1));
+                tulkki(testi, kohta - 1);
+            }
+            
+        } else if (regex.charAt(kohta) == '?' && onErikoismerkki(kohta)) {
             
             String uustesti = lisaaja(kohta - 1, testi);
             if (!uustesti.equals(testi)) {
                 tulkki(uustesti, kohta - 2);
+                tulkki(testi, kohta - 2);
             } else {
                 tulkki(testi, etsiAlku(kohta - 1));
+                tulkki(testi, kohta - 1);
             }
-            tulkki(testi, kohta - 2);
             
-        } else if (regex.charAt(kohta) == '|') {
+        } else if (regex.charAt(kohta) == '|' && onErikoismerkki(kohta)) {
             
             tulkki(testi, etsiAlku(kohta));
             
@@ -169,10 +195,12 @@ public class Regex {
     
     public void setFalse() {
         this.lukko = false;
+        this.maarat = new int[regex.length()];
     }
     
     public void setRegex(String regex) {
         this.regex = regex;
+        this.maarat = new int[regex.length()];
     }
     
     public void setSana(String sana) {

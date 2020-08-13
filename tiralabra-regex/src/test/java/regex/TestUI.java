@@ -12,7 +12,7 @@ import static org.junit.Assert.*;
  *
  * @author linaksel
  */
-public class UITest {
+public class TestUI {
     
     @Test
     public void testaaTai() {
