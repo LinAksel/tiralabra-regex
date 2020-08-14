@@ -22,7 +22,7 @@ public class Regex {
     }
     
     /** 
-     * Metodi varmistaa, että liitettävä yksittäinen merkki ei ole jokin metamerkki.
+     * Metodi hoitaa testisyötteeseen merkin lisäämisen
      * @param kohta Säännöllisen lauseen kohta
      * @param testi Rakennettava merkkijono, jota verrataan sanaan.
      * @return Palauttaa joko annetun testijonon tai testijonon, johon lisätty kirjain
@@ -30,9 +30,7 @@ public class Regex {
     public String lisaaja(int kohta, String testi) {
         char merkki = regex.charAt(kohta);
         int erotus = sana.length() - testi.length();
-        if (merkki != ')' && merkki != '(' && merkki != '*' && merkki != '?' && merkki != '+' && merkki != '.' && merkki != '|' && merkki != (char) 92) {
-            return merkki + testi;
-        } else if (!onErikoismerkki(kohta)){
+        if (!onErikoismerkki(kohta)){
             return merkki + testi;
         } else if (regex.charAt(kohta) == '.' && erotus > 0){
             merkki = sana.charAt(erotus - 1);
@@ -41,17 +39,32 @@ public class Regex {
         return testi;
     }
     
+    /**
+     * Metodi tarkistaa, toimiiko säännöllisen lauseen annetussa kohdassa oleva merkki
+     * metamerkkinä vai tavallisena merkkinä
+     * @param kohta Säännöllisen lauseen kohta
+     * @return Palauttaa true, jos kyseessä metamerkki, muutoin false
+     */
     public boolean onErikoismerkki(int kohta){
-        if(kohta > 0 && regex.charAt(kohta - 1) == (char) 92){
+        char merkki = regex.charAt(kohta);
+        if (merkki != ')' && merkki != '(' && merkki != '*' && merkki != '?' && merkki != '+' && merkki != '.' && merkki != '|' && merkki != (char) 92) {
             return false;
+        } else if(kohta > 0 && regex.charAt(kohta - 1) == (char) 92){
+            int maara = 1;
+            while(kohta - maara - 1 > -1 && regex.charAt(kohta - maara - 1) == (char) 92){
+                maara++;
+            }
+            if (maara % 2 != 0) {
+                return false;
+            }
         }
         return true;
     }
     
     /**
-     * Metodi etsii käsiteltävän sulkutason päätöksen tai-merkkiä varten
+     * Metodi etsii käsiteltävän sulkutason alun
      * @param kohta Säännöllisen lauseen kohta
-     * @return Palauttaa sulkutason päätöskohdan
+     * @return Palauttaa sulkutason aloituskohdan
      */
     public int etsiAlku(int kohta) {
         int sulut = 0;
@@ -69,6 +82,11 @@ public class Regex {
         return -1;
     }
     
+    /**
+     * Metodi etsii käsiteltävän sulkutason lopun
+     * @param kohta Säännöllisen lauseen kohta
+     * @return Palauttaa sulkutason päätöskohdan
+     */
     public int etsiLoppu(int kohta) {
         int sulut = 0;
         int sullut = 0;
@@ -105,6 +123,9 @@ public class Regex {
         return kohta;
     }
     
+    //Välikommentti: pohdin jatkuvasti mahdollisuuksia purkaa tulkki-metodia pienempiin osiin, mutta näyttää koko ajan vahvemmin siltä,
+    //että metodi jää "hirviöksi", sillä se on selkein tapa esittää rekursioluonne. Kurssia on kuitenkin vielä jäljellä, ja muutokset vielä mahdollisia.
+    
     /**
      * Tulkin toiminnallinen osa. Metodi käy läpi annettua säännöllistä lausetta oikealta vasemmalle,
      * ja rakentaa sen pohjalta rekursiivisesti merkkijonoja, joita verrataan annettuun sanaan.
@@ -114,10 +135,10 @@ public class Regex {
      * @param kohta Säännöllisen lauseen kohta
      */
     public void tulkki(String testi, int kohta) {
-        //if(kohta >= 0 && !lukko){
-        //    maara++;
-        //    System.out.println(testi + " " + kohta);
-        //}
+//        if(kohta >= 0 && !lukko){
+//            maara++;
+//            System.out.println(testi + " " + kohta);
+//        }
         
         if (testi.length() > sana.length() || !sana.endsWith(testi) || lukko || kohta < -1) {
             return;
@@ -191,14 +212,16 @@ public class Regex {
         }
     }
     
-    //Getterit ja setterit UI-luokan erottamiseksi
+    //Getterit ja setterit UI-luokan erottamiseksi, sekä reset, jolla samaa regexiä tutkittaessa
+    //uudelleen nollataan sulkutasolista ja lukko
     
-    public void setFalse() {
+    public void reset() {
         this.lukko = false;
         this.maarat = new int[regex.length()];
     }
     
     public void setRegex(String regex) {
+        this.lukko = false;
         this.regex = regex;
         this.maarat = new int[regex.length()];
     }
@@ -207,8 +230,8 @@ public class Regex {
         this.sana = sana;
     }
     
-    public String getFound() {
-        return lukko.toString();
+    public boolean getFound() {
+        return lukko;
     }
     
     public String getSana() {

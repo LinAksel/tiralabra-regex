@@ -10,6 +10,10 @@ package regex;
  * @author linaksel
  */
 
+//VANHENTUNUT, pohdin viikolla 5 tarvitaanko johonkin testaukseen tällaista erikois inouttia
+//Jos ei, poistetaan viikolle 6.
+
+
 public class TestiIO implements IO {
 
     private String regex;

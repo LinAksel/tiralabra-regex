@@ -61,8 +61,8 @@ public class UI {
             }
             
             regex.tulkki("", regex.getRegex().length() - 1);
-            io.print(regex.getFound());
-            regex.setFalse();
+            io.print(Boolean.toString(regex.getFound()));
+            regex.reset();
         }
     }
     

@@ -17,8 +17,10 @@ public class Main {
      * @param args 
      */
     public static void main(String[] args) {
-    	UI ui = new UI(new KonsoliIO());
-        ui.suorita();
+    	//UI ui = new UI(new KonsoliIO());
+        //ui.suorita();
+        Performance suoritus = new Performance();
+        suoritus.sulkuTestaus();
     }
     
 }
