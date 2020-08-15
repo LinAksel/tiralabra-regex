@@ -4,7 +4,7 @@
 
 Ohjelman tarkoitus on tutkia, sisältyykö syöte annetun säännöllisen lausekkeen muodostamaan kieleen.
 Käyttäjä syöttää ensin lausekkeen, sitten syötteitä, ja ohjelma kertoo sisältyykö syöte kieleen.
-Kielen voi muodostaa kaikista utf-8-merkeistä käyttäen metamerkkejä *,?,+,|,\,. (ja ()). Merkeistä ja niiden käytöstä lisää käyttöohjeessa.
+Kielen voi muodostaa kaikista utf-8-merkeistä käyttäen metamerkkejä *,?,+,|,\\,. (ja ()). Merkeistä ja niiden käytöstä lisää käyttöohjeessa.
 
 Pääpiirteittäin ohjelma toimii tarkistamalla ensin säännöllisen lauseen oikeellisuuden,
 jonka aikavaativuus on aina O(r), jossa r on säännöllisen lauseen pituus, sillä regex luetaan oikealta vasemmalle kokonaisuudessaan tasan kerran.
