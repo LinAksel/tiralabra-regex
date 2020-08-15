@@ -18,7 +18,7 @@ public class Tarkastaja {
     private String regex;
     private String viesti;
     
-    public Tarkastaja (String regex) {
+    public Tarkastaja(String regex) {
         this.avaava = 0;
         this.sulkeva = 0;
         this.edellinenmeta = false;
@@ -34,7 +34,7 @@ public class Tarkastaja {
      */
     
     public boolean metamerkki(char merkki) {
-        if(merkki == '*' || merkki == '+' || merkki == '?' || merkki == '|') {
+        if (merkki == '*' || merkki == '+' || merkki == '?' || merkki == '|') {
             return true;
         }
         return false;
@@ -49,25 +49,24 @@ public class Tarkastaja {
      * @return Palauttaa true, mikäli säännöllinen lauseke on kirjoitettu oikein, muutoin false
      */
     
-    public boolean tarkasta(){
-        if(regex.length() == 0) {
+    public boolean tarkasta() {
+        if (regex.length() == 0) {
             return true;
         }
         char merkki = regex.charAt(0);
-        if(merkki == ')' || metamerkki(merkki)){
+        if (merkki == ')' || metamerkki(merkki)) {
             viesti = "Invalid start of regular expression, check first character '" + merkki + "'";
             return false;
-        } else if (merkki == '('){
+        } else if (merkki == '(') {
             avaava++;
-        } else if (merkki == (char) 92){
+        } else if (merkki == (char) 92) {
             edellinenescape = true;
         }
-        for(int i = 1; i < regex.length(); i++){
+        for (int i = 1; i < regex.length(); i++) {
             merkki = regex.charAt(i);
-            if(metamerkki(merkki) && edellinenmeta && merkki == '|'){
+            if (metamerkki(merkki) && edellinenmeta && merkki == '|') {
                 continue;
-            }
-            else if(metamerkki(merkki) && edellinenmeta) {
+            } else if (metamerkki(merkki) && edellinenmeta) {
                 viesti = "Invalid quantifier at character " + (i + 1) + ", check for double quantifier error";
                 return false;
             } else if (metamerkki(merkki) && edellinenescape) {
@@ -98,7 +97,7 @@ public class Tarkastaja {
                 edellinenescape = false;
             }
         }
-        if(avaava != sulkeva) {
+        if (avaava != sulkeva) {
             viesti = "Non-matching amount of parenthesis found";
             return false;
         }
@@ -108,7 +107,7 @@ public class Tarkastaja {
     
     //Tällä saadaan virheviesti haettua
     
-    public String getViesti(){
+    public String getViesti() {
         return viesti;
     }
 }

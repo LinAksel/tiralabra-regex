@@ -21,7 +21,7 @@ public class Performance {
         regex.setRegex("(a)*");
         regex.setSana("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
         
-        while(regex.getRegex().length() < 65)  {
+        while (regex.getRegex().length() < 65)  {
             long alku = System.currentTimeMillis();
             regex.tulkki("", regex.getRegex().length() - 1);
             long aika = System.currentTimeMillis() - alku;

@@ -24,7 +24,7 @@ public class UI {
         System.out.println("Enter regular expression");
         regex.setRegex(io.next());
         tarkastaja = new Tarkastaja(regex.getRegex());
-        while(!tarkastaja.tarkasta()) {
+        while (!tarkastaja.tarkasta()) {
             io.print(tarkastaja.getViesti());
             regex.setRegex(io.next());
             tarkastaja = new Tarkastaja(regex.getRegex());
@@ -43,7 +43,7 @@ public class UI {
                     System.out.println("Enter regular expression");
                     String uusregex = io.next();
                     tarkastaja = new Tarkastaja(uusregex);
-                    if(tarkastaja.tarkasta()) {
+                    if (tarkastaja.tarkasta()) {
                         regex.setRegex(uusregex);
                     } else {
                         io.print(tarkastaja.getViesti() + ". Backing down to previous regular expression");

@@ -30,9 +30,9 @@ public class Regex {
     public String lisaaja(int kohta, String testi) {
         char merkki = regex.charAt(kohta);
         int erotus = sana.length() - testi.length();
-        if (!onErikoismerkki(kohta)){
+        if (!onErikoismerkki(kohta)) {
             return merkki + testi;
-        } else if (regex.charAt(kohta) == '.' && erotus > 0){
+        } else if (regex.charAt(kohta) == '.' && erotus > 0) {
             merkki = sana.charAt(erotus - 1);
             return merkki + testi;
         }
@@ -45,13 +45,13 @@ public class Regex {
      * @param kohta Säännöllisen lauseen kohta
      * @return Palauttaa true, jos kyseessä metamerkki, muutoin false
      */
-    public boolean onErikoismerkki(int kohta){
+    public boolean onErikoismerkki(int kohta) {
         char merkki = regex.charAt(kohta);
         if (merkki != ')' && merkki != '(' && merkki != '*' && merkki != '?' && merkki != '+' && merkki != '.' && merkki != '|' && merkki != (char) 92) {
             return false;
-        } else if(kohta > 0 && regex.charAt(kohta - 1) == (char) 92){
+        } else if (kohta > 0 && regex.charAt(kohta - 1) == (char) 92) {
             int maara = 1;
-            while(kohta - maara - 1 > -1 && regex.charAt(kohta - maara - 1) == (char) 92){
+            while (kohta - maara - 1 > -1 && regex.charAt(kohta - maara - 1) == (char) 92) {
                 maara++;
             }
             if (maara % 2 != 0) {
@@ -151,7 +151,7 @@ public class Regex {
         }
         if (kohta == regex.length() - 1 || (regex.charAt(kohta) == ')' && onErikoismerkki(kohta))) {
             int uusikohta = etsiTai(kohta - 1);
-            if(kohta != regex.length() - 1){
+            if (kohta != regex.length() - 1) {
                 maarat[kohta] = testi.length();
             }
             while (uusikohta > 0) {
@@ -174,7 +174,7 @@ public class Regex {
                 tulkki(uustesti, kohta);
                 tulkki(uustesti, kohta - 2);
             } else {
-                tulkki(testi, kohta-1);
+                tulkki(testi, kohta - 1);
             }
             
         } else if (regex.charAt(kohta) == '*' && onErikoismerkki(kohta)) {
