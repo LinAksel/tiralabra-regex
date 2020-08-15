@@ -27,7 +27,7 @@ Tätä ei kuitenkaan voi kovin helposti kiertää, vaan se on "ominaisuus".
 
 ## Tehdyt työt ja edistyminen
 
-Tällä viikolla sain korjattua ohjelmassa esiintyneitä pahoja ongelmia, ja lisättyä kaksi uutta erikoismerkkiä, '.' ja '\'!
+Tällä viikolla sain korjattua ohjelmassa esiintyneitä pahoja ongelmia, ja lisättyä kaksi uutta erikoismerkkiä, '.' ja '\\'!
 Tämän lisäksi myös säännöllisen lauseen esitarkastaja on nyt rakennettu alustavasti, ja vaikuttaa toimivan suhteellisen hyvin.
 Lisäksi testaus on edistynyt vihdoin kattamaan uusia ominaisuuksia.
 Edistys oli siis hyvin konkreettista, ja olen todella tyytyväinen viikkoon!
