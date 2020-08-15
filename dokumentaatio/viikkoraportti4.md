@@ -17,3 +17,11 @@ ja tyhjä syöte vastaavasti samalla tavoin. Pisteoperaattori vaikuttaa nyt toim
 operaattoreihin. Rakensin myös päivän lopuksi nopeasti säännöllisen lauseen tarkastajan, joka tutkii, että annettu regex on perussääntöjen mukainen.
 Huomenna on todennäköisesti myös pitkä päivä, sillä edessä on koodin siistimistä, testien tekoa ja dokumentointia. Toisaalta on myös ilon asia,
 että itse toiminnallisuus on nyt jo todella pitkällä, ja voin keskittyä rauhassa kaikkeen muuhun hetkisen.
+
+#### Perjantai
+
+Testien tekemisen myötä bongasin muutaman pienen lisäbugin, esim. backslashia ei voinut käyttää itseensä, mutta jälleen ohjelma toimii hieman paremmin!
+Regexin oikeellisuustarkastajaa tulee ehdottomasti siistiä, mutta siihenkin luotu nyt testit, joten itse toiminnallisuus vaikuttaa hyvältä.
+Suorituskykytestausta on pohdittava ensi viikolla kunnolla, rekursiivinen luonne aiheuttaa helposti liian pitkillä syötteillä ylivuotoja.
+Tätä ei kuitenkaan voi kovin helposti kiertää, vaan se on "ominaisuus".
+
