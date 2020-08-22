@@ -47,16 +47,20 @@ public class Regex {
      */
     public boolean onErikoismerkki(int kohta) {
         char merkki = regex.charAt(kohta);
-        if (merkki != ')' && merkki != '(' && merkki != '*' && merkki != '?' && merkki != '+' && merkki != '.' && merkki != '|' && merkki != (char) 92) {
+        if ((merkki != ')' && merkki != '(' && merkki != '*' && merkki != '?' && merkki != '+' && merkki != '.' && merkki != '|' && merkki != (char) 92 && merkki != 'e')) {
             return false;
         } else if (kohta > 0 && regex.charAt(kohta - 1) == (char) 92) {
             int maara = 1;
             while (kohta - maara - 1 > -1 && regex.charAt(kohta - maara - 1) == (char) 92) {
                 maara++;
             }
-            if (maara % 2 != 0) {
+            if (maara % 2 != 0 && (merkki != 'e')) {
+                return false;
+            } else if (merkki == 'e' && maara > 1 && maara % 2 == 0){
                 return false;
             }
+        } else if (kohta > 0 && regex.charAt(kohta - 1) != (char) 92 && merkki == 'e') {
+            return false;
         }
         return true;
     }
@@ -135,6 +139,7 @@ public class Regex {
      * @param kohta Säännöllisen lauseen kohta
      */
     public void tulkki(String testi, int kohta) {
+        
 //        if(kohta >= 0 && !lukko){
 //            maara++;
 //            System.out.println(testi + " " + kohta);
@@ -150,7 +155,7 @@ public class Regex {
             return;
         }
         if (kohta == regex.length() - 1 || (regex.charAt(kohta) == ')' && onErikoismerkki(kohta))) {
-            int uusikohta = etsiTai(kohta - 1);
+            int uusikohta = etsiTai(kohta);
             if (kohta != regex.length() - 1) {
                 maarat[kohta] = testi.length();
             }
@@ -185,7 +190,9 @@ public class Regex {
                 tulkki(uustesti, kohta - 2);
                 tulkki(testi, kohta - 2);
             } else {
-                tulkki(testi, etsiAlku(kohta - 1));
+                if(regex.charAt(kohta - 1) == ')') {
+                    tulkki(testi, etsiAlku(kohta - 1));
+                }
                 tulkki(testi, kohta - 1);
             }
             
@@ -203,6 +210,13 @@ public class Regex {
         } else if (regex.charAt(kohta) == '|' && onErikoismerkki(kohta)) {
             
             tulkki(testi, etsiAlku(kohta));
+            if(kohta == regex.length() - 1) {
+                tulkki(testi, kohta - 1);
+            }
+        
+        } else if (regex.charAt(kohta) == 'e' && onErikoismerkki(kohta)) {
+            
+            tulkki(testi, kohta - 2);
             
         } else {
             

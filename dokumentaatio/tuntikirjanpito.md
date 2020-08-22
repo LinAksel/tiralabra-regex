@@ -17,4 +17,7 @@ Päivä      | Aika (h)| Mitä tein |
 12.8.2020  | 2       | Bugien etsintää, löytämistä ja suunnittelua niiden poistamiseen |
 13.8.2020  | 7       | Bugikorjausta, useita uusia ominaisuuksia (tyhjä syöte/lause, .-operaattori, escape, regexin oikeellisuustarkistus) |
 14.8.2020  | 5       | Lisää bugikorjausta, testirakenteen uusiminen ja testikattavuuden parannus, uusien dokumenttien alustus |
-YHTEENSÄ   | 40       | |
+18.8.2020  | 4       | GUI:n luonti, löydetyn sulkubugin korjaus, tyhjän merki koodaus |
+20.8.2020  | 4       | Bugikorjausta, GUI:n hiontaa ja tyhjä merkki \\e lisätty |
+21.8.2020  | 2       | Vertaisarviossa löydetyn vian korjaus, ja lisäyksiä testeihin |
+YHTEENSÄ   | 50       | |

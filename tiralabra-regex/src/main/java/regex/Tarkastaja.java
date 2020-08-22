@@ -75,7 +75,7 @@ public class Tarkastaja {
             } else if (metamerkki(merkki)) {
                 edellinenescape = false;
                 edellinenmeta = true;
-            } else if ((merkki == '(' || merkki == ')' || merkki == (char) 92) && edellinenescape) {
+            } else if ((merkki == '(' || merkki == ')' || merkki == (char) 92 || merkki == 'e') && edellinenescape) {
                 edellinenmeta = false;
                 edellinenescape = false;
             } else if (merkki == (char) 92) {

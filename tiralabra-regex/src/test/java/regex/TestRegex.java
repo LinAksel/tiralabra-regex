@@ -139,4 +139,18 @@ public class TestRegex {
         assertTrue(regex.getFound());
     }
     
+    @Test
+    public void comboTest2() {
+        regex.setRegex("a(b*(\\\\+a.b?)*)*");
+        regex.setSana("a\\a#bb\\\\aibb");
+        regex.tulkki("", regex.getRegex().length() - 1);
+        assertTrue(regex.getFound());
+    }
+    
+    @Test
+    public void comboTest3() {
+        regex.setRegex("ab(c|d)*.*");
+        regex.setSana("xabd");
+        assertFalse(regex.getFound());
+    }
 }

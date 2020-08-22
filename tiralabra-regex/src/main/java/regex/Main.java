@@ -13,14 +13,19 @@ package regex;
 public class Main {
     
     /**
-     * Käynnistämiseen valjastettu main luo uuden regex-olion ja ajaa sen.
+     * Käynnistämiseen valjastettu main luo uuden regex-olion ja ajaa sen. 
+     * Tästä pakataan lopulta kolme eri ohjelmaa: GUI-versio, konsoli-UI-versio ja suorituskykytestaaja.
+     * Jaetussa koodissa on vakioasetuksena pelkkä GUI, mutta tätä voi muuttaa poistamalla kommentointi,
+     * joskaan tämä ei ole tarkoituksenmukaista. Loppupalautukseen mahdollisesti jokin toinen ratkaisu.
      * @param args 
      */
     public static void main(String[] args) {
+        GUI gui = new GUI();
+        gui.suorita();
     	//UI ui = new UI(new KonsoliIO());
         //ui.suorita();
-        Performance suoritus = new Performance();
-        suoritus.sulkuTestaus();
+        //Performance suoritus = new Performance();
+        //suoritus.sulkuTestaus();
     }
     
 }
