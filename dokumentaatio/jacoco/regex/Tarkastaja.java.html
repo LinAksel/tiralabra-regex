@@ -18,7 +18,7 @@ public class Tarkastaja {
     private String regex;
     private String viesti;
     
-<span class="fc" id="L21">    public Tarkastaja (String regex) {</span>
+<span class="fc" id="L21">    public Tarkastaja(String regex) {</span>
 <span class="fc" id="L22">        this.avaava = 0;</span>
 <span class="fc" id="L23">        this.sulkeva = 0;</span>
 <span class="fc" id="L24">        this.edellinenmeta = false;</span>
@@ -34,7 +34,7 @@ public class Tarkastaja {
      */
     
     public boolean metamerkki(char merkki) {
-<span class="fc bfc" id="L37" title="All 8 branches covered.">        if(merkki == '*' || merkki == '+' || merkki == '?' || merkki == '|') {</span>
+<span class="fc bfc" id="L37" title="All 8 branches covered.">        if (merkki == '*' || merkki == '+' || merkki == '?' || merkki == '|') {</span>
 <span class="fc" id="L38">            return true;</span>
         }
 <span class="fc" id="L40">        return false;</span>
@@ -49,67 +49,66 @@ public class Tarkastaja {
      * @return Palauttaa true, mikäli säännöllinen lauseke on kirjoitettu oikein, muutoin false
      */
     
-    public boolean tarkasta(){
-<span class="pc bpc" id="L53" title="1 of 2 branches missed.">        if(regex.length() == 0) {</span>
+    public boolean tarkasta() {
+<span class="pc bpc" id="L53" title="1 of 2 branches missed.">        if (regex.length() == 0) {</span>
 <span class="nc" id="L54">            return true;</span>
         }
 <span class="fc" id="L56">        char merkki = regex.charAt(0);</span>
-<span class="pc bpc" id="L57" title="1 of 4 branches missed.">        if(merkki == ')' || metamerkki(merkki)){</span>
+<span class="pc bpc" id="L57" title="1 of 4 branches missed.">        if (merkki == ')' || metamerkki(merkki)) {</span>
 <span class="fc" id="L58">            viesti = &quot;Invalid start of regular expression, check first character '&quot; + merkki + &quot;'&quot;;</span>
 <span class="fc" id="L59">            return false;</span>
-<span class="pc bpc" id="L60" title="1 of 2 branches missed.">        } else if (merkki == '('){</span>
+<span class="pc bpc" id="L60" title="1 of 2 branches missed.">        } else if (merkki == '(') {</span>
 <span class="nc" id="L61">            avaava++;</span>
-<span class="pc bpc" id="L62" title="1 of 2 branches missed.">        } else if (merkki == (char) 92){</span>
+<span class="pc bpc" id="L62" title="1 of 2 branches missed.">        } else if (merkki == (char) 92) {</span>
 <span class="nc" id="L63">            edellinenescape = true;</span>
         }
-<span class="fc bfc" id="L65" title="All 2 branches covered.">        for(int i = 1; i &lt; regex.length(); i++){</span>
+<span class="fc bfc" id="L65" title="All 2 branches covered.">        for (int i = 1; i &lt; regex.length(); i++) {</span>
 <span class="fc" id="L66">            merkki = regex.charAt(i);</span>
-<span class="fc bfc" id="L67" title="All 6 branches covered.">            if(metamerkki(merkki) &amp;&amp; edellinenmeta &amp;&amp; merkki == '|'){</span>
+<span class="fc bfc" id="L67" title="All 6 branches covered.">            if (metamerkki(merkki) &amp;&amp; edellinenmeta &amp;&amp; merkki == '|') {</span>
 <span class="fc" id="L68">                continue;</span>
-            }
-<span class="fc bfc" id="L70" title="All 4 branches covered.">            else if(metamerkki(merkki) &amp;&amp; edellinenmeta) {</span>
-<span class="fc" id="L71">                viesti = &quot;Invalid quantifier at character &quot; + (i + 1) + &quot;, check for double quantifier error&quot;;</span>
-<span class="fc" id="L72">                return false;</span>
-<span class="pc bpc" id="L73" title="1 of 4 branches missed.">            } else if (metamerkki(merkki) &amp;&amp; edellinenescape) {</span>
-<span class="nc" id="L74">                edellinenescape = false;</span>
-<span class="nc" id="L75">                edellinenmeta = false;</span>
-<span class="fc bfc" id="L76" title="All 2 branches covered.">            } else if (metamerkki(merkki)) {</span>
-<span class="fc" id="L77">                edellinenescape = false;</span>
-<span class="fc" id="L78">                edellinenmeta = true;</span>
-<span class="pc bpc" id="L79" title="1 of 8 branches missed.">            } else if ((merkki == '(' || merkki == ')' || merkki == (char) 92) &amp;&amp; edellinenescape) {</span>
-<span class="nc" id="L80">                edellinenmeta = false;</span>
-<span class="nc" id="L81">                edellinenescape = false;</span>
-<span class="fc bfc" id="L82" title="All 2 branches covered.">            } else if (merkki == (char) 92) {</span>
-<span class="fc" id="L83">                edellinenmeta = false;</span>
-<span class="fc" id="L84">                edellinenescape = true;</span>
-<span class="fc bfc" id="L85" title="All 2 branches covered.">            } else if (merkki == '(') {</span>
-<span class="fc" id="L86">                edellinenescape = false;</span>
-<span class="fc" id="L87">                edellinenmeta = false;</span>
-<span class="fc" id="L88">                avaava++;</span>
-<span class="fc bfc" id="L89" title="All 2 branches covered.">            } else if (merkki == ')') {</span>
-<span class="fc" id="L90">                edellinenescape = false;</span>
-<span class="fc" id="L91">                edellinenmeta = false;</span>
-<span class="fc" id="L92">                sulkeva++;</span>
-<span class="pc bpc" id="L93" title="1 of 4 branches missed.">            } else if (edellinenescape &amp;&amp; merkki != '.') {</span>
-<span class="fc" id="L94">                viesti = &quot;Invalid use of escape at character&quot; + (i) + &quot;, check the manual for supported escape uses&quot;;</span>
-<span class="fc" id="L95">                return false;</span>
+<span class="fc bfc" id="L69" title="All 4 branches covered.">            } else if (metamerkki(merkki) &amp;&amp; edellinenmeta) {</span>
+<span class="fc" id="L70">                viesti = &quot;Invalid quantifier at character &quot; + (i + 1) + &quot;, check for double quantifier error&quot;;</span>
+<span class="fc" id="L71">                return false;</span>
+<span class="pc bpc" id="L72" title="1 of 4 branches missed.">            } else if (metamerkki(merkki) &amp;&amp; edellinenescape) {</span>
+<span class="nc" id="L73">                edellinenescape = false;</span>
+<span class="nc" id="L74">                edellinenmeta = false;</span>
+<span class="fc bfc" id="L75" title="All 2 branches covered.">            } else if (metamerkki(merkki)) {</span>
+<span class="fc" id="L76">                edellinenescape = false;</span>
+<span class="fc" id="L77">                edellinenmeta = true;</span>
+<span class="pc bpc" id="L78" title="2 of 10 branches missed.">            } else if ((merkki == '(' || merkki == ')' || merkki == (char) 92 || merkki == 'e') &amp;&amp; edellinenescape) {</span>
+<span class="nc" id="L79">                edellinenmeta = false;</span>
+<span class="nc" id="L80">                edellinenescape = false;</span>
+<span class="fc bfc" id="L81" title="All 2 branches covered.">            } else if (merkki == (char) 92) {</span>
+<span class="fc" id="L82">                edellinenmeta = false;</span>
+<span class="fc" id="L83">                edellinenescape = true;</span>
+<span class="fc bfc" id="L84" title="All 2 branches covered.">            } else if (merkki == '(') {</span>
+<span class="fc" id="L85">                edellinenescape = false;</span>
+<span class="fc" id="L86">                edellinenmeta = false;</span>
+<span class="fc" id="L87">                avaava++;</span>
+<span class="fc bfc" id="L88" title="All 2 branches covered.">            } else if (merkki == ')') {</span>
+<span class="fc" id="L89">                edellinenescape = false;</span>
+<span class="fc" id="L90">                edellinenmeta = false;</span>
+<span class="fc" id="L91">                sulkeva++;</span>
+<span class="pc bpc" id="L92" title="1 of 4 branches missed.">            } else if (edellinenescape &amp;&amp; merkki != '.') {</span>
+<span class="fc" id="L93">                viesti = &quot;Invalid use of escape at character&quot; + (i) + &quot;, check the manual for supported escape uses&quot;;</span>
+<span class="fc" id="L94">                return false;</span>
             } else {
-<span class="fc" id="L97">                edellinenmeta = false;</span>
-<span class="fc" id="L98">                edellinenescape = false;</span>
+<span class="fc" id="L96">                edellinenmeta = false;</span>
+<span class="fc" id="L97">                edellinenescape = false;</span>
             }
         }
-<span class="fc bfc" id="L101" title="All 2 branches covered.">        if(avaava != sulkeva) {</span>
-<span class="fc" id="L102">            viesti = &quot;Non-matching amount of parenthesis found&quot;;</span>
-<span class="fc" id="L103">            return false;</span>
+<span class="fc bfc" id="L100" title="All 2 branches covered.">        if (avaava != sulkeva) {</span>
+<span class="fc" id="L101">            viesti = &quot;Non-matching amount of parenthesis found&quot;;</span>
+<span class="fc" id="L102">            return false;</span>
         }
-<span class="fc" id="L105">        viesti = &quot;OK&quot;;</span>
-<span class="fc" id="L106">        return true;</span>
+<span class="fc" id="L104">        viesti = &quot;OK&quot;;</span>
+<span class="fc" id="L105">        return true;</span>
     }
     
     //Tällä saadaan virheviesti haettua
     
-    public String getViesti(){
-<span class="nc" id="L112">        return viesti;</span>
+    public String getViesti() {
+<span class="nc" id="L111">        return viesti;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

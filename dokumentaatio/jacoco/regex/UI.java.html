@@ -24,7 +24,7 @@ public class UI {
 <span class="nc" id="L24">        System.out.println(&quot;Enter regular expression&quot;);</span>
 <span class="nc" id="L25">        regex.setRegex(io.next());</span>
 <span class="nc" id="L26">        tarkastaja = new Tarkastaja(regex.getRegex());</span>
-<span class="nc bnc" id="L27" title="All 2 branches missed.">        while(!tarkastaja.tarkasta()) {</span>
+<span class="nc bnc" id="L27" title="All 2 branches missed.">        while (!tarkastaja.tarkasta()) {</span>
 <span class="nc" id="L28">            io.print(tarkastaja.getViesti());</span>
 <span class="nc" id="L29">            regex.setRegex(io.next());</span>
 <span class="nc" id="L30">            tarkastaja = new Tarkastaja(regex.getRegex());</span>
@@ -43,7 +43,7 @@ public class UI {
 <span class="nc" id="L43">                    System.out.println(&quot;Enter regular expression&quot;);</span>
 <span class="nc" id="L44">                    String uusregex = io.next();</span>
 <span class="nc" id="L45">                    tarkastaja = new Tarkastaja(uusregex);</span>
-<span class="nc bnc" id="L46" title="All 2 branches missed.">                    if(tarkastaja.tarkasta()) {</span>
+<span class="nc bnc" id="L46" title="All 2 branches missed.">                    if (tarkastaja.tarkasta()) {</span>
 <span class="nc" id="L47">                        regex.setRegex(uusregex);</span>
                     } else {
 <span class="nc" id="L49">                        io.print(tarkastaja.getViesti() + &quot;. Backing down to previous regular expression&quot;);</span>
