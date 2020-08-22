@@ -53,27 +53,27 @@ public class GUI {
         JScrollPane scrollPane = new JScrollPane(loki);
         
         ActionListener kuuntelijaR = new ActionListener() {
-            public void actionPerformed(ActionEvent e){
+            public void actionPerformed(ActionEvent e) {
                 String reggex = regexfield.getText();
                 Tarkastaja tarkastaja = new Tarkastaja(reggex);
-                if(tarkastaja.tarkasta()){
+                if (tarkastaja.tarkasta()) {
                     loki.append("New regex set: " + reggex + "\n");
                     loki.setCaretPosition(loki.getDocument().getLength());
                     regex.setRegex(reggex);
                     l1.setText("Current regex: " + reggex);
                     regexfield.setText("");
                 } else {
-                    JOptionPane.showMessageDialog(frame,tarkastaja.getViesti());
+                    JOptionPane.showMessageDialog(frame, tarkastaja.getViesti());
                 }
             }
         };
         
         ActionListener kuuntelijaS = new ActionListener() {
-            public void actionPerformed(ActionEvent e){
+            public void actionPerformed(ActionEvent e) {
                 String syote = stringfield.getText();
                 regex.setSana(syote);
                 regex.tulkki("", regex.getRegex().length() - 1);
-                if(regex.getFound()) {
+                if (regex.getFound()) {
                     loki.append(syote + " " + (char) 10004 + "\n");
                     lokit.setBackground(Color.green);
                     kentat.setBackground(Color.green);
@@ -88,20 +88,20 @@ public class GUI {
         };
         
         ActionListener buttonR = new ActionListener() {
-            public void actionPerformed(ActionEvent e){
+            public void actionPerformed(ActionEvent e) {
                 regexfield.setText(regex.getRegex());
             }
         };
         
         ActionListener buttonS = new ActionListener() {
-            public void actionPerformed(ActionEvent e){
+            public void actionPerformed(ActionEvent e) {
                 stringfield.setText(regex.getSana());
             }
         };
         
         stringfield.setPreferredSize(new Dimension(360, 20));
         regexfield.setPreferredSize(new Dimension(360, 20));
-        scrollPane.setPreferredSize(new Dimension(350,200));
+        scrollPane.setPreferredSize(new Dimension(350, 200));
         
         regexfield.addActionListener(kuuntelijaR);
         stringfield.addActionListener(kuuntelijaS);

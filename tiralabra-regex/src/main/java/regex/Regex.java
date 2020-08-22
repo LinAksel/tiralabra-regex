@@ -56,7 +56,7 @@ public class Regex {
             }
             if (maara % 2 != 0 && (merkki != 'e')) {
                 return false;
-            } else if (merkki == 'e' && maara > 1 && maara % 2 == 0){
+            } else if (merkki == 'e' && maara > 1 && maara % 2 == 0) {
                 return false;
             }
         } else if (kohta > 0 && regex.charAt(kohta - 1) != (char) 92 && merkki == 'e') {
@@ -190,7 +190,7 @@ public class Regex {
                 tulkki(uustesti, kohta - 2);
                 tulkki(testi, kohta - 2);
             } else {
-                if(regex.charAt(kohta - 1) == ')') {
+                if (regex.charAt(kohta - 1) == ')') {
                     tulkki(testi, etsiAlku(kohta - 1));
                 }
                 tulkki(testi, kohta - 1);
@@ -210,7 +210,7 @@ public class Regex {
         } else if (regex.charAt(kohta) == '|' && onErikoismerkki(kohta)) {
             
             tulkki(testi, etsiAlku(kohta));
-            if(kohta == regex.length() - 1) {
+            if (kohta == regex.length() - 1) {
                 tulkki(testi, kohta - 1);
             }
         
