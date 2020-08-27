@@ -8,6 +8,7 @@
 * [Tuntikirjanpito](/dokumentaatio/tuntikirjanpito.md)
 * [Jacoco-raportti](https://htmlpreview.github.io/?https://github.com/LinAksel/tiralabra-regex/blob/master/dokumentaatio/jacoco/index.html)
 * [Checkstyle-raportti](https://htmlpreview.github.io/?https://github.com/LinAksel/tiralabra-regex/blob/master/dokumentaatio/checkstyle.html)
+* [Käyttöohjeet](/dokumentaatio/kayttikset.md)
 
 ### Viikkoraportit
 
@@ -16,3 +17,4 @@
 * [Viikko 3](/dokumentaatio/viikkoraportti3.md)
 * [Viikko 4](/dokumentaatio/viikkoraportti4.md)
 * [Viikko 5](/dokumentaatio/viikkoraportti5.md)
+* [Viikko 6](/dokumentaatio/viikkoraportti6.md)

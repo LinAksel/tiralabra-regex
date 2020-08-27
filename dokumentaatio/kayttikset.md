@@ -45,11 +45,11 @@ Kun ohjelma käynnistetään, aukeaa käyttöliittymäikkuna:
 
 Säännöllisen lausekkeen kenttään syötetään haluttu lauseke, aluksi oletuslauseke on tyhjä \\e. Kun regex-kenttään syötetään hyväksytty lauseke, esim. 'abba', ja painetaan joko 'Enter regex'-nappia tai enter-näppäintä, päivittyy uusi lauseke sekä lokiin että keskelle (kohta 3). Nyt voidaan kokeilla verrata merkkijonoa annettuun lausekkeeseen:
 
-| ![alku.png](https://raw.githubusercontent.com/LinAksel/tiralabra-regex/master/dokumentaatio/kuvat/oikein.png) |
+![oikein.png](https://raw.githubusercontent.com/LinAksel/tiralabra-regex/master/dokumentaatio/kuvat/oikein.png)
 
 Kuvassa on syötetty regexiä vastaava merkkijono 'abba', jolloin lokiin ilmestyy hyväksytty merkki, ja taustaväri muuttuu vihreäksi.
 
-| ![alku.png](https://raw.githubusercontent.com/LinAksel/tiralabra-regex/master/dokumentaatio/kuvat/vaarin.png) |
+![vaarin.png](https://raw.githubusercontent.com/LinAksel/tiralabra-regex/master/dokumentaatio/kuvat/vaarin.png)
 
 Nyt merkkijono ei vastaa lauseketta, vaan lokiin ilmestyy hylätyy merkki ja taustaväri muuttuu punaiseksi. Käyttöliittymä kertoo siis sekä taustavärillä että lokilla, täsmääkö merkkijono säännölliseen lausekkeeseen. Molempien syöttönappien takana on lisäksi pieni nuolinappi, jolla on mahdollista palauttaa tekstikenttään edellinen syöte.
 
