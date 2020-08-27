@@ -140,10 +140,10 @@ public class Regex {
      */
     public void tulkki(String testi, int kohta) {
         
-        if(kohta >= 0 && !lukko){
-            maara++;
-            System.out.println(testi + " " + kohta);
-        }
+//        if(kohta >= 0 && !lukko){
+//            maara++;
+//            System.out.println(testi + " " + kohta);
+//        }
         
         if (testi.length() > sana.length() || !sana.endsWith(testi) || lukko || kohta < -1) {
             return;
