@@ -140,10 +140,10 @@ public class Regex {
      */
     public void tulkki(String testi, int kohta) {
         
-//        if(kohta >= 0 && !lukko){
-//            maara++;
-//            System.out.println(testi + " " + kohta);
-//        }
+        if(kohta >= 0 && !lukko){
+            maara++;
+            System.out.println(testi + " " + kohta);
+        }
         
         if (testi.length() > sana.length() || !sana.endsWith(testi) || lukko || kohta < -1) {
             return;
@@ -167,10 +167,10 @@ public class Regex {
         if (regex.charAt(kohta) == '(' && onErikoismerkki(kohta)) {
             
             int uusikohta = etsiLoppu(kohta);
-            tulkki(testi, kohta - 1);
             if (uusikohta < regex.length() - 1 && (regex.charAt(uusikohta + 1) == '+' || regex.charAt(uusikohta + 1) == '*') && testi.length() > 0 && maarat[uusikohta] < testi.length()) {
                 tulkki(testi, uusikohta);
             }
+            tulkki(testi, kohta - 1);
             
         } else if (regex.charAt(kohta) == '+' && onErikoismerkki(kohta)) {
             
