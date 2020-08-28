@@ -5,6 +5,7 @@
  */
 package regex;
 
+import regex.logic.Regex;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;

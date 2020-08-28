@@ -3,7 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package regex;
+package regex.ui;
+
+import regex.io.IO;
+import regex.logic.Tarkastaja;
+import regex.logic.Regex;
 
 /**
  *
@@ -21,7 +25,7 @@ public class UI {
     }
     
     public void suorita() {
-        System.out.println("Enter regular expression");
+        io.print("Enter regular expression");
         regex.setRegex(io.next());
         tarkastaja = new Tarkastaja(regex.getRegex());
         while (!tarkastaja.tarkasta()) {
@@ -30,17 +34,18 @@ public class UI {
             tarkastaja = new Tarkastaja(regex.getRegex());
         }
         while (true) {
+            io.print("Enter string to compare");
             regex.setSana(io.next());
             if (regex.getSana().equals("exit!")) {
-                System.out.println("To exit, enter 'e', else compare");
+                io.print("To exit, enter 'e', else compare");
                 if (io.next().toLowerCase().equals("e")) {
                     break;
                 }
             }
             if (regex.getSana().equals("change!")) {
-                System.out.println("To change regex, enter 'r', else compare");
+                io.print("To change regex, enter 'r', else compare");
                 if (io.next().toLowerCase().equals("r")) {
-                    System.out.println("Enter regular expression");
+                    io.print("Enter regular expression");
                     String uusregex = io.next();
                     tarkastaja = new Tarkastaja(uusregex);
                     if (tarkastaja.tarkasta()) {
@@ -53,7 +58,7 @@ public class UI {
             }
             
             if (regex.getSana().equals("regex!")) {
-                System.out.println("To print regex, enter 'r', else compare");
+                io.print("To print regex, enter 'r', else compare");
                 if (io.next().toLowerCase().equals("r")) {
                     System.out.println(regex.getRegex());
                     continue;

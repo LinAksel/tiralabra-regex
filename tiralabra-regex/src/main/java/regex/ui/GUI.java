@@ -3,8 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package regex;
+package regex.ui;
 
+import regex.logic.Tarkastaja;
+import regex.logic.Regex;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -27,7 +29,7 @@ public class GUI {
     /**
      * GUI:n suoritusmetodi. Tässä luodaan komponentit ja kuuntelijat käyttöliittymään, kaikki algoritmiikka on eriytetty muualle.
      */
-    static void suorita() {
+    public static void suorita() {
         JFrame frame = new JFrame("RegEx");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         

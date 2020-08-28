@@ -5,22 +5,17 @@
  */
 package regex;
 
-import regex.ui.GUI;
-
+import regex.io.KonsoliIO;
+import regex.ui.UI;
 
 /**
- *
+ * Vaihtoehtoinen, tekstipohjaisen (TUI) käyttöliittymän käynnistys.
  * @author linaksel
  */
-public class Main {
+public class MainTUI {
     
-    /**
-     * Ohjelman normaalisti käynnistävä pääluokka. Tämä avaa GUI-tyyppisen käyttöliittymän.
-     * @param args 
-     */
     public static void main(String[] args) {
-        GUI gui = new GUI();
-        gui.suorita();
+    	UI ui = new UI(new KonsoliIO());
+        ui.suorita();
     }
-    
 }

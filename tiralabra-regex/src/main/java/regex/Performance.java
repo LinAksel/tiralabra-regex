@@ -5,23 +5,35 @@
  */
 package regex;
 
+import regex.logic.Regex;
+
 /**
  * Tämä on testiluokista eriytetty suorituskykytestaaja.
  * @author linaksel
  */
 public class Performance {
     
-    private Regex regex = new Regex();
+    private static Regex regex = new Regex();
     
+    /**
+     * Erillinen käynnistäjä luokalle, jotta suorituskykytestaus voidaan suorittaa omana ohjelmanaan.
+     * (Netbeansissa yksinkertaisesti "Run File")
+     * @param args 
+     */
+    
+    public static void main(String[] args) {
+        sulkuTestaus();
+    }
     
     /**
      * Metodi testaa sulkuryhmien toiston tehokkuutta eri sulkutasoilla
      */
-    public void sulkuTestaus() {
+    
+    public static void sulkuTestaus() {
         regex.setRegex("(a)*");
-        regex.setSana("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+        regex.setSana("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
         
-        while (regex.getRegex().length() < 65)  {
+        while (regex.getRegex().length() < 1000)  {
             long alku = System.currentTimeMillis();
             regex.tulkki("", regex.getRegex().length() - 1);
             long aika = System.currentTimeMillis() - alku;

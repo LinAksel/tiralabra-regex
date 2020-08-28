@@ -5,6 +5,7 @@
  */
 package regex;
 
+import regex.logic.Tarkastaja;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;
@@ -36,12 +37,10 @@ public class TestTarkastaja {
         assertFalse(tarkastaja.tarkasta());
     }
     
-    //This should be true, since the empty space is read as epsilon
-    
     @Test
     public void checkForDoubleAlternation() {
         tarkastaja = new Tarkastaja("aa||bb");
-        assertTrue(tarkastaja.tarkasta());
+        assertFalse(tarkastaja.tarkasta());
     }
     
     @Test
