@@ -36,6 +36,8 @@ public class Regex {
         } else if (regex.charAt(kohta) == '.' && erotus > 0) {
             merkki = sana.charAt(erotus - 1);
             return merkki + testi;
+        } else if (regex.charAt(kohta) == '.') {
+            return merkki + testi;
         }
         return testi;
     }
@@ -132,9 +134,6 @@ public class Regex {
         return kohta;
     }
     
-    //Välikommentti: pohdin jatkuvasti mahdollisuuksia purkaa tulkki-metodia pienempiin osiin, mutta näyttää koko ajan vahvemmin siltä,
-    //että metodi jää "hirviöksi", sillä se on selkein tapa esittää rekursioluonne. Kurssia on kuitenkin vielä jäljellä, ja muutokset vielä mahdollisia.
-    
     /**
      * Tulkin toiminnallinen osa. Metodi käy läpi annettua säännöllistä lausetta oikealta vasemmalle,
      * ja rakentaa sen pohjalta rekursiivisesti merkkijonoja, joita verrataan annettuun sanaan.
@@ -175,6 +174,13 @@ public class Regex {
         }
     }
     
+    /**
+     * Metodi käsittelee erikoismerkin '*', eli mielivaltaisen toiston.
+     * Tässä haaraudutaan kolmeen: lisätään merkki ja pysytään paikallaan, lisätään ja jatketaan,
+     * tai ei lisätä ja jatketaan.
+     * @param testi
+     * @param kohta 
+     */
     public void kleeneStar(String testi, int kohta) {
         String uustesti = lisaaja(kohta - 1, testi);
         if (!uustesti.equals(testi)) {
@@ -189,16 +195,32 @@ public class Regex {
         }
     }
     
+    /**
+     * Metodi käsittelee erikoismerkin '?', eli "kerran tai ei kertaakaan".
+     * Käytännössä haaraudutaan siis kahteen, lisätyn ja lisäämättömän merkin tilanteeseen.
+     * @param testi
+     * @param kohta 
+     */
+    
     public void noneOrOnce(String testi, int kohta) {
         String uustesti = lisaaja(kohta - 1, testi);
         if (!uustesti.equals(testi)) {
             tulkki(uustesti, kohta - 2);
             tulkki(testi, kohta - 2);
         } else {
-            tulkki(testi, etsiAlku(kohta - 1));
+            if (regex.charAt(kohta - 1) == ')') {
+                tulkki(testi, etsiAlku(kohta - 1));
+            }
             tulkki(testi, kohta - 1);
         }
     }
+    
+    /**
+     * Metodi käsittelee erikoismerkin '+', eli "vähintään yhden toiston".
+     * Käytännössä siis mikäli seuraava merkki ei ole erikoismerkki, lisätään se varmasti ainakin kerran.
+     * @param testi
+     * @param kohta 
+     */
     
     public void atLeastOnce(String testi, int kohta) {
         String uustesti = lisaaja(kohta - 1, testi);
@@ -210,12 +232,29 @@ public class Regex {
         }
     }
     
+    /**
+     * Metodi käsittelee erikoismerkin '|', eli "tain".
+     * Käytännössä metodi vain vie sulkutason loppuun, sillä kaikki mahdolliset "tait" aloitetaan
+     * metodissa startOfGroup. Pieni lisämausta on kuitenkin, että tyhjä syöte sallitaan yksinkertaisten
+     * regexien lopussa epsilonina. Siispä 'a|' on sama kuin 'a|\e'.
+     * @param testi Tämänhetkinen testattava merkkijono
+     * @param kohta Säännöllisen lauseen kohta
+     */
+    
     public void thisOrThat(String testi, int kohta) {
         tulkki(testi, etsiAlku(kohta));
         if (kohta == regex.length() - 1) {
             tulkki(testi, kohta - 1);
         }
     }
+    
+    /**
+     * Metodi käsittelee tilanteen, jossa nykyinen sulkutaso loppuu.
+     * Käytännössä se tutkii, voidaanko sulkutasoa toistaa merkein '*' tai '+',
+     * haarautuu toistoon ja jatkoon, tai vain jatkoon.
+     * @param testi Tämänhetkinen testattava merkkijono
+     * @param kohta Säännöllisen lauseen kohta
+     */
     
     public void endOfGroup(String testi, int kohta) {
         int uusikohta = etsiLoppu(kohta);
@@ -224,6 +263,15 @@ public class Regex {
         }
         tulkki(testi, kohta - 1);
     }
+    
+    /**
+     * Metodi käsittelee tilanteen, jossa kohdataan uusi sulkutaso.
+     * Käytännössä se etsii kaikki uuden tason mahdolliset aloituskohdat apufunktion avulla, ja
+     * estää ikuiset loopit merkitsemällä, minkä pituinen merkkijonon on tässä kohdassa vähintään oltava
+     * toistojen tapahtuessa.
+     * @param testi Tämänhetkinen testattava merkkijono
+     * @param kohta Säännöllisen lauseen kohta
+     */
     
     public void startOfGroup(String testi, int kohta) {
         int uusikohta = etsiTai(kohta);
