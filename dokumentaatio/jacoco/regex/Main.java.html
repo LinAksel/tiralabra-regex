@@ -5,28 +5,23 @@
  */
 package regex;
 
+import regex.ui.GUI;
+
 
 /**
  *
  * @author linaksel
  */
-<span class="nc" id="L13">public class Main {</span>
+<span class="nc" id="L15">public class Main {</span>
     
     /**
-     * Käynnistämiseen valjastettu main luo uuden regex-olion ja ajaa sen. 
-     * Tästä pakataan lopulta kolme eri ohjelmaa: GUI-versio, konsoli-UI-versio ja suorituskykytestaaja.
-     * Jaetussa koodissa on vakioasetuksena pelkkä GUI, mutta tätä voi muuttaa poistamalla kommentointi,
-     * joskaan tämä ei ole tarkoituksenmukaista. Loppupalautukseen mahdollisesti jokin toinen ratkaisu.
+     * Ohjelman normaalisti käynnistävä pääluokka. Tämä avaa GUI-tyyppisen käyttöliittymän.
      * @param args 
      */
     public static void main(String[] args) {
-<span class="nc" id="L23">        GUI gui = new GUI();</span>
-<span class="nc" id="L24">        gui.suorita();</span>
-    	//UI ui = new UI(new KonsoliIO());
-        //ui.suorita();
-        //Performance suoritus = new Performance();
-        //suoritus.sulkuTestaus();
-<span class="nc" id="L29">    }</span>
+<span class="nc" id="L22">        GUI gui = new GUI();</span>
+<span class="nc" id="L23">        gui.suorita();</span>
+<span class="nc" id="L24">    }</span>
     
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

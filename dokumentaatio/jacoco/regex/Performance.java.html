@@ -5,30 +5,42 @@
  */
 package regex;
 
+import regex.logic.Regex;
+
 /**
  * Tämä on testiluokista eriytetty suorituskykytestaaja.
  * @author linaksel
  */
-<span class="nc" id="L12">public class Performance {</span>
+<span class="nc" id="L14">public class Performance {</span>
     
-<span class="nc" id="L14">    private Regex regex = new Regex();</span>
+<span class="nc" id="L16">    private static Regex regex = new Regex();</span>
     
+    /**
+     * Erillinen käynnistäjä luokalle, jotta suorituskykytestaus voidaan suorittaa omana ohjelmanaan.
+     * (Netbeansissa yksinkertaisesti &quot;Run File&quot;)
+     * @param args 
+     */
+    
+    public static void main(String[] args) {
+<span class="nc" id="L25">        sulkuTestaus();</span>
+<span class="nc" id="L26">    }</span>
     
     /**
      * Metodi testaa sulkuryhmien toiston tehokkuutta eri sulkutasoilla
      */
-    public void sulkuTestaus() {
-<span class="nc" id="L21">        regex.setRegex(&quot;(a)*&quot;);</span>
-<span class="nc" id="L22">        regex.setSana(&quot;aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa&quot;);</span>
+    
+    public static void sulkuTestaus() {
+<span class="nc" id="L33">        regex.setRegex(&quot;(a)*&quot;);</span>
+<span class="nc" id="L34">        regex.setSana(&quot;aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa&quot;);</span>
         
-<span class="nc bnc" id="L24" title="All 2 branches missed.">        while (regex.getRegex().length() &lt; 65)  {</span>
-<span class="nc" id="L25">            long alku = System.currentTimeMillis();</span>
-<span class="nc" id="L26">            regex.tulkki(&quot;&quot;, regex.getRegex().length() - 1);</span>
-<span class="nc" id="L27">            long aika = System.currentTimeMillis() - alku;</span>
-<span class="nc" id="L28">            System.out.println(aika + &quot; tunnistettu: &quot; + regex.getFound());</span>
-<span class="nc" id="L29">            regex.setRegex(&quot;(&quot; + regex.getRegex() + &quot;)*&quot;);</span>
-<span class="nc" id="L30">        }</span>
-<span class="nc" id="L31">    }</span>
+<span class="nc bnc" id="L36" title="All 2 branches missed.">        while (regex.getRegex().length() &lt; 1000)  {</span>
+<span class="nc" id="L37">            long alku = System.currentTimeMillis();</span>
+<span class="nc" id="L38">            regex.tulkki(&quot;&quot;, regex.getRegex().length() - 1);</span>
+<span class="nc" id="L39">            long aika = System.currentTimeMillis() - alku;</span>
+<span class="nc" id="L40">            System.out.println(aika + &quot; tunnistettu: &quot; + regex.getFound());</span>
+<span class="nc" id="L41">            regex.setRegex(&quot;(&quot; + regex.getRegex() + &quot;)*&quot;);</span>
+<span class="nc" id="L42">        }</span>
+<span class="nc" id="L43">    }</span>
     
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

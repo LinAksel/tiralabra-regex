@@ -20,4 +20,6 @@ Päivä      | Aika (h)| Mitä tein |
 18.8.2020  | 4       | GUI:n luonti, löydetyn sulkubugin korjaus, tyhjän merki koodaus |
 20.8.2020  | 4       | Bugikorjausta, GUI:n hiontaa ja tyhjä merkki \\e lisätty |
 21.8.2020  | 2       | Vertaisarviossa löydetyn vian korjaus, ja lisäyksiä testeihin |
-YHTEENSÄ   | 50       | |
+27.8.2020  | 5       | Bugikorjailua ja venynyt vertaisarvio |
+28.8.2020  | 5       | Refaktorointi, laaja yksilötestaus ja mahdollisten uusien ominaisuuksien kokeilu |
+YHTEENSÄ   | 60       | |

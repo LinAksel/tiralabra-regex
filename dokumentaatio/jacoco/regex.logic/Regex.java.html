@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Regex.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">tiralabra-regex</a> &gt; <a href="index.source.html" class="el_package">regex.logic</a> &gt; <span class="el_source">Regex.java</span></div><h1>Regex.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package regex.logic;
+
+/**
+ *
+ * @author linaksel
+ */
+public class Regex {
+    
+    private String regex;
+    private String sana;
+    private Boolean lukko;
+    private int[] maarat;
+<span class="fc" id="L18">    private int maara = 0;</span>
+    
+<span class="fc" id="L20">    public Regex() {</span>
+<span class="fc" id="L21">        this.lukko = false;</span>
+<span class="fc" id="L22">    }</span>
+    
+    /** 
+     * Metodi hoitaa testisyötteeseen merkin lisäämisen
+     * @param kohta Säännöllisen lauseen kohta
+     * @param testi Rakennettava merkkijono, jota verrataan sanaan.
+     * @return Palauttaa joko annetun testijonon tai testijonon, johon lisätty kirjain
+     */
+    
+    public String lisaaja(int kohta, String testi) {
+<span class="fc" id="L32">        char merkki = regex.charAt(kohta);</span>
+<span class="fc" id="L33">        int erotus = sana.length() - testi.length();</span>
+<span class="fc bfc" id="L34" title="All 2 branches covered.">        if (!onErikoismerkki(kohta)) {</span>
+<span class="fc" id="L35">            return merkki + testi;</span>
+<span class="fc bfc" id="L36" title="All 4 branches covered.">        } else if (regex.charAt(kohta) == '.' &amp;&amp; erotus &gt; 0) {</span>
+<span class="fc" id="L37">            merkki = sana.charAt(erotus - 1);</span>
+<span class="fc" id="L38">            return merkki + testi;</span>
+<span class="fc bfc" id="L39" title="All 2 branches covered.">        } else if (regex.charAt(kohta) == '.') {</span>
+<span class="fc" id="L40">            return merkki + testi;</span>
+        }
+<span class="fc" id="L42">        return testi;</span>
+    }
+    
+    /**
+     * Metodi tarkistaa, toimiiko säännöllisen lauseen annetussa kohdassa oleva merkki
+     * metamerkkinä vai tavallisena merkkinä
+     * @param kohta Säännöllisen lauseen kohta
+     * @return Palauttaa true, jos kyseessä metamerkki, muutoin false
+     */
+    
+    public boolean onErikoismerkki(int kohta) {
+<span class="fc" id="L53">        char merkki = regex.charAt(kohta);</span>
+<span class="fc bfc" id="L54" title="All 18 branches covered.">        if ((merkki != ')' &amp;&amp; merkki != '(' &amp;&amp; merkki != '*' &amp;&amp; merkki != '?' &amp;&amp; merkki != '+' &amp;&amp; merkki != '.' &amp;&amp; merkki != '|' &amp;&amp; merkki != (char) 92 &amp;&amp; merkki != 'e')) {</span>
+<span class="fc" id="L55">            return false;</span>
+<span class="fc bfc" id="L56" title="All 4 branches covered.">        } else if (kohta &gt; 0 &amp;&amp; regex.charAt(kohta - 1) == (char) 92) {</span>
+<span class="fc" id="L57">            int maara = 1;</span>
+<span class="pc bpc" id="L58" title="1 of 4 branches missed.">            while (kohta - maara - 1 &gt; -1 &amp;&amp; regex.charAt(kohta - maara - 1) == (char) 92) {</span>
+<span class="fc" id="L59">                maara++;</span>
+            }
+<span class="pc bpc" id="L61" title="1 of 4 branches missed.">            if (maara % 2 != 0 &amp;&amp; (merkki != 'e')) {</span>
+<span class="fc" id="L62">                return false;</span>
+<span class="pc bpc" id="L63" title="5 of 6 branches missed.">            } else if (merkki == 'e' &amp;&amp; maara &gt; 1 &amp;&amp; maara % 2 == 0) {</span>
+<span class="nc" id="L64">                return false;</span>
+            }
+<span class="pc bpc" id="L66" title="1 of 6 branches missed.">        } else if (kohta &gt; 0 &amp;&amp; regex.charAt(kohta - 1) != (char) 92 &amp;&amp; merkki == 'e') {</span>
+<span class="fc" id="L67">            return false;</span>
+        }
+<span class="fc" id="L69">        return true;</span>
+    }
+    
+    /**
+     * Metodi etsii käsiteltävän sulkutason alun
+     * @param kohta Säännöllisen lauseen kohta
+     * @return Palauttaa sulkutason aloituskohdan
+     */
+    
+    public int etsiAlku(int kohta) {
+<span class="fc" id="L79">        int sulut = 0;</span>
+<span class="fc" id="L80">        int sullut = 0;</span>
+<span class="fc bfc" id="L81" title="All 2 branches covered.">        while (kohta &gt; 0) {</span>
+<span class="fc" id="L82">            kohta--;</span>
+<span class="pc bpc" id="L83" title="1 of 6 branches missed.">            if (regex.charAt(kohta) == '(' &amp;&amp; onErikoismerkki(kohta) &amp;&amp; sulut == sullut) {</span>
+<span class="fc" id="L84">                return kohta;</span>
+<span class="pc bpc" id="L85" title="1 of 4 branches missed.">            } else if (regex.charAt(kohta) == ')' &amp;&amp; onErikoismerkki(kohta)) {</span>
+<span class="fc" id="L86">                sullut++;</span>
+<span class="pc bpc" id="L87" title="1 of 4 branches missed.">            } else if (regex.charAt(kohta) == '(' &amp;&amp; onErikoismerkki(kohta)) {</span>
+<span class="fc" id="L88">                sulut++;</span>
+            }
+        }
+<span class="fc" id="L91">        return -1;</span>
+    }
+    
+    /**
+     * Metodi etsii käsiteltävän sulkutason lopun
+     * @param kohta Säännöllisen lauseen kohta
+     * @return Palauttaa sulkutason päätöskohdan
+     */
+    
+    public int etsiLoppu(int kohta) {
+<span class="fc" id="L101">        int sulut = 0;</span>
+<span class="fc" id="L102">        int sullut = 0;</span>
+<span class="pc bpc" id="L103" title="1 of 2 branches missed.">        while (kohta &lt; regex.length()) {</span>
+<span class="fc" id="L104">            kohta++;</span>
+<span class="pc bpc" id="L105" title="1 of 6 branches missed.">            if (regex.charAt(kohta) == ')' &amp;&amp; onErikoismerkki(kohta) &amp;&amp; sulut == sullut) {</span>
+<span class="fc" id="L106">                return kohta;</span>
+<span class="pc bpc" id="L107" title="1 of 4 branches missed.">            } else if (regex.charAt(kohta) == ')' &amp;&amp; onErikoismerkki(kohta)) {</span>
+<span class="fc" id="L108">                sullut++;</span>
+<span class="pc bpc" id="L109" title="1 of 4 branches missed.">            } else if (regex.charAt(kohta) == '(' &amp;&amp; onErikoismerkki(kohta)) {</span>
+<span class="fc" id="L110">                sulut++;</span>
+            }
+        }
+<span class="nc" id="L113">        return regex.length() - 1; </span>
+    }
+    /**
+     * Metodi etsii käsitelävällä sulkutasolla mahdollisesti olevan tai-merkin
+     * @param kohta Säännöllisen lauseen kohta
+     * @return Palauttaa joko sopivan tai-merkin kohdan tai säännöllisen lauseen alun
+     */
+    
+    public int etsiTai(int kohta) {
+<span class="fc" id="L122">        int sulut = 0;</span>
+<span class="fc" id="L123">        int sullut = 0;</span>
+<span class="fc bfc" id="L124" title="All 2 branches covered.">        while (kohta &gt; 0) {</span>
+<span class="fc" id="L125">            kohta--;</span>
+<span class="pc bpc" id="L126" title="1 of 4 branches missed.">            if (regex.charAt(kohta) == '(' &amp;&amp; onErikoismerkki(kohta)) {</span>
+<span class="fc" id="L127">                sulut++;</span>
+<span class="fc bfc" id="L128" title="All 4 branches covered.">            } else if (regex.charAt(kohta) == ')' &amp;&amp; onErikoismerkki(kohta)) {</span>
+<span class="fc" id="L129">                sullut++;</span>
+<span class="pc bpc" id="L130" title="1 of 6 branches missed.">            } else if (regex.charAt(kohta) == '|' &amp;&amp; onErikoismerkki(kohta) &amp;&amp; sulut == sullut) {</span>
+<span class="fc" id="L131">                return kohta;</span>
+            }
+        }
+<span class="fc" id="L134">        return kohta;</span>
+    }
+    
+    /**
+     * Tulkin toiminnallinen osa. Metodi käy läpi annettua säännöllistä lausetta oikealta vasemmalle,
+     * ja rakentaa sen pohjalta rekursiivisesti merkkijonoja, joita verrataan annettuun sanaan.
+     * Mikäli vastaavuus löytyy annetun sanan ja testimerkkijonon väliltä niin, että ollaan päästy samalla säännöllisen lauseen loppuun,
+     * kytketään päälle lukko, joka pysäyttää nopeasti loput rekursiot ja toimii myös &quot;löydetty&quot;-totuusarvona.
+     * @param testi Säännöllisen lauseen pohjalta rakennettavia testimerkkijonoja
+     * @param kohta Säännöllisen lauseen kohta
+     */
+    
+    public void tulkki(String testi, int kohta) {
+<span class="pc bpc" id="L147" title="1 of 8 branches missed.">        if (testi.length() &gt; sana.length() || !sana.endsWith(testi) || lukko || kohta &lt; -1) {</span>
+<span class="fc" id="L148">            return;</span>
+        }
+<span class="fc bfc" id="L150" title="All 2 branches covered.">        if (kohta == -1) {</span>
+<span class="fc bfc" id="L151" title="All 2 branches covered.">            if (testi.equals(sana)) {</span>
+<span class="fc" id="L152">                lukko = true;</span>
+            }
+<span class="fc" id="L154">            return;</span>
+        }
+<span class="pc bpc" id="L156" title="1 of 6 branches missed.">        if ((regex.charAt(kohta) == ')' &amp;&amp; onErikoismerkki(kohta)) || kohta == regex.length() - 1) {</span>
+<span class="fc" id="L157">            startOfGroup(testi, kohta);</span>
+        }
+<span class="pc bpc" id="L159" title="1 of 4 branches missed.">        if (regex.charAt(kohta) == '(' &amp;&amp; onErikoismerkki(kohta)) {</span>
+<span class="fc" id="L160">            endOfGroup(testi, kohta);</span>
+<span class="pc bpc" id="L161" title="1 of 4 branches missed.">        } else if (regex.charAt(kohta) == '+' &amp;&amp; onErikoismerkki(kohta)) {</span>
+<span class="fc" id="L162">            atLeastOnce(testi, kohta);</span>
+<span class="fc bfc" id="L163" title="All 4 branches covered.">        } else if (regex.charAt(kohta) == '*' &amp;&amp; onErikoismerkki(kohta)) {</span>
+<span class="fc" id="L164">            kleeneStar(testi, kohta);</span>
+<span class="pc bpc" id="L165" title="1 of 4 branches missed.">        } else if (regex.charAt(kohta) == '?' &amp;&amp; onErikoismerkki(kohta)) {</span>
+<span class="fc" id="L166">            noneOrOnce(testi, kohta);</span>
+<span class="pc bpc" id="L167" title="1 of 4 branches missed.">        } else if (regex.charAt(kohta) == '|' &amp;&amp; onErikoismerkki(kohta)) {</span>
+<span class="fc" id="L168">            thisOrThat(testi, kohta);</span>
+<span class="pc bpc" id="L169" title="1 of 4 branches missed.">        } else if (regex.charAt(kohta) == 'e' &amp;&amp; onErikoismerkki(kohta)) {</span>
+<span class="nc" id="L170">            tulkki(testi, kohta - 2);</span>
+        } else {
+<span class="fc" id="L172">            String uustesti = lisaaja(kohta, testi);</span>
+<span class="fc" id="L173">            tulkki(uustesti, kohta - 1);</span>
+        }
+<span class="fc" id="L175">    }</span>
+    
+    /**
+     * Metodi käsittelee erikoismerkin '*', eli mielivaltaisen toiston.
+     * Tässä haaraudutaan kolmeen: lisätään merkki ja pysytään paikallaan, lisätään ja jatketaan,
+     * tai ei lisätä ja jatketaan.
+     * @param testi
+     * @param kohta 
+     */
+    public void kleeneStar(String testi, int kohta) {
+<span class="fc" id="L185">        String uustesti = lisaaja(kohta - 1, testi);</span>
+<span class="fc bfc" id="L186" title="All 2 branches covered.">        if (!uustesti.equals(testi)) {</span>
+<span class="fc" id="L187">            tulkki(uustesti, kohta);</span>
+<span class="fc" id="L188">            tulkki(uustesti, kohta - 2);</span>
+<span class="fc" id="L189">            tulkki(testi, kohta - 2);</span>
+        } else {
+<span class="pc bpc" id="L191" title="1 of 2 branches missed.">            if (regex.charAt(kohta - 1) == ')') {</span>
+<span class="fc" id="L192">                tulkki(testi, etsiAlku(kohta - 1));</span>
+            }
+<span class="fc" id="L194">            tulkki(testi, kohta - 1);</span>
+        }
+<span class="fc" id="L196">    }</span>
+    
+    /**
+     * Metodi käsittelee erikoismerkin '?', eli &quot;kerran tai ei kertaakaan&quot;.
+     * Käytännössä haaraudutaan siis kahteen, lisätyn ja lisäämättömän merkin tilanteeseen.
+     * @param testi
+     * @param kohta 
+     */
+    
+    public void noneOrOnce(String testi, int kohta) {
+<span class="fc" id="L206">        String uustesti = lisaaja(kohta - 1, testi);</span>
+<span class="pc bpc" id="L207" title="1 of 2 branches missed.">        if (!uustesti.equals(testi)) {</span>
+<span class="fc" id="L208">            tulkki(uustesti, kohta - 2);</span>
+<span class="fc" id="L209">            tulkki(testi, kohta - 2);</span>
+        } else {
+<span class="nc bnc" id="L211" title="All 2 branches missed.">            if (regex.charAt(kohta - 1) == ')') {</span>
+<span class="nc" id="L212">                tulkki(testi, etsiAlku(kohta - 1));</span>
+            }
+<span class="nc" id="L214">            tulkki(testi, kohta - 1);</span>
+        }
+<span class="fc" id="L216">    }</span>
+    
+    /**
+     * Metodi käsittelee erikoismerkin '+', eli &quot;vähintään yhden toiston&quot;.
+     * Käytännössä siis mikäli seuraava merkki ei ole erikoismerkki, lisätään se varmasti ainakin kerran.
+     * @param testi
+     * @param kohta 
+     */
+    
+    public void atLeastOnce(String testi, int kohta) {
+<span class="fc" id="L226">        String uustesti = lisaaja(kohta - 1, testi);</span>
+<span class="pc bpc" id="L227" title="1 of 2 branches missed.">        if (!uustesti.equals(testi)) {</span>
+<span class="fc" id="L228">            tulkki(uustesti, kohta);</span>
+<span class="fc" id="L229">            tulkki(uustesti, kohta - 2);</span>
+        } else {
+<span class="nc" id="L231">            tulkki(testi, kohta - 1);</span>
+        }
+<span class="fc" id="L233">    }</span>
+    
+    /**
+     * Metodi käsittelee erikoismerkin '|', eli &quot;tain&quot;.
+     * Käytännössä metodi vain vie sulkutason loppuun, sillä kaikki mahdolliset &quot;tait&quot; aloitetaan
+     * metodissa startOfGroup. Pieni lisämausta on kuitenkin, että tyhjä syöte sallitaan yksinkertaisten
+     * regexien lopussa epsilonina. Siispä 'a|' on sama kuin 'a|\e'.
+     * @param testi Tämänhetkinen testattava merkkijono
+     * @param kohta Säännöllisen lauseen kohta
+     */
+    
+    public void thisOrThat(String testi, int kohta) {
+<span class="fc" id="L245">        tulkki(testi, etsiAlku(kohta));</span>
+<span class="pc bpc" id="L246" title="1 of 2 branches missed.">        if (kohta == regex.length() - 1) {</span>
+<span class="nc" id="L247">            tulkki(testi, kohta - 1);</span>
+        }
+<span class="fc" id="L249">    }</span>
+    
+    /**
+     * Metodi käsittelee tilanteen, jossa nykyinen sulkutaso loppuu.
+     * Käytännössä se tutkii, voidaanko sulkutasoa toistaa merkein '*' tai '+',
+     * haarautuu toistoon ja jatkoon, tai vain jatkoon.
+     * @param testi Tämänhetkinen testattava merkkijono
+     * @param kohta Säännöllisen lauseen kohta
+     */
+    
+    public void endOfGroup(String testi, int kohta) {
+<span class="fc" id="L260">        int uusikohta = etsiLoppu(kohta);</span>
+<span class="pc bpc" id="L261" title="2 of 10 branches missed.">        if (uusikohta &lt; regex.length() - 1 &amp;&amp; (regex.charAt(uusikohta + 1) == '+' || regex.charAt(uusikohta + 1) == '*') &amp;&amp; testi.length() &gt; 0 &amp;&amp; maarat[uusikohta] &lt; testi.length()) {</span>
+<span class="fc" id="L262">            tulkki(testi, uusikohta);</span>
+        }
+<span class="fc" id="L264">        tulkki(testi, kohta - 1);</span>
+<span class="fc" id="L265">    }</span>
+    
+    /**
+     * Metodi käsittelee tilanteen, jossa kohdataan uusi sulkutaso.
+     * Käytännössä se etsii kaikki uuden tason mahdolliset aloituskohdat apufunktion avulla, ja
+     * estää ikuiset loopit merkitsemällä, minkä pituinen merkkijonon on tässä kohdassa vähintään oltava
+     * toistojen tapahtuessa.
+     * @param testi Tämänhetkinen testattava merkkijono
+     * @param kohta Säännöllisen lauseen kohta
+     */
+    
+    public void startOfGroup(String testi, int kohta) {
+<span class="fc" id="L277">        int uusikohta = etsiTai(kohta);</span>
+<span class="fc bfc" id="L278" title="All 2 branches covered.">        if (kohta != regex.length() - 1) {</span>
+<span class="fc" id="L279">            maarat[kohta] = testi.length();</span>
+        }
+<span class="fc bfc" id="L281" title="All 2 branches covered.">        while (uusikohta &gt; 0) {</span>
+<span class="fc" id="L282">            tulkki(testi, uusikohta - 1);</span>
+<span class="fc" id="L283">            uusikohta = etsiTai(uusikohta);</span>
+        }
+<span class="fc" id="L285">    }</span>
+    
+    //Getterit ja setterit UI-luokan erottamiseksi, sekä reset, jolla samaa regexiä tutkittaessa
+    //uudelleen nollataan sulkutasolista ja lukko
+    
+    public void reset() {
+<span class="nc" id="L291">        this.lukko = false;</span>
+<span class="nc" id="L292">        this.maarat = new int[regex.length()];</span>
+<span class="nc" id="L293">    }</span>
+    
+    public void setRegex(String regex) {
+<span class="fc" id="L296">        this.lukko = false;</span>
+<span class="fc" id="L297">        this.regex = regex;</span>
+<span class="fc" id="L298">        this.maarat = new int[regex.length()];</span>
+<span class="fc" id="L299">    }</span>
+    
+    public void setSana(String sana) {
+<span class="fc" id="L302">        this.sana = sana;</span>
+<span class="fc" id="L303">    }</span>
+    
+    public boolean getFound() {
+<span class="fc" id="L306">        return lukko;</span>
+    }
+    
+    public String getSana() {
+<span class="nc" id="L310">        return sana;</span>
+    }
+    
+    public String getRegex() {
+<span class="fc" id="L314">        return regex;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>
