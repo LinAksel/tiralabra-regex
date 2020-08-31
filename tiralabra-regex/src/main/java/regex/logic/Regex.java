@@ -21,6 +21,7 @@ public class Regex {
         this.lukko = false;
     }
     
+    //TÄTÄ __PITÄÄ__ SELKEYTTÄÄ ENNEN KURSSIN LOPPUA
     /** 
      * Metodi hoitaa testisyötteeseen merkin lisäämisen
      * @param kohta Säännöllisen lauseen kohta
@@ -38,6 +39,15 @@ public class Regex {
             return merkki + testi;
         } else if (regex.charAt(kohta) == '.') {
             return merkki + testi;
+        } else if (regex.charAt(kohta) == 'd' && erotus > 0) {
+            merkki = sana.charAt(erotus - 1);
+            if (isNumber(merkki)) {
+                return merkki + testi;
+            } else {
+                return "1" + testi;
+            }
+        } else if (regex.charAt(kohta) == 'd') {
+            return merkki + testi;
         }
         return testi;
     }
@@ -51,19 +61,19 @@ public class Regex {
     
     public boolean onErikoismerkki(int kohta) {
         char merkki = regex.charAt(kohta);
-        if ((merkki != ')' && merkki != '(' && merkki != '*' && merkki != '?' && merkki != '+' && merkki != '.' && merkki != '|' && merkki != (char) 92 && merkki != 'e')) {
+        if ((merkki != ')' && merkki != '(' && merkki != '*' && merkki != '?' && merkki != '+' && merkki != '.' && merkki != '|' && merkki != (char) 92 && merkki != 'e' && merkki != 'd')) {
             return false;
-        } else if (kohta > 0 && regex.charAt(kohta - 1) == (char) 92) {
+        } else if (kohta > 0 && regex.charAt(kohta - 1) == '\\') {
             int maara = 1;
-            while (kohta - maara - 1 > -1 && regex.charAt(kohta - maara - 1) == (char) 92) {
+            while (kohta - maara - 1 > -1 && regex.charAt(kohta - maara - 1) == '\\') {
                 maara++;
             }
-            if (maara % 2 != 0 && (merkki != 'e')) {
+            if (maara % 2 != 0 && (merkki != 'e' && merkki != 'd')) {
                 return false;
-            } else if (merkki == 'e' && maara > 1 && maara % 2 == 0) {
+            } else if ((merkki == 'd' || merkki == 'e') && maara > 1 && maara % 2 == 0) {
                 return false;
             }
-        } else if (kohta > 0 && regex.charAt(kohta - 1) != (char) 92 && merkki == 'e') {
+        } else if (kohta > 0 && regex.charAt(kohta - 1) != '\\' && (merkki == 'e' || merkki == 'd')) {
             return false;
         }
         return true;
@@ -282,6 +292,20 @@ public class Regex {
             tulkki(testi, uusikohta - 1);
             uusikohta = etsiTai(uusikohta);
         }
+    }
+    
+    /**
+     * Metodi tutkii, onko annettu char-muotoinen merkki numero välillä 0-9 vai ei.
+     * Ascii-arvoiltaan nämä ovat 48-57.
+     * @param merkki Tutkittava merkki
+     * @return Palauttaa true, mikäli merkki on numero, muutoin false
+     */
+    
+    public boolean isNumber(char merkki) {
+        if((int) merkki >= 48 && (int) merkki < 58) {
+            return true;
+        }
+        return false;
     }
     
     //Getterit ja setterit UI-luokan erottamiseksi, sekä reset, jolla samaa regexiä tutkittaessa

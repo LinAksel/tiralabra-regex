@@ -22,4 +22,5 @@ Päivä      | Aika (h)| Mitä tein |
 21.8.2020  | 2       | Vertaisarviossa löydetyn vian korjaus, ja lisäyksiä testeihin |
 27.8.2020  | 5       | Bugikorjailua ja venynyt vertaisarvio |
 28.8.2020  | 5       | Refaktorointi, laaja yksilötestaus ja mahdollisten uusien ominaisuuksien kokeilu |
-YHTEENSÄ   | 60       | |
+31.8.2020  | 3       | Uusi ominaisuus \d, kokeilua []-sulkeilla ja käyttöliittymän säätöä |
+YHTEENSÄ   | 63       | |

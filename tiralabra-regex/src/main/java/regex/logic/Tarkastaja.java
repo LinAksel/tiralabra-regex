@@ -44,7 +44,7 @@ public class Tarkastaja {
      */
     
     public boolean escapeErikoismerkki(char merkki) {
-        if (merkki == '(' || merkki == ')' || merkki == 'e' || merkki == '.' || merkki == '\\') {
+        if (merkki == '(' || merkki == ')' || merkki == 'e' || merkki == 'd' || merkki == '.' || merkki == '\\') {
             return true;
         }
         return false;
@@ -104,10 +104,10 @@ public class Tarkastaja {
         for (int i = 0; i < regex.length(); i++) {
             merkki = regex.charAt(i);
             if (erikoismerkki(merkki) && edellinenmeta) {
-                this.viesti = "Invalid quantifier at character " + (i + 1) + ", check for double quantifier error";
+                this.viesti = "Invalid quantifier at character " + (i + 1) + ": " + merkki + ", check for double quantifier error";
                 return false;
             } else if (!erikoismerkki(merkki) && !escapeErikoismerkki(merkki) && edellinenescape) {
-                this.viesti = "Invalid use of escape at character" + (i) + ", check the manual for supported escape uses";
+                this.viesti = "Invalid use of escape at character " + (i + 1) + ": " + merkki + ", check the manual for supported escape uses";
                 return false;
             }
             tarkastaMerkki(merkki);

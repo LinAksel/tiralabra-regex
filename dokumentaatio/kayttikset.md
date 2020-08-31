@@ -32,6 +32,8 @@ vastaa kieltä {ax, a@x}. Käytettävissä on joukko erilaisia erikoismerkkejä:
 ### \\e
  * Erikoispalautus \\e tarkoittaa merkkijonossa tyhjää. Tällöin a(\\e|bb)a vastaa kahta merkkijonoa, 'aa' tai 'abba'.
 
+### \\d
+ * Erikoispalautus \\d tarkoittaa merkkijonossa numeroa 0-9. Esimerkiksi a\\db vastaa merkkijonoja {a0b, a1b, a2b, ... a9b}.
 ## Käyttöliittymä
 
 Kun ohjelma käynnistetään, aukeaa käyttöliittymäikkuna:
