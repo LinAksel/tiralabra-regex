@@ -44,7 +44,7 @@ public class Tarkastaja {
      */
     
     public boolean escapeErikoismerkki(char merkki) {
-<span class="pc bpc" id="L47" title="2 of 10 branches missed.">        if (merkki == '(' || merkki == ')' || merkki == 'e' || merkki == '.' || merkki == '\\') {</span>
+<span class="pc bpc" id="L47" title="3 of 12 branches missed.">        if (merkki == '(' || merkki == ')' || merkki == 'e' || merkki == 'd' || merkki == '.' || merkki == '\\') {</span>
 <span class="fc" id="L48">            return true;</span>
         }
 <span class="fc" id="L50">        return false;</span>
@@ -104,10 +104,10 @@ public class Tarkastaja {
 <span class="fc bfc" id="L104" title="All 2 branches covered.">        for (int i = 0; i &lt; regex.length(); i++) {</span>
 <span class="fc" id="L105">            merkki = regex.charAt(i);</span>
 <span class="fc bfc" id="L106" title="All 4 branches covered.">            if (erikoismerkki(merkki) &amp;&amp; edellinenmeta) {</span>
-<span class="fc" id="L107">                this.viesti = &quot;Invalid quantifier at character &quot; + (i + 1) + &quot;, check for double quantifier error&quot;;</span>
+<span class="fc" id="L107">                this.viesti = &quot;Invalid quantifier at character &quot; + (i + 1) + &quot;: &quot; + merkki + &quot;, check for double quantifier error&quot;;</span>
 <span class="fc" id="L108">                return false;</span>
 <span class="fc bfc" id="L109" title="All 6 branches covered.">            } else if (!erikoismerkki(merkki) &amp;&amp; !escapeErikoismerkki(merkki) &amp;&amp; edellinenescape) {</span>
-<span class="fc" id="L110">                this.viesti = &quot;Invalid use of escape at character&quot; + (i) + &quot;, check the manual for supported escape uses&quot;;</span>
+<span class="fc" id="L110">                this.viesti = &quot;Invalid use of escape at character &quot; + (i + 1) + &quot;: &quot; + merkki + &quot;, check the manual for supported escape uses&quot;;</span>
 <span class="fc" id="L111">                return false;</span>
             }
 <span class="fc" id="L113">            tarkastaMerkki(merkki);</span>

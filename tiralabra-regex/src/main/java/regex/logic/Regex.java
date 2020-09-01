@@ -113,14 +113,14 @@ public class Regex {
         while (kohta < regex.length()) {
             kohta++;
             if (regex.charAt(kohta) == ')' && onErikoismerkki(kohta) && sulut == sullut) {
-                return kohta;
+                break;
             } else if (regex.charAt(kohta) == ')' && onErikoismerkki(kohta)) {
                 sullut++;
             } else if (regex.charAt(kohta) == '(' && onErikoismerkki(kohta)) {
                 sulut++;
             }
         }
-        return regex.length() - 1; 
+        return kohta; 
     }
     /**
      * Metodi etsii käsitelävällä sulkutasolla mahdollisesti olevan tai-merkin
@@ -302,7 +302,7 @@ public class Regex {
      */
     
     public boolean isNumber(char merkki) {
-        if((int) merkki >= 48 && (int) merkki < 58) {
+        if ((int) merkki >= 48 && (int) merkki < 58) {
             return true;
         }
         return false;

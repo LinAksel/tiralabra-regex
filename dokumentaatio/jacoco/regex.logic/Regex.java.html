@@ -21,6 +21,7 @@ public class Regex {
 <span class="fc" id="L21">        this.lukko = false;</span>
 <span class="fc" id="L22">    }</span>
     
+    //TÄTÄ __PITÄÄ__ SELKEYTTÄÄ ENNEN KURSSIN LOPPUA
     /** 
      * Metodi hoitaa testisyötteeseen merkin lisäämisen
      * @param kohta Säännöllisen lauseen kohta
@@ -29,17 +30,26 @@ public class Regex {
      */
     
     public String lisaaja(int kohta, String testi) {
-<span class="fc" id="L32">        char merkki = regex.charAt(kohta);</span>
-<span class="fc" id="L33">        int erotus = sana.length() - testi.length();</span>
-<span class="fc bfc" id="L34" title="All 2 branches covered.">        if (!onErikoismerkki(kohta)) {</span>
-<span class="fc" id="L35">            return merkki + testi;</span>
-<span class="fc bfc" id="L36" title="All 4 branches covered.">        } else if (regex.charAt(kohta) == '.' &amp;&amp; erotus &gt; 0) {</span>
-<span class="fc" id="L37">            merkki = sana.charAt(erotus - 1);</span>
-<span class="fc" id="L38">            return merkki + testi;</span>
-<span class="fc bfc" id="L39" title="All 2 branches covered.">        } else if (regex.charAt(kohta) == '.') {</span>
-<span class="fc" id="L40">            return merkki + testi;</span>
+<span class="fc" id="L33">        char merkki = regex.charAt(kohta);</span>
+<span class="fc" id="L34">        int erotus = sana.length() - testi.length();</span>
+<span class="fc bfc" id="L35" title="All 2 branches covered.">        if (!onErikoismerkki(kohta)) {</span>
+<span class="fc" id="L36">            return merkki + testi;</span>
+<span class="fc bfc" id="L37" title="All 4 branches covered.">        } else if (regex.charAt(kohta) == '.' &amp;&amp; erotus &gt; 0) {</span>
+<span class="fc" id="L38">            merkki = sana.charAt(erotus - 1);</span>
+<span class="fc" id="L39">            return merkki + testi;</span>
+<span class="fc bfc" id="L40" title="All 2 branches covered.">        } else if (regex.charAt(kohta) == '.') {</span>
+<span class="fc" id="L41">            return merkki + testi;</span>
+<span class="fc bfc" id="L42" title="All 4 branches covered.">        } else if (regex.charAt(kohta) == 'd' &amp;&amp; erotus &gt; 0) {</span>
+<span class="fc" id="L43">            merkki = sana.charAt(erotus - 1);</span>
+<span class="fc bfc" id="L44" title="All 2 branches covered.">            if (isNumber(merkki)) {</span>
+<span class="fc" id="L45">                return merkki + testi;</span>
+            } else {
+<span class="fc" id="L47">                return &quot;1&quot; + testi;</span>
+            }
+<span class="fc bfc" id="L49" title="All 2 branches covered.">        } else if (regex.charAt(kohta) == 'd') {</span>
+<span class="fc" id="L50">            return merkki + testi;</span>
         }
-<span class="fc" id="L42">        return testi;</span>
+<span class="fc" id="L52">        return testi;</span>
     }
     
     /**
@@ -50,23 +60,23 @@ public class Regex {
      */
     
     public boolean onErikoismerkki(int kohta) {
-<span class="fc" id="L53">        char merkki = regex.charAt(kohta);</span>
-<span class="fc bfc" id="L54" title="All 18 branches covered.">        if ((merkki != ')' &amp;&amp; merkki != '(' &amp;&amp; merkki != '*' &amp;&amp; merkki != '?' &amp;&amp; merkki != '+' &amp;&amp; merkki != '.' &amp;&amp; merkki != '|' &amp;&amp; merkki != (char) 92 &amp;&amp; merkki != 'e')) {</span>
-<span class="fc" id="L55">            return false;</span>
-<span class="fc bfc" id="L56" title="All 4 branches covered.">        } else if (kohta &gt; 0 &amp;&amp; regex.charAt(kohta - 1) == (char) 92) {</span>
-<span class="fc" id="L57">            int maara = 1;</span>
-<span class="pc bpc" id="L58" title="1 of 4 branches missed.">            while (kohta - maara - 1 &gt; -1 &amp;&amp; regex.charAt(kohta - maara - 1) == (char) 92) {</span>
-<span class="fc" id="L59">                maara++;</span>
+<span class="fc" id="L63">        char merkki = regex.charAt(kohta);</span>
+<span class="fc bfc" id="L64" title="All 20 branches covered.">        if ((merkki != ')' &amp;&amp; merkki != '(' &amp;&amp; merkki != '*' &amp;&amp; merkki != '?' &amp;&amp; merkki != '+' &amp;&amp; merkki != '.' &amp;&amp; merkki != '|' &amp;&amp; merkki != (char) 92 &amp;&amp; merkki != 'e' &amp;&amp; merkki != 'd')) {</span>
+<span class="fc" id="L65">            return false;</span>
+<span class="fc bfc" id="L66" title="All 4 branches covered.">        } else if (kohta &gt; 0 &amp;&amp; regex.charAt(kohta - 1) == '\\') {</span>
+<span class="fc" id="L67">            int maara = 1;</span>
+<span class="fc bfc" id="L68" title="All 4 branches covered.">            while (kohta - maara - 1 &gt; -1 &amp;&amp; regex.charAt(kohta - maara - 1) == '\\') {</span>
+<span class="fc" id="L69">                maara++;</span>
             }
-<span class="pc bpc" id="L61" title="1 of 4 branches missed.">            if (maara % 2 != 0 &amp;&amp; (merkki != 'e')) {</span>
-<span class="fc" id="L62">                return false;</span>
-<span class="pc bpc" id="L63" title="5 of 6 branches missed.">            } else if (merkki == 'e' &amp;&amp; maara &gt; 1 &amp;&amp; maara % 2 == 0) {</span>
-<span class="nc" id="L64">                return false;</span>
+<span class="fc bfc" id="L71" title="All 6 branches covered.">            if (maara % 2 != 0 &amp;&amp; (merkki != 'e' &amp;&amp; merkki != 'd')) {</span>
+<span class="fc" id="L72">                return false;</span>
+<span class="pc bpc" id="L73" title="1 of 8 branches missed.">            } else if ((merkki == 'd' || merkki == 'e') &amp;&amp; maara &gt; 1 &amp;&amp; maara % 2 == 0) {</span>
+<span class="fc" id="L74">                return false;</span>
             }
-<span class="pc bpc" id="L66" title="1 of 6 branches missed.">        } else if (kohta &gt; 0 &amp;&amp; regex.charAt(kohta - 1) != (char) 92 &amp;&amp; merkki == 'e') {</span>
-<span class="fc" id="L67">            return false;</span>
+<span class="pc bpc" id="L76" title="1 of 8 branches missed.">        } else if (kohta &gt; 0 &amp;&amp; regex.charAt(kohta - 1) != '\\' &amp;&amp; (merkki == 'e' || merkki == 'd')) {</span>
+<span class="fc" id="L77">            return false;</span>
         }
-<span class="fc" id="L69">        return true;</span>
+<span class="fc" id="L79">        return true;</span>
     }
     
     /**
@@ -76,19 +86,19 @@ public class Regex {
      */
     
     public int etsiAlku(int kohta) {
-<span class="fc" id="L79">        int sulut = 0;</span>
-<span class="fc" id="L80">        int sullut = 0;</span>
-<span class="fc bfc" id="L81" title="All 2 branches covered.">        while (kohta &gt; 0) {</span>
-<span class="fc" id="L82">            kohta--;</span>
-<span class="pc bpc" id="L83" title="1 of 6 branches missed.">            if (regex.charAt(kohta) == '(' &amp;&amp; onErikoismerkki(kohta) &amp;&amp; sulut == sullut) {</span>
-<span class="fc" id="L84">                return kohta;</span>
-<span class="pc bpc" id="L85" title="1 of 4 branches missed.">            } else if (regex.charAt(kohta) == ')' &amp;&amp; onErikoismerkki(kohta)) {</span>
-<span class="fc" id="L86">                sullut++;</span>
-<span class="pc bpc" id="L87" title="1 of 4 branches missed.">            } else if (regex.charAt(kohta) == '(' &amp;&amp; onErikoismerkki(kohta)) {</span>
-<span class="fc" id="L88">                sulut++;</span>
+<span class="fc" id="L89">        int sulut = 0;</span>
+<span class="fc" id="L90">        int sullut = 0;</span>
+<span class="fc bfc" id="L91" title="All 2 branches covered.">        while (kohta &gt; 0) {</span>
+<span class="fc" id="L92">            kohta--;</span>
+<span class="pc bpc" id="L93" title="1 of 6 branches missed.">            if (regex.charAt(kohta) == '(' &amp;&amp; onErikoismerkki(kohta) &amp;&amp; sulut == sullut) {</span>
+<span class="fc" id="L94">                return kohta;</span>
+<span class="pc bpc" id="L95" title="1 of 4 branches missed.">            } else if (regex.charAt(kohta) == ')' &amp;&amp; onErikoismerkki(kohta)) {</span>
+<span class="fc" id="L96">                sullut++;</span>
+<span class="pc bpc" id="L97" title="1 of 4 branches missed.">            } else if (regex.charAt(kohta) == '(' &amp;&amp; onErikoismerkki(kohta)) {</span>
+<span class="fc" id="L98">                sulut++;</span>
             }
         }
-<span class="fc" id="L91">        return -1;</span>
+<span class="fc" id="L101">        return -1;</span>
     }
     
     /**
@@ -98,19 +108,19 @@ public class Regex {
      */
     
     public int etsiLoppu(int kohta) {
-<span class="fc" id="L101">        int sulut = 0;</span>
-<span class="fc" id="L102">        int sullut = 0;</span>
-<span class="pc bpc" id="L103" title="1 of 2 branches missed.">        while (kohta &lt; regex.length()) {</span>
-<span class="fc" id="L104">            kohta++;</span>
-<span class="pc bpc" id="L105" title="1 of 6 branches missed.">            if (regex.charAt(kohta) == ')' &amp;&amp; onErikoismerkki(kohta) &amp;&amp; sulut == sullut) {</span>
-<span class="fc" id="L106">                return kohta;</span>
-<span class="pc bpc" id="L107" title="1 of 4 branches missed.">            } else if (regex.charAt(kohta) == ')' &amp;&amp; onErikoismerkki(kohta)) {</span>
-<span class="fc" id="L108">                sullut++;</span>
-<span class="pc bpc" id="L109" title="1 of 4 branches missed.">            } else if (regex.charAt(kohta) == '(' &amp;&amp; onErikoismerkki(kohta)) {</span>
-<span class="fc" id="L110">                sulut++;</span>
+<span class="fc" id="L111">        int sulut = 0;</span>
+<span class="fc" id="L112">        int sullut = 0;</span>
+<span class="pc bpc" id="L113" title="1 of 2 branches missed.">        while (kohta &lt; regex.length()) {</span>
+<span class="fc" id="L114">            kohta++;</span>
+<span class="pc bpc" id="L115" title="1 of 6 branches missed.">            if (regex.charAt(kohta) == ')' &amp;&amp; onErikoismerkki(kohta) &amp;&amp; sulut == sullut) {</span>
+<span class="fc" id="L116">                break;</span>
+<span class="pc bpc" id="L117" title="1 of 4 branches missed.">            } else if (regex.charAt(kohta) == ')' &amp;&amp; onErikoismerkki(kohta)) {</span>
+<span class="fc" id="L118">                sullut++;</span>
+<span class="pc bpc" id="L119" title="1 of 4 branches missed.">            } else if (regex.charAt(kohta) == '(' &amp;&amp; onErikoismerkki(kohta)) {</span>
+<span class="fc" id="L120">                sulut++;</span>
             }
         }
-<span class="nc" id="L113">        return regex.length() - 1; </span>
+<span class="fc" id="L123">        return kohta; </span>
     }
     /**
      * Metodi etsii käsitelävällä sulkutasolla mahdollisesti olevan tai-merkin
@@ -119,19 +129,19 @@ public class Regex {
      */
     
     public int etsiTai(int kohta) {
-<span class="fc" id="L122">        int sulut = 0;</span>
-<span class="fc" id="L123">        int sullut = 0;</span>
-<span class="fc bfc" id="L124" title="All 2 branches covered.">        while (kohta &gt; 0) {</span>
-<span class="fc" id="L125">            kohta--;</span>
-<span class="pc bpc" id="L126" title="1 of 4 branches missed.">            if (regex.charAt(kohta) == '(' &amp;&amp; onErikoismerkki(kohta)) {</span>
-<span class="fc" id="L127">                sulut++;</span>
-<span class="fc bfc" id="L128" title="All 4 branches covered.">            } else if (regex.charAt(kohta) == ')' &amp;&amp; onErikoismerkki(kohta)) {</span>
-<span class="fc" id="L129">                sullut++;</span>
-<span class="pc bpc" id="L130" title="1 of 6 branches missed.">            } else if (regex.charAt(kohta) == '|' &amp;&amp; onErikoismerkki(kohta) &amp;&amp; sulut == sullut) {</span>
-<span class="fc" id="L131">                return kohta;</span>
+<span class="fc" id="L132">        int sulut = 0;</span>
+<span class="fc" id="L133">        int sullut = 0;</span>
+<span class="fc bfc" id="L134" title="All 2 branches covered.">        while (kohta &gt; 0) {</span>
+<span class="fc" id="L135">            kohta--;</span>
+<span class="pc bpc" id="L136" title="1 of 4 branches missed.">            if (regex.charAt(kohta) == '(' &amp;&amp; onErikoismerkki(kohta)) {</span>
+<span class="fc" id="L137">                sulut++;</span>
+<span class="fc bfc" id="L138" title="All 4 branches covered.">            } else if (regex.charAt(kohta) == ')' &amp;&amp; onErikoismerkki(kohta)) {</span>
+<span class="fc" id="L139">                sullut++;</span>
+<span class="pc bpc" id="L140" title="1 of 6 branches missed.">            } else if (regex.charAt(kohta) == '|' &amp;&amp; onErikoismerkki(kohta) &amp;&amp; sulut == sullut) {</span>
+<span class="fc" id="L141">                return kohta;</span>
             }
         }
-<span class="fc" id="L134">        return kohta;</span>
+<span class="fc" id="L144">        return kohta;</span>
     }
     
     /**
@@ -144,35 +154,35 @@ public class Regex {
      */
     
     public void tulkki(String testi, int kohta) {
-<span class="pc bpc" id="L147" title="1 of 8 branches missed.">        if (testi.length() &gt; sana.length() || !sana.endsWith(testi) || lukko || kohta &lt; -1) {</span>
-<span class="fc" id="L148">            return;</span>
+<span class="pc bpc" id="L157" title="1 of 8 branches missed.">        if (testi.length() &gt; sana.length() || !sana.endsWith(testi) || lukko || kohta &lt; -1) {</span>
+<span class="fc" id="L158">            return;</span>
         }
-<span class="fc bfc" id="L150" title="All 2 branches covered.">        if (kohta == -1) {</span>
-<span class="fc bfc" id="L151" title="All 2 branches covered.">            if (testi.equals(sana)) {</span>
-<span class="fc" id="L152">                lukko = true;</span>
+<span class="fc bfc" id="L160" title="All 2 branches covered.">        if (kohta == -1) {</span>
+<span class="fc bfc" id="L161" title="All 2 branches covered.">            if (testi.equals(sana)) {</span>
+<span class="fc" id="L162">                lukko = true;</span>
             }
-<span class="fc" id="L154">            return;</span>
+<span class="fc" id="L164">            return;</span>
         }
-<span class="pc bpc" id="L156" title="1 of 6 branches missed.">        if ((regex.charAt(kohta) == ')' &amp;&amp; onErikoismerkki(kohta)) || kohta == regex.length() - 1) {</span>
-<span class="fc" id="L157">            startOfGroup(testi, kohta);</span>
+<span class="pc bpc" id="L166" title="1 of 6 branches missed.">        if ((regex.charAt(kohta) == ')' &amp;&amp; onErikoismerkki(kohta)) || kohta == regex.length() - 1) {</span>
+<span class="fc" id="L167">            startOfGroup(testi, kohta);</span>
         }
-<span class="pc bpc" id="L159" title="1 of 4 branches missed.">        if (regex.charAt(kohta) == '(' &amp;&amp; onErikoismerkki(kohta)) {</span>
-<span class="fc" id="L160">            endOfGroup(testi, kohta);</span>
-<span class="pc bpc" id="L161" title="1 of 4 branches missed.">        } else if (regex.charAt(kohta) == '+' &amp;&amp; onErikoismerkki(kohta)) {</span>
-<span class="fc" id="L162">            atLeastOnce(testi, kohta);</span>
-<span class="fc bfc" id="L163" title="All 4 branches covered.">        } else if (regex.charAt(kohta) == '*' &amp;&amp; onErikoismerkki(kohta)) {</span>
-<span class="fc" id="L164">            kleeneStar(testi, kohta);</span>
-<span class="pc bpc" id="L165" title="1 of 4 branches missed.">        } else if (regex.charAt(kohta) == '?' &amp;&amp; onErikoismerkki(kohta)) {</span>
-<span class="fc" id="L166">            noneOrOnce(testi, kohta);</span>
-<span class="pc bpc" id="L167" title="1 of 4 branches missed.">        } else if (regex.charAt(kohta) == '|' &amp;&amp; onErikoismerkki(kohta)) {</span>
-<span class="fc" id="L168">            thisOrThat(testi, kohta);</span>
-<span class="pc bpc" id="L169" title="1 of 4 branches missed.">        } else if (regex.charAt(kohta) == 'e' &amp;&amp; onErikoismerkki(kohta)) {</span>
-<span class="nc" id="L170">            tulkki(testi, kohta - 2);</span>
+<span class="pc bpc" id="L169" title="1 of 4 branches missed.">        if (regex.charAt(kohta) == '(' &amp;&amp; onErikoismerkki(kohta)) {</span>
+<span class="fc" id="L170">            endOfGroup(testi, kohta);</span>
+<span class="pc bpc" id="L171" title="1 of 4 branches missed.">        } else if (regex.charAt(kohta) == '+' &amp;&amp; onErikoismerkki(kohta)) {</span>
+<span class="fc" id="L172">            atLeastOnce(testi, kohta);</span>
+<span class="fc bfc" id="L173" title="All 4 branches covered.">        } else if (regex.charAt(kohta) == '*' &amp;&amp; onErikoismerkki(kohta)) {</span>
+<span class="fc" id="L174">            kleeneStar(testi, kohta);</span>
+<span class="pc bpc" id="L175" title="1 of 4 branches missed.">        } else if (regex.charAt(kohta) == '?' &amp;&amp; onErikoismerkki(kohta)) {</span>
+<span class="fc" id="L176">            noneOrOnce(testi, kohta);</span>
+<span class="pc bpc" id="L177" title="1 of 4 branches missed.">        } else if (regex.charAt(kohta) == '|' &amp;&amp; onErikoismerkki(kohta)) {</span>
+<span class="fc" id="L178">            thisOrThat(testi, kohta);</span>
+<span class="fc bfc" id="L179" title="All 4 branches covered.">        } else if (regex.charAt(kohta) == 'e' &amp;&amp; onErikoismerkki(kohta)) {</span>
+<span class="fc" id="L180">            tulkki(testi, kohta - 2);</span>
         } else {
-<span class="fc" id="L172">            String uustesti = lisaaja(kohta, testi);</span>
-<span class="fc" id="L173">            tulkki(uustesti, kohta - 1);</span>
+<span class="fc" id="L182">            String uustesti = lisaaja(kohta, testi);</span>
+<span class="fc" id="L183">            tulkki(uustesti, kohta - 1);</span>
         }
-<span class="fc" id="L175">    }</span>
+<span class="fc" id="L185">    }</span>
     
     /**
      * Metodi käsittelee erikoismerkin '*', eli mielivaltaisen toiston.
@@ -182,18 +192,18 @@ public class Regex {
      * @param kohta 
      */
     public void kleeneStar(String testi, int kohta) {
-<span class="fc" id="L185">        String uustesti = lisaaja(kohta - 1, testi);</span>
-<span class="fc bfc" id="L186" title="All 2 branches covered.">        if (!uustesti.equals(testi)) {</span>
-<span class="fc" id="L187">            tulkki(uustesti, kohta);</span>
-<span class="fc" id="L188">            tulkki(uustesti, kohta - 2);</span>
-<span class="fc" id="L189">            tulkki(testi, kohta - 2);</span>
+<span class="fc" id="L195">        String uustesti = lisaaja(kohta - 1, testi);</span>
+<span class="fc bfc" id="L196" title="All 2 branches covered.">        if (!uustesti.equals(testi)) {</span>
+<span class="fc" id="L197">            tulkki(uustesti, kohta);</span>
+<span class="fc" id="L198">            tulkki(uustesti, kohta - 2);</span>
+<span class="fc" id="L199">            tulkki(testi, kohta - 2);</span>
         } else {
-<span class="pc bpc" id="L191" title="1 of 2 branches missed.">            if (regex.charAt(kohta - 1) == ')') {</span>
-<span class="fc" id="L192">                tulkki(testi, etsiAlku(kohta - 1));</span>
+<span class="pc bpc" id="L201" title="1 of 2 branches missed.">            if (regex.charAt(kohta - 1) == ')') {</span>
+<span class="fc" id="L202">                tulkki(testi, etsiAlku(kohta - 1));</span>
             }
-<span class="fc" id="L194">            tulkki(testi, kohta - 1);</span>
+<span class="fc" id="L204">            tulkki(testi, kohta - 1);</span>
         }
-<span class="fc" id="L196">    }</span>
+<span class="fc" id="L206">    }</span>
     
     /**
      * Metodi käsittelee erikoismerkin '?', eli &quot;kerran tai ei kertaakaan&quot;.
@@ -203,17 +213,17 @@ public class Regex {
      */
     
     public void noneOrOnce(String testi, int kohta) {
-<span class="fc" id="L206">        String uustesti = lisaaja(kohta - 1, testi);</span>
-<span class="pc bpc" id="L207" title="1 of 2 branches missed.">        if (!uustesti.equals(testi)) {</span>
-<span class="fc" id="L208">            tulkki(uustesti, kohta - 2);</span>
-<span class="fc" id="L209">            tulkki(testi, kohta - 2);</span>
+<span class="fc" id="L216">        String uustesti = lisaaja(kohta - 1, testi);</span>
+<span class="fc bfc" id="L217" title="All 2 branches covered.">        if (!uustesti.equals(testi)) {</span>
+<span class="fc" id="L218">            tulkki(uustesti, kohta - 2);</span>
+<span class="fc" id="L219">            tulkki(testi, kohta - 2);</span>
         } else {
-<span class="nc bnc" id="L211" title="All 2 branches missed.">            if (regex.charAt(kohta - 1) == ')') {</span>
-<span class="nc" id="L212">                tulkki(testi, etsiAlku(kohta - 1));</span>
+<span class="pc bpc" id="L221" title="1 of 2 branches missed.">            if (regex.charAt(kohta - 1) == ')') {</span>
+<span class="fc" id="L222">                tulkki(testi, etsiAlku(kohta - 1));</span>
             }
-<span class="nc" id="L214">            tulkki(testi, kohta - 1);</span>
+<span class="fc" id="L224">            tulkki(testi, kohta - 1);</span>
         }
-<span class="fc" id="L216">    }</span>
+<span class="fc" id="L226">    }</span>
     
     /**
      * Metodi käsittelee erikoismerkin '+', eli &quot;vähintään yhden toiston&quot;.
@@ -223,14 +233,14 @@ public class Regex {
      */
     
     public void atLeastOnce(String testi, int kohta) {
-<span class="fc" id="L226">        String uustesti = lisaaja(kohta - 1, testi);</span>
-<span class="pc bpc" id="L227" title="1 of 2 branches missed.">        if (!uustesti.equals(testi)) {</span>
-<span class="fc" id="L228">            tulkki(uustesti, kohta);</span>
-<span class="fc" id="L229">            tulkki(uustesti, kohta - 2);</span>
+<span class="fc" id="L236">        String uustesti = lisaaja(kohta - 1, testi);</span>
+<span class="fc bfc" id="L237" title="All 2 branches covered.">        if (!uustesti.equals(testi)) {</span>
+<span class="fc" id="L238">            tulkki(uustesti, kohta);</span>
+<span class="fc" id="L239">            tulkki(uustesti, kohta - 2);</span>
         } else {
-<span class="nc" id="L231">            tulkki(testi, kohta - 1);</span>
+<span class="fc" id="L241">            tulkki(testi, kohta - 1);</span>
         }
-<span class="fc" id="L233">    }</span>
+<span class="fc" id="L243">    }</span>
     
     /**
      * Metodi käsittelee erikoismerkin '|', eli &quot;tain&quot;.
@@ -242,11 +252,11 @@ public class Regex {
      */
     
     public void thisOrThat(String testi, int kohta) {
-<span class="fc" id="L245">        tulkki(testi, etsiAlku(kohta));</span>
-<span class="pc bpc" id="L246" title="1 of 2 branches missed.">        if (kohta == regex.length() - 1) {</span>
-<span class="nc" id="L247">            tulkki(testi, kohta - 1);</span>
+<span class="fc" id="L255">        tulkki(testi, etsiAlku(kohta));</span>
+<span class="fc bfc" id="L256" title="All 2 branches covered.">        if (kohta == regex.length() - 1) {</span>
+<span class="fc" id="L257">            tulkki(testi, kohta - 1);</span>
         }
-<span class="fc" id="L249">    }</span>
+<span class="fc" id="L259">    }</span>
     
     /**
      * Metodi käsittelee tilanteen, jossa nykyinen sulkutaso loppuu.
@@ -257,12 +267,12 @@ public class Regex {
      */
     
     public void endOfGroup(String testi, int kohta) {
-<span class="fc" id="L260">        int uusikohta = etsiLoppu(kohta);</span>
-<span class="pc bpc" id="L261" title="2 of 10 branches missed.">        if (uusikohta &lt; regex.length() - 1 &amp;&amp; (regex.charAt(uusikohta + 1) == '+' || regex.charAt(uusikohta + 1) == '*') &amp;&amp; testi.length() &gt; 0 &amp;&amp; maarat[uusikohta] &lt; testi.length()) {</span>
-<span class="fc" id="L262">            tulkki(testi, uusikohta);</span>
+<span class="fc" id="L270">        int uusikohta = etsiLoppu(kohta);</span>
+<span class="fc bfc" id="L271" title="All 10 branches covered.">        if (uusikohta &lt; regex.length() - 1 &amp;&amp; (regex.charAt(uusikohta + 1) == '+' || regex.charAt(uusikohta + 1) == '*') &amp;&amp; testi.length() &gt; 0 &amp;&amp; maarat[uusikohta] &lt; testi.length()) {</span>
+<span class="fc" id="L272">            tulkki(testi, uusikohta);</span>
         }
-<span class="fc" id="L264">        tulkki(testi, kohta - 1);</span>
-<span class="fc" id="L265">    }</span>
+<span class="fc" id="L274">        tulkki(testi, kohta - 1);</span>
+<span class="fc" id="L275">    }</span>
     
     /**
      * Metodi käsittelee tilanteen, jossa kohdataan uusi sulkutaso.
@@ -274,44 +284,58 @@ public class Regex {
      */
     
     public void startOfGroup(String testi, int kohta) {
-<span class="fc" id="L277">        int uusikohta = etsiTai(kohta);</span>
-<span class="fc bfc" id="L278" title="All 2 branches covered.">        if (kohta != regex.length() - 1) {</span>
-<span class="fc" id="L279">            maarat[kohta] = testi.length();</span>
+<span class="fc" id="L287">        int uusikohta = etsiTai(kohta);</span>
+<span class="fc bfc" id="L288" title="All 2 branches covered.">        if (kohta != regex.length() - 1) {</span>
+<span class="fc" id="L289">            maarat[kohta] = testi.length();</span>
         }
-<span class="fc bfc" id="L281" title="All 2 branches covered.">        while (uusikohta &gt; 0) {</span>
-<span class="fc" id="L282">            tulkki(testi, uusikohta - 1);</span>
-<span class="fc" id="L283">            uusikohta = etsiTai(uusikohta);</span>
+<span class="fc bfc" id="L291" title="All 2 branches covered.">        while (uusikohta &gt; 0) {</span>
+<span class="fc" id="L292">            tulkki(testi, uusikohta - 1);</span>
+<span class="fc" id="L293">            uusikohta = etsiTai(uusikohta);</span>
         }
-<span class="fc" id="L285">    }</span>
+<span class="fc" id="L295">    }</span>
+    
+    /**
+     * Metodi tutkii, onko annettu char-muotoinen merkki numero välillä 0-9 vai ei.
+     * Ascii-arvoiltaan nämä ovat 48-57.
+     * @param merkki Tutkittava merkki
+     * @return Palauttaa true, mikäli merkki on numero, muutoin false
+     */
+    
+    public boolean isNumber(char merkki) {
+<span class="pc bpc" id="L305" title="1 of 4 branches missed.">        if((int) merkki &gt;= 48 &amp;&amp; (int) merkki &lt; 58) {</span>
+<span class="fc" id="L306">            return true;</span>
+        }
+<span class="fc" id="L308">        return false;</span>
+    }
     
     //Getterit ja setterit UI-luokan erottamiseksi, sekä reset, jolla samaa regexiä tutkittaessa
     //uudelleen nollataan sulkutasolista ja lukko
     
     public void reset() {
-<span class="nc" id="L291">        this.lukko = false;</span>
-<span class="nc" id="L292">        this.maarat = new int[regex.length()];</span>
-<span class="nc" id="L293">    }</span>
+<span class="nc" id="L315">        this.lukko = false;</span>
+<span class="nc" id="L316">        this.maarat = new int[regex.length()];</span>
+<span class="nc" id="L317">    }</span>
     
     public void setRegex(String regex) {
-<span class="fc" id="L296">        this.lukko = false;</span>
-<span class="fc" id="L297">        this.regex = regex;</span>
-<span class="fc" id="L298">        this.maarat = new int[regex.length()];</span>
-<span class="fc" id="L299">    }</span>
+<span class="fc" id="L320">        this.lukko = false;</span>
+<span class="fc" id="L321">        this.regex = regex;</span>
+<span class="fc" id="L322">        this.maarat = new int[regex.length()];</span>
+<span class="fc" id="L323">    }</span>
     
     public void setSana(String sana) {
-<span class="fc" id="L302">        this.sana = sana;</span>
-<span class="fc" id="L303">    }</span>
+<span class="fc" id="L326">        this.sana = sana;</span>
+<span class="fc" id="L327">    }</span>
     
     public boolean getFound() {
-<span class="fc" id="L306">        return lukko;</span>
+<span class="fc" id="L330">        return lukko;</span>
     }
     
     public String getSana() {
-<span class="nc" id="L310">        return sana;</span>
+<span class="nc" id="L334">        return sana;</span>
     }
     
     public String getRegex() {
-<span class="fc" id="L314">        return regex;</span>
+<span class="fc" id="L338">        return regex;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

@@ -35,6 +35,14 @@ public class TestRegex {
     }
     
     @Test
+    public void testAlternationThree() {
+        regex.setRegex("ylli|yyteri|");
+        regex.setSana("");
+        regex.tulkki("", regex.getRegex().length() - 1);
+        assertTrue(regex.getFound());
+    }
+    
+    @Test
     public void testQuestionmark() {
         regex.setRegex("a?ccb?");
         regex.setSana("acc");
@@ -51,6 +59,14 @@ public class TestRegex {
     }
     
     @Test
+    public void testQuestionmarkThree() {
+        regex.setRegex("a?(ccb)?");
+        regex.setSana("a");
+        regex.tulkki("", regex.getRegex().length() - 1);
+        assertTrue(regex.getFound());
+    }
+    
+    @Test
     public void testPlus() {
         regex.setRegex("b+s");
         regex.setSana("bbs");
@@ -64,6 +80,14 @@ public class TestRegex {
         regex.setSana("s");
         regex.tulkki("", regex.getRegex().length() - 1);
         assertFalse(regex.getFound());
+    }
+    
+    @Test
+    public void testPlusThree() {
+        regex.setRegex("(sb)+");
+        regex.setSana("sbsb");
+        regex.tulkki("", regex.getRegex().length() - 1);
+        assertTrue(regex.getFound());
     }
     
     @Test
@@ -110,8 +134,8 @@ public class TestRegex {
     
     @Test
     public void testBackslashTwo() {
-        regex.setRegex("a\\**\\)?");
-        regex.setSana("a*******)");
+        regex.setRegex("a\\**\\)?d\\\\e");
+        regex.setSana("a*******)d\\e");
         regex.tulkki("", regex.getRegex().length() - 1);
         assertTrue(regex.getFound());
     }
@@ -133,8 +157,32 @@ public class TestRegex {
     }
     
     @Test
+    public void testEpsilon() {
+        regex.setRegex("a\\eb");
+        regex.setSana("ab");
+        regex.tulkki("", regex.getRegex().length() - 1);
+        assertTrue(regex.getFound());
+    }
+    
+    @Test
+    public void testDigit() {
+        regex.setRegex("\\d*abc");
+        regex.setSana("123abc");
+        regex.tulkki("", regex.getRegex().length() - 1);
+        assertTrue(regex.getFound());
+    }
+    
+    @Test
+    public void testDigitTwo() {
+        regex.setRegex("\\d*abc");
+        regex.setSana("abcabc");
+        regex.tulkki("", regex.getRegex().length() - 1);
+        assertFalse(regex.getFound());
+    }
+    
+    @Test
     public void comboTest1() {
-        regex.setRegex("a(\\\\*|(b+a.)|\\.?)*ka");
+        regex.setRegex("a(\\\\*|(b+a.)|\\.?)*k(a)");
         regex.setSana("a\\\\\\.bai..ka");
         regex.tulkki("", regex.getRegex().length() - 1);
         assertTrue(regex.getFound());
@@ -150,7 +198,7 @@ public class TestRegex {
     
     @Test
     public void comboTest3() {
-        regex.setRegex("ab(c|d)*.*");
+        regex.setRegex("ab(c|d)+.*");
         regex.setSana("xabd");
         assertFalse(regex.getFound());
     }
