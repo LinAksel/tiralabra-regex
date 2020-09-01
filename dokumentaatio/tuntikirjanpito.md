@@ -23,4 +23,5 @@ Päivä      | Aika (h)| Mitä tein |
 27.8.2020  | 5       | Bugikorjailua ja venynyt vertaisarvio |
 28.8.2020  | 5       | Refaktorointi, laaja yksilötestaus ja mahdollisten uusien ominaisuuksien kokeilu |
 31.8.2020  | 3       | Uusi ominaisuus \d, kokeilua []-sulkeilla ja käyttöliittymän säätöä |
-YHTEENSÄ   | 63       | |
+1.9.2020   | 2       | Testien lisäystä ja määrittelydokumentin uudelleenkirjoitus |
+YHTEENSÄ   | 65       | |
