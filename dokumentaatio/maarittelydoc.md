@@ -1,27 +1,27 @@
-# RegEx
+# RegEx-tulkki
 
-Projektin tarkoituksena on kehittää ja vertailla muutamaa erilaista säännöllisten lauseiden tulkkia.
-Käyttäjä syöttää ohjelmalle ensin säännöllisen lauseen, ja sitten tekstiä/tiedoston, josta ohjelman on tarkoitus löytää ilmaisua vastaavat kohdat.
-Projektissa vertailen erilaisia toteutuksia tulkista, ja pyrin luomaan mahdollisimman monipuolisen ja optimoidun "päätulkin".
-Käytettävä kieli tulee olemaan Java.
+Projektin tarkoituksena on kehittää toimiva ja käytännön tilanteissa nopea säännöllisten lauseiden tulkki. Kyseessä on nimenomaan tulkki, eli ohjelma ei rakenna automaattia (NFA/DFA) annetusta lausekkeesta, vaan pyrkii rakentamaan käyttäjän antaman, vertailtavan merkkijonon "syömällä" säännöllistä lauseketta, ja rakentamalla mahdollisia lausekkeen muodostaman säännöllisen kielen yksittäisiä merkkijonoja. Toiminnallisuuksiltaan tulkki on rajoitetumpi kuin monet modernit regex-moottorit, mutta toteuttaa kuitenkin vähintään kaikkien säännöllisten kielten tunnistamiseen vaaditut toiminnallisuudet. Projektin ohjelmointikielenä on Java, pitkälti tuttuuden ja muillakin kursseilla (toistaiseksi) käytön takia.
 
-### Vaativuudet 
+### Tietorakenteet
 
-Käännettäessä epädeterministinen automaatti (NFA) kokonaisuudessaan deterministiseksi (DFA) aika- ja muistivaatimus on O(2<sup>m</sup>), jossa m on säännöllisen lauseen pituus,
-mutta vertailujen aika on O(n), jossa n on vertailtavan merkkijonon pituus. Jos NFA:ta vain simuloidaan rakentamalla DFA:n tilat vain tarvittaessa,
-on rakennusvaatimus pienempi, mutta vertailujen aikavaatimus kasvaa O(nm)-aikaan. Näiden perustyylien lisäksi on mahdollista optimoida algoritmejä edelleen,
-ja tavoitteenani on luoda päätulkista aikavaatimukseltaan mainittuja parempi.
+Näyttää siltä, että projekti on mahdollista toteuttaa käyttämällä vain Javan perustietorakenteita String, Boolean, int ja char, sekä perustaulukkoa näistä (esim. int[]). Tämä voi kuitenkin muuttua projektin edetessä, ja tällöin tarvittavia tietorakenteita toteutetaan tarpeen mukaan itse.
 
-### Miksi?
+### Käyttö
 
-Laskennan mallit-kurssi oli mielestäni kiinnostava ja merkkijonoalgoritmit alkoivat kiinostaa enemmän Algoritmit ongelmanratkaisussa-kurssin aikana, joten säännöllisten lauseiden tulkin toteutus tuntuu sopivalta jatkolta näile.
-Haluan myös oppia ymmärtämään säännöllisten lauseiden koostamista paremmin, ja tämä projekti osaltaan pakottaa siihen.
+Käyttäjä syöttää ohjelmaan aina kaksi eri merkkijonoa: säännöllisen lausekkeen ja tähän verrattavan merkkijonon. Tämän jälkeen ohjelma kertoo, kuuluuko annettu merkkijono lausekkeen muodostamaan säännölliseen kieleen.
 
-## Lähteet
+### Vaativuudet
 
-* [https://en.wikipedia.org/wiki/Regular_expression](https://en.wikipedia.org/wiki/Regular_expression)
+Ohjelman teoreettinen aikavaativuus rekursiototeutuksella on O(n<sup>3</sup>). Tämä johtuu siitä, että Kleenen tähti kohdattaessa joudutaan haarautumaan kolmeen: lisätään ja jäädään tähteen, lisätään ja jatketaan eteenpäin, ei lisätä ja jatketaan. Tämä voidaan kuitenkin korjata käytännön tilanteisiin peruuttavaa hakua optimoimalla niin, että kaikkia haaroja ei käydä loppuun asti, vaan yksikin väärä merkki katkaisee vertailun, samoin merkkijonoa pidemmäksi edennyt vertailu. Käytännön tilanteissa tulkin tulisi toimia siis hyvinkin nopeasti.
 
-* [https://www.cs.helsinki.fi/u/hisahi/sanastot/regex.html](https://www.cs.helsinki.fi/u/hisahi/sanastot/regex.html)
+### Lähteet
 
-* [https://swtch.com/~rsc/regexp/regexp1.html](https://swtch.com/~rsc/regexp/regexp1.html)
+* [https://en.wikipedia.org/wiki/Regular_expression](https://en.wikipedia.org/wiki/Regular_expression) Yleistä säännöllisistä lausekkeista
 
+* [https://www.cs.helsinki.fi/u/hisahi/sanastot/regex.html](https://www.cs.helsinki.fi/u/hisahi/sanastot/regex.html) Suomenkielistä RegEx-sanastoa
+
+* [https://swtch.com/~rsc/regexp/regexp1.html](https://swtch.com/~rsc/regexp/regexp1.html) Loistava artikkelisarja RegEx-moottorien toteuttamisesta
+
+* [https://www.rexegg.com/regex-quickstart.html](https://www.rexegg.com/regex-quickstart.html) Kattava ja selkeä listaus eri toiminnoista
+
+[Linkki kurssin alussa tehtyyn, vanhentuneeseen dokumenttiin](/dokumentaatio/arkisto/maarittelydocOLD.md)

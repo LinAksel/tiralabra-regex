@@ -30,8 +30,8 @@ public class Performance {
      */
     
     public static void sulkuTestaus() {
-        regex.setRegex("(a)*");
-        regex.setSana("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+        regex.setRegex("(.)*");
+        regex.setSana("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaxxxxxxxxxxxxxxxxxxxaaaaaaaaaaaaaaayyyyyyyyyyaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
         
         while (regex.getRegex().length() < 1000)  {
             long alku = System.currentTimeMillis();
@@ -39,6 +39,19 @@ public class Performance {
             long aika = System.currentTimeMillis() - alku;
             System.out.println(aika + " tunnistettu: " + regex.getFound());
             regex.setRegex("(" + regex.getRegex() + ")*");
+        }
+    }
+    
+    public static void sulkuTestaus2() {
+        regex.setRegex("((((((((((((((((((((((((((((((.)*)*)*)*)*)*)*)*)*)*)*)*)*)*)*)*)*)*)*)*)*)*)*)*)*)*)*)*)*)*");
+        regex.setSana("a");
+        
+        while (regex.getSana().length() < 1000)  {
+            long alku = System.currentTimeMillis();
+            regex.tulkki("", regex.getRegex().length() - 1);
+            long aika = System.currentTimeMillis() - alku;
+            System.out.println(aika + " tunnistettu: " + regex.getFound());
+            regex.setSana(regex.getSana() + (char) System.currentTimeMillis() % 200);
         }
     }
     
