@@ -5,7 +5,7 @@
  */
 package regex.ui;
 
-import regex.logic.Tarkastaja;
+import regex.logic.Validator;
 import regex.logic.Regex;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -35,10 +35,10 @@ public class GUI {
         
         Regex regex = new Regex();
         regex.setRegex("");
-        regex.setSana("");
+        regex.setString("");
         
-        JPanel kentat = new JPanel();
-        JPanel lokit = new JPanel();
+        JPanel fields = new JPanel();
+        JPanel logs = new JPanel();
         
         JLabel l1 = new JLabel("Current regex: ");
         
@@ -50,39 +50,39 @@ public class GUI {
         JButton stringrewind = new JButton("" + (char) 9194);
         JButton stringenter = new JButton("Enter string");
         
-        JTextArea loki = new JTextArea();
-        loki.setEditable(false);
-        JScrollPane scrollPane = new JScrollPane(loki);
+        JTextArea log = new JTextArea();
+        log.setEditable(false);
+        JScrollPane scrollPane = new JScrollPane(log);
         
-        ActionListener kuuntelijaR = new ActionListener() {
+        ActionListener listenerR = new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                String reggex = regexfield.getText();
-                Tarkastaja tarkastaja = new Tarkastaja(reggex);
-                if (tarkastaja.tarkasta()) {
-                    loki.append("New regex set: " + reggex + "\n");
-                    loki.setCaretPosition(loki.getDocument().getLength());
-                    regex.setRegex(reggex);
-                    l1.setText("Current regex: " + reggex);
+                String newregex = regexfield.getText();
+                Validator validator = new Validator(newregex);
+                if (validator.validate()) {
+                    log.append("New regex set: " + newregex + "\n");
+                    log.setCaretPosition(log.getDocument().getLength());
+                    regex.setRegex(newregex);
+                    l1.setText("Current regex: " + newregex);
                     regexfield.setText("");
                 } else {
-                    JOptionPane.showMessageDialog(frame, tarkastaja.getViesti());
+                    JOptionPane.showMessageDialog(frame, validator.getMessage());
                 }
             }
         };
         
-        ActionListener kuuntelijaS = new ActionListener() {
+        ActionListener listenerS = new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                String syote = stringfield.getText();
-                regex.setSana(syote);
-                regex.tulkki("", regex.getRegex().length() - 1);
+                String input = stringfield.getText();
+                regex.setString(input);
+                regex.translator("", regex.getRegex().length() - 1);
                 if (regex.getFound()) {
-                    loki.append(syote + " " + (char) 10004 + "\n");
-                    lokit.setBackground(Color.green);
-                    kentat.setBackground(Color.green);
+                    log.append(input + " " + (char) 10004 + "\n");
+                    logs.setBackground(Color.green);
+                    fields.setBackground(Color.green);
                 } else {
-                    loki.append(syote + " " + (char) 10060 + "\n");
-                    lokit.setBackground(Color.red);
-                    kentat.setBackground(Color.red);
+                    log.append(input + " " + (char) 10060 + "\n");
+                    logs.setBackground(Color.red);
+                    fields.setBackground(Color.red);
                 }
                 stringfield.setText("");
             }
@@ -96,7 +96,7 @@ public class GUI {
         
         ActionListener buttonS = new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                stringfield.setText(regex.getSana());
+                stringfield.setText(regex.getString());
             }
         };
         
@@ -104,26 +104,26 @@ public class GUI {
         regexfield.setPreferredSize(new Dimension(360, 20));
         scrollPane.setPreferredSize(new Dimension(350, 200));
         
-        regexfield.addActionListener(kuuntelijaR);
-        stringfield.addActionListener(kuuntelijaS);
+        regexfield.addActionListener(listenerR);
+        stringfield.addActionListener(listenerS);
         regexrewind.addActionListener(buttonR);
-        regexenter.addActionListener(kuuntelijaR);
+        regexenter.addActionListener(listenerR);
         stringrewind.addActionListener(buttonS);
-        stringenter.addActionListener(kuuntelijaS);
+        stringenter.addActionListener(listenerS);
         
-        kentat.add(regexfield);
-        kentat.add(regexenter);
-        kentat.add(regexrewind);
-        kentat.add(stringfield);
-        kentat.add(stringenter);
-        kentat.add(stringrewind);
-        kentat.add(l1);
+        fields.add(regexfield);
+        fields.add(regexenter);
+        fields.add(regexrewind);
+        fields.add(stringfield);
+        fields.add(stringenter);
+        fields.add(stringrewind);
+        fields.add(l1);
         
-        lokit.add(scrollPane);
+        logs.add(scrollPane);
         
-        kentat.setPreferredSize(new Dimension(540, 90));
-        frame.add(kentat, BorderLayout.NORTH);
-        frame.add(lokit, BorderLayout.CENTER);
+        fields.setPreferredSize(new Dimension(540, 90));
+        frame.add(fields, BorderLayout.NORTH);
+        frame.add(logs, BorderLayout.CENTER);
         frame.setLocationRelativeTo(null);
         frame.setResizable(false);
         frame.pack();

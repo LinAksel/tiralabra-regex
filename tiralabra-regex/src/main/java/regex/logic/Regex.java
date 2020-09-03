@@ -13,72 +13,65 @@ package regex.logic;
 public class Regex {
     
     private String regex;
-    private String sana;
-    private Boolean lukko;
-    private int[] maarat;
-    private int maara = 0;
+    private String string;
+    private Boolean matchfound;
+    private int[] lolimits;
     
     /**
      * Luokan konstruktori.
      */
     
     public Regex() {
-        this.lukko = false;
+        this.matchfound = false;
     }
     
-    //TÄTÄ __PITÄÄ__ SELKEYTTÄÄ ENNEN KURSSIN LOPPUA
     /** 
      * Metodi hoitaa testisyötteeseen merkin lisäämisen.
-     * @param kohta Säännöllisen lauseen kohta
-     * @param testi Rakennettava merkkijono, jota verrataan sanaan.
+     * @param index Säännöllisen lauseen kohta
+     * @param test Rakennettava merkkijono, jota verrataan sanaan.
      * @return Palauttaa joko annetun testijonon tai testijonon, johon lisätty kirjain
      */
     
-    public String lisaaja(int kohta, String testi) {
-        char merkki = regex.charAt(kohta);
-        int erotus = sana.length() - testi.length();
-        if (!onErikoismerkki(kohta)) {
-            return merkki + testi;
-        } else if (regex.charAt(kohta) == '.' && erotus > 0) {
-            merkki = sana.charAt(erotus - 1);
-            return merkki + testi;
-        } else if (regex.charAt(kohta) == '.') {
-            return merkki + testi;
-        } else if (regex.charAt(kohta) == 'd' && erotus > 0) {
-            merkki = sana.charAt(erotus - 1);
-            if (isNumber(merkki)) {
-                return merkki + testi;
-            } else {
-                return "1" + testi;
-            }
-        } else if (regex.charAt(kohta) == 'd') {
-            return merkki + testi;
+    public String stringBuilder(int index, String test) {
+        char character = regex.charAt(index);
+        int diff = string.length() - test.length();
+        if (!isSpecialCharacter(index)) {
+            return character + test;
+        } else if (regex.charAt(index) == '.' && diff > 0) {
+            character = string.charAt(diff - 1);
+            return character + test;
+        } else if (regex.charAt(index) == '.') {
+            return character + test;
+        } else if (regex.charAt(index) == 'd' && diff > 0 && isNumber(string.charAt(diff - 1))) {
+            character = string.charAt(diff - 1);
+            return character + test;
+        } else if (regex.charAt(index) == 'd') {
+            return "1" + test;
         }
-        return testi;
+        return test;
     }
     
     /**
-     * Metodi tarkistaa, toimiiko säännöllisen lauseen annetussa kohdassa oleva merkki.
-     * metamerkkinä vai tavallisena merkkinä
-     * @param kohta Säännöllisen lauseen kohta
-     * @return Palauttaa true, jos kyseessä metamerkki, muutoin false
+     * Metodi tarkistaa, toimiiko säännöllisen lauseen annetussa kohdassa oleva merkki erikoismerkkinä.
+     * @param index Säännöllisen lauseen kohta
+     * @return Palauttaa true, jos kyseessä erikoismerkki, muutoin false
      */
     
-    public boolean onErikoismerkki(int kohta) {
-        char merkki = regex.charAt(kohta);
-        if ((merkki != ')' && merkki != '(' && merkki != '*' && merkki != '?' && merkki != '+' && merkki != '.' && merkki != '|' && merkki != (char) 92 && merkki != 'e' && merkki != 'd')) {
+    public boolean isSpecialCharacter(int index) {
+        char character = regex.charAt(index);
+        if ((character != ')' && character != '(' && character != '*' && character != '?' && character != '+' && character != '.' && character != '|' && character != (char) 92 && character != 'e' && character != 'd')) {
             return false;
-        } else if (kohta > 0 && regex.charAt(kohta - 1) == '\\') {
-            int maara = 1;
-            while (kohta - maara - 1 > -1 && regex.charAt(kohta - maara - 1) == '\\') {
-                maara++;
+        } else if (index > 0 && regex.charAt(index - 1) == '\\') {
+            int escapes = 1;
+            while (index - escapes - 1 > -1 && regex.charAt(index - escapes - 1) == '\\') {
+                escapes++;
             }
-            if (maara % 2 != 0 && (merkki != 'e' && merkki != 'd')) {
+            if (escapes % 2 != 0 && (character != 'e' && character != 'd')) {
                 return false;
-            } else if ((merkki == 'd' || merkki == 'e') && maara % 2 == 0) {
+            } else if ((character == 'd' || character == 'e') && escapes % 2 == 0) {
                 return false;
             }
-        } else if (kohta > 0 && (merkki == 'e' || merkki == 'd')) {
+        } else if (index > 0 && (character == 'e' || character == 'd')) {
             return false;
         }
         return true;
@@ -86,21 +79,21 @@ public class Regex {
     
     /**
      * Metodi etsii käsiteltävän sulkutason alun.
-     * @param kohta Säännöllisen lauseen kohta
+     * @param index Säännöllisen lauseen kohta
      * @return Palauttaa sulkutason aloituskohdan
      */
     
-    public int etsiAlku(int kohta) {
-        int sulut = 0;
-        int sullut = 0;
-        while (kohta > 0) {
-            kohta--;
-            if (regex.charAt(kohta) == '(' && onErikoismerkki(kohta) && sulut == sullut) {
-                return kohta;
-            } else if (regex.charAt(kohta) == ')' && onErikoismerkki(kohta)) {
-                sullut++;
-            } else if (regex.charAt(kohta) == '(' && onErikoismerkki(kohta)) {
-                sulut++;
+    public int findStart(int index) {
+        int open = 0;
+        int close = 0;
+        while (index > 0) {
+            index--;
+            if (regex.charAt(index) == '(' && isSpecialCharacter(index) && open == close) {
+                return index;
+            } else if (regex.charAt(index) == ')' && isSpecialCharacter(index)) {
+                close++;
+            } else if (regex.charAt(index) == '(' && isSpecialCharacter(index)) {
+                open++;
             }
         }
         return -1;
@@ -108,206 +101,196 @@ public class Regex {
     
     /**
      * Metodi etsii käsiteltävän sulkutason lopun.
-     * @param kohta Säännöllisen lauseen kohta
+     * @param index Säännöllisen lauseen kohta
      * @return Palauttaa sulkutason päätöskohdan
      */
     
-    public int etsiLoppu(int kohta) {
-        int sulut = 0;
-        int sullut = 0;
-        while (kohta < regex.length() - 1) {
-            kohta++;
-            if (regex.charAt(kohta) == ')' && onErikoismerkki(kohta) && sulut == sullut) {
+    public int findEnding(int index) {
+        int open = 0;
+        int close = 0;
+        while (index < regex.length() - 1) {
+            index++;
+            if (regex.charAt(index) == ')' && isSpecialCharacter(index) && open == close) {
                 break;
-            } else if (regex.charAt(kohta) == ')' && onErikoismerkki(kohta)) {
-                sullut++;
-            } else if (regex.charAt(kohta) == '(' && onErikoismerkki(kohta)) {
-                sulut++;
+            } else if (regex.charAt(index) == ')' && isSpecialCharacter(index)) {
+                close++;
+            } else if (regex.charAt(index) == '(' && isSpecialCharacter(index)) {
+                open++;
             }
         }
-        return kohta; 
+        return index; 
     }
     /**
      * Metodi etsii käsitelävällä sulkutasolla mahdollisesti olevan tai-merkin.
-     * @param kohta Säännöllisen lauseen kohta
+     * @param index Säännöllisen lauseen kohta
      * @return Palauttaa joko sopivan tai-merkin kohdan tai säännöllisen lauseen alun
      */
     
-    public int etsiTai(int kohta) {
-        int sulut = 0;
-        int sullut = 0;
-        while (kohta > 0) {
-            kohta--;
-            if (regex.charAt(kohta) == '(' && onErikoismerkki(kohta)) {
-                sulut++;
-            } else if (regex.charAt(kohta) == ')' && onErikoismerkki(kohta)) {
-                sullut++;
-            } else if (regex.charAt(kohta) == '|' && onErikoismerkki(kohta) && sulut == sullut) {
-                return kohta;
+    public int findOr(int index) {
+        int open = 0;
+        int close = 0;
+        while (index > 0) {
+            index--;
+            if (regex.charAt(index) == '(' && isSpecialCharacter(index)) {
+                open++;
+            } else if (regex.charAt(index) == ')' && isSpecialCharacter(index)) {
+                close++;
+            } else if (regex.charAt(index) == '|' && isSpecialCharacter(index) && open == close) {
+                return index;
             }
         }
-        return kohta;
+        return index;
     }
     
     /**
      * Tulkin toiminnallinen osa. Metodi käy läpi annettua säännöllistä lausetta oikealta vasemmalle,
      * ja rakentaa sen pohjalta rekursiivisesti merkkijonoja, joita verrataan annettuun sanaan.
-     * Mikäli vastaavuus löytyy annetun sanan ja testimerkkijonon väliltä niin, että ollaan päästy samalla säännöllisen lauseen loppuun,
-     * kytketään päälle lukko, joka pysäyttää nopeasti loput rekursiot ja toimii myös "löydetty"-totuusarvona.
-     * @param testi Säännöllisen lauseen pohjalta rakennettavia testimerkkijonoja
-     * @param kohta Säännöllisen lauseen kohta
+     * @param test Säännöllisen lauseen pohjalta rakennettavia testimerkkijonoja
+     * @param index Säännöllisen lauseen kohta
      */
     
-    public void tulkki(String testi, int kohta) {
-        if (testi.length() > sana.length() || !sana.endsWith(testi) || lukko || kohta < -1) {
+    public void translator(String test, int index) {
+        if (test.length() > string.length() || !string.endsWith(test) || matchfound || index < -1) {
             return;
         }
-        if (kohta == -1) {
-            if (testi.equals(sana)) {
-                lukko = true;
+        if (index == -1) {
+            if (test.equals(string)) {
+                matchfound = true;
             }
             return;
         }
-        if ((regex.charAt(kohta) == ')' && onErikoismerkki(kohta)) || kohta == regex.length() - 1) {
-            startOfGroup(testi, kohta);
+        if ((regex.charAt(index) == ')' && isSpecialCharacter(index)) || index == regex.length() - 1) {
+            startOfGroup(test, index);
         }
-        if (regex.charAt(kohta) == '(' && onErikoismerkki(kohta)) {
-            endOfGroup(testi, kohta);
-        } else if (regex.charAt(kohta) == '+' && onErikoismerkki(kohta)) {
-            atLeastOnce(testi, kohta);
-        } else if (regex.charAt(kohta) == '*' && onErikoismerkki(kohta)) {
-            kleeneStar(testi, kohta);
-        } else if (regex.charAt(kohta) == '?' && onErikoismerkki(kohta)) {
-            noneOrOnce(testi, kohta);
-        } else if (regex.charAt(kohta) == '|' && onErikoismerkki(kohta)) {
-            thisOrThat(testi, kohta);
-        } else if (regex.charAt(kohta) == 'e' && onErikoismerkki(kohta)) {
-            tulkki(testi, kohta - 2);
+        if (regex.charAt(index) == '(' && isSpecialCharacter(index)) {
+            endOfGroup(test, index);
+        } else if (regex.charAt(index) == '+' && isSpecialCharacter(index)) {
+            atLeastOnce(test, index);
+        } else if (regex.charAt(index) == '*' && isSpecialCharacter(index)) {
+            kleeneStar(test, index);
+        } else if (regex.charAt(index) == '?' && isSpecialCharacter(index)) {
+            noneOrOnce(test, index);
+        } else if (regex.charAt(index) == '|' && isSpecialCharacter(index)) {
+            thisOrThat(test, index);
+        } else if (regex.charAt(index) == 'e' && isSpecialCharacter(index)) {
+            translator(test, index - 2);
         } else {
-            String uustesti = lisaaja(kohta, testi);
-            tulkki(uustesti, kohta - 1);
+            String newtest = stringBuilder(index, test);
+            translator(newtest, index - 1);
         }
     }
     
     /**
      * Metodi käsittelee erikoismerkin '*', eli mielivaltaisen toiston.
-     * Tässä haaraudutaan kolmeen: lisätään merkki ja pysytään paikallaan, lisätään ja jatketaan,
-     * tai ei lisätä ja jatketaan.
-     * @param testi Tämänhetkinen testattava merkkijono
-     * @param kohta Säännöllisen lauseen kohta
+     * @param test Tämänhetkinen testattava merkkijono
+     * @param index Säännöllisen lauseen kohta
      */
-    public void kleeneStar(String testi, int kohta) {
-        String uustesti = lisaaja(kohta - 1, testi);
-        if (!uustesti.equals(testi)) {
-            tulkki(uustesti, kohta);
-            tulkki(uustesti, kohta - 2);
-            tulkki(testi, kohta - 2);
+    public void kleeneStar(String test, int index) {
+        String newtest = stringBuilder(index - 1, test);
+        if (!newtest.equals(test)) {
+            translator(newtest, index);
+            translator(newtest, index - 2);
+            translator(test, index - 2);
         } else {
-            if (regex.charAt(kohta - 1) == ')') {
-                tulkki(testi, etsiAlku(kohta - 1));
+            if (regex.charAt(index - 1) == ')') {
+                translator(test, findStart(index - 1));
             }
-            tulkki(testi, kohta - 1);
+            translator(test, index - 1);
         }
     }
     
     /**
      * Metodi käsittelee erikoismerkin '?', eli "kerran tai ei kertaakaan".
-     * Käytännössä haaraudutaan siis kahteen, lisätyn ja lisäämättömän merkin tilanteeseen.
-     * @param testi Tämänhetkinen testattava merkkijono
-     * @param kohta Säännöllisen lauseen kohta
+     * @param test Tämänhetkinen testattava merkkijono
+     * @param index Säännöllisen lauseen kohta
      */
     
-    public void noneOrOnce(String testi, int kohta) {
-        String uustesti = lisaaja(kohta - 1, testi);
-        if (!uustesti.equals(testi)) {
-            tulkki(uustesti, kohta - 2);
-            tulkki(testi, kohta - 2);
+    public void noneOrOnce(String test, int index) {
+        String newtest = stringBuilder(index - 1, test);
+        if (!newtest.equals(test)) {
+            translator(newtest, index - 2);
+            translator(test, index - 2);
         } else {
-            if (regex.charAt(kohta - 1) == ')') {
-                tulkki(testi, etsiAlku(kohta - 1));
+            if (regex.charAt(index - 1) == ')') {
+                translator(test, findStart(index - 1));
             }
-            tulkki(testi, kohta - 1);
+            translator(test, index - 1);
         }
     }
     
     /**
      * Metodi käsittelee erikoismerkin '+', eli "vähintään yhden toiston".
-     * Käytännössä siis mikäli seuraava merkki ei ole erikoismerkki, lisätään se varmasti ainakin kerran.
-     * @param testi Tämänhetkinen testattava merkkijono
-     * @param kohta Säännöllisen lauseen kohta
+     * @param test Tämänhetkinen testattava merkkijono
+     * @param index Säännöllisen lauseen kohta
      */
     
-    public void atLeastOnce(String testi, int kohta) {
-        String uustesti = lisaaja(kohta - 1, testi);
-        if (!uustesti.equals(testi)) {
-            tulkki(uustesti, kohta);
-            tulkki(uustesti, kohta - 2);
+    public void atLeastOnce(String test, int index) {
+        String newtest = stringBuilder(index - 1, test);
+        if (!newtest.equals(test)) {
+            translator(newtest, index);
+            translator(newtest, index - 2);
         } else {
-            tulkki(testi, kohta - 1);
+            translator(test, index - 1);
         }
     }
     
     /**
      * Metodi käsittelee erikoismerkin '|', eli "tain".
      * Käytännössä metodi vain vie sulkutason loppuun, sillä kaikki mahdolliset "tait" aloitetaan
-     * metodissa startOfGroup. Pieni lisämausta on kuitenkin, että tyhjä syöte sallitaan yksinkertaisten
-     * regexien lopussa epsilonina. Siispä 'a|' on sama kuin 'a|\e'.
-     * @param testi Tämänhetkinen testattava merkkijono
-     * @param kohta Säännöllisen lauseen kohta
+     * metodissa startOfGroup.
+     * @param test Tämänhetkinen testattava merkkijono
+     * @param index Säännöllisen lauseen kohta
      */
     
-    public void thisOrThat(String testi, int kohta) {
-        tulkki(testi, etsiAlku(kohta));
-        if (kohta == regex.length() - 1) {
-            tulkki(testi, kohta - 1);
+    public void thisOrThat(String test, int index) {
+        translator(test, findStart(index));
+        if (index == regex.length() - 1) {
+            translator(test, index - 1);
         }
     }
     
     /**
-     * Metodi käsittelee tilanteen, jossa nykyinen sulkutaso loppuu.
-     * Käytännössä se tutkii, voidaanko sulkutasoa toistaa merkein '*' tai '+',
-     * haarautuu toistoon ja jatkoon, tai vain jatkoon.
-     * @param testi Tämänhetkinen testattava merkkijono
-     * @param kohta Säännöllisen lauseen kohta
+     * Metodi käsittelee tilanteen, jossa nykyinen sulkutaso loppuu, ja tason mahdollisen toiston.
+     * @param test Tämänhetkinen testattava merkkijono
+     * @param index Säännöllisen lauseen kohta
      */
     
-    public void endOfGroup(String testi, int kohta) {
-        int uusikohta = etsiLoppu(kohta);
-        if (uusikohta < regex.length() - 1 && (regex.charAt(uusikohta + 1) == '+' || regex.charAt(uusikohta + 1) == '*') && testi.length() > 0 && maarat[uusikohta] < testi.length()) {
-            tulkki(testi, uusikohta);
+    public void endOfGroup(String test, int index) {
+        int newindex = findEnding(index);
+        if (newindex < regex.length() - 1 && (regex.charAt(newindex + 1) == '+' || regex.charAt(newindex + 1) == '*') && test.length() > 0 && lolimits[newindex] < test.length()) {
+            translator(test, newindex);
         }
-        tulkki(testi, kohta - 1);
+        translator(test, index - 1);
     }
     
     /**
      * Metodi käsittelee tilanteen, jossa kohdataan uusi sulkutaso.
-     * Käytännössä se etsii kaikki uuden tason mahdolliset aloituskohdat apufunktion avulla, ja
-     * estää ikuiset loopit merkitsemällä, minkä pituinen merkkijonon on tässä kohdassa vähintään oltava
-     * toistojen tapahtuessa.
-     * @param testi Tämänhetkinen testattava merkkijono
-     * @param kohta Säännöllisen lauseen kohta
+     * Metodi etsii tason mahdolliset aloituskohdat avulla, ja
+     * estää tyhjän loopin merkitsemällä listaan toistomerkkijonon vähimmäispituuden.
+     * @param test Tämänhetkinen testattava merkkijono
+     * @param index Säännöllisen lauseen kohta
      */
     
-    public void startOfGroup(String testi, int kohta) {
-        int uusikohta = etsiTai(kohta);
-        if (kohta != regex.length() - 1) {
-            maarat[kohta] = testi.length();
+    public void startOfGroup(String test, int index) {
+        int newindex = findOr(index);
+        if (index != regex.length() - 1) {
+            lolimits[index] = test.length();
         }
-        while (uusikohta > 0) {
-            tulkki(testi, uusikohta - 1);
-            uusikohta = etsiTai(uusikohta);
+        while (newindex > 0) {
+            translator(test, newindex - 1);
+            newindex = findOr(newindex);
         }
     }
     
     /**
-     * Metodi tutkii, onko annettu char-muotoinen merkki numero välillä 0-9 vai ei.
+     * Metodi tutkii, onko annettu char-muotoinen merkki numero välillä 0-9.
      * Ascii-arvoiltaan nämä ovat 48-57.
-     * @param merkki Tutkittava merkki
+     * @param character Tutkittava merkki
      * @return Palauttaa true, mikäli merkki on numero, muutoin false
      */
     
-    public boolean isNumber(char merkki) {
-        if ((int) merkki >= 48 && (int) merkki < 58) {
+    public boolean isNumber(char character) {
+        if ((int) character >= 48 && (int) character < 58) {
             return true;
         }
         return false;
@@ -318,8 +301,8 @@ public class Regex {
      */
     
     public void reset() {
-        this.lukko = false;
-        this.maarat = new int[regex.length()];
+        this.matchfound = false;
+        this.lolimits = new int[regex.length()];
     }
     
     /**
@@ -334,20 +317,20 @@ public class Regex {
     
     /**
      * Metodi asettaa annetun merkkijonon vertailtavaksi merkkijonoksi.
-     * @param sana Uusi vertailtava merkkijono.
+     * @param string Uusi vertailtava merkkijono.
      */
     
-    public void setSana(String sana) {
-        this.sana = sana;
+    public void setString(String string) {
+        this.string = string;
         reset();
     }
     
     public boolean getFound() {
-        return lukko;
+        return matchfound;
     }
     
-    public String getSana() {
-        return sana;
+    public String getString() {
+        return string;
     }
     
     public String getRegex() {

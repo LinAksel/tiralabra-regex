@@ -31,14 +31,14 @@ public class Performance {
     
     public static void groupRepetitionTest() {
         regex.setRegex("(.)*");
-        regex.setSana("a");
+        regex.setString("a");
         
         System.out.println("Group repetiotion test:");
         while (regex.getRegex().length() < 2500)  {
-            long alku = System.currentTimeMillis();
-            regex.tulkki("", regex.getRegex().length() - 1);
-            long aika = System.currentTimeMillis() - alku;
-            System.out.println(aika + " match: " + regex.getFound() + ". Length of regex: " + regex.getRegex().length());
+            long start = System.currentTimeMillis();
+            regex.translator("", regex.getRegex().length() - 1);
+            long time = System.currentTimeMillis() - start;
+            System.out.println(time + " match: " + regex.getFound() + ". Length of regex: " + regex.getRegex().length());
             regex.setRegex("((" + regex.getRegex() + ")*)*");
         }
         
@@ -52,12 +52,12 @@ public class Performance {
     public static void groupRepetitionTestPart2() {
         
         System.out.println("Group repetition part 2:");
-        while (regex.getSana().length() < 140)  {
-            long alku = System.currentTimeMillis();
-            regex.tulkki("", regex.getRegex().length() - 1);
-            long aika = System.currentTimeMillis() - alku;
-            System.out.println(aika + " match: " + regex.getFound() + ". Length of string: " + regex.getSana().length());
-            regex.setSana(regex.getSana() + (char) ((System.currentTimeMillis() % 50) + 50));
+        while (regex.getString().length() < 140)  {
+            long start = System.currentTimeMillis();
+            regex.translator("", regex.getRegex().length() - 1);
+            long time = System.currentTimeMillis() - start;
+            System.out.println(time + " match: " + regex.getFound() + ". Length of string: " + regex.getString().length());
+            regex.setString(regex.getString() + (char) ((System.currentTimeMillis() % 50) + 50));
         }
     }
     

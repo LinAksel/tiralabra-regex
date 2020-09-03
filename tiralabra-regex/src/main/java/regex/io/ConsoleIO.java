@@ -12,25 +12,25 @@ import java.util.Scanner;
  * Tekstikäyttöliittymän IO-toteutus.
  * @author linaksel
  */
-public class KonsoliIO implements IO {
+public class ConsoleIO implements IO {
     
-    private Scanner lukija;
+    private Scanner reader;
 
     /**
      * Luokan konstruktori.
      */
-    public KonsoliIO() {
-        lukija = new Scanner(System.in);
+    public ConsoleIO() {
+        reader = new Scanner(System.in);
     }
 
     @Override
     public String next() {
-        return lukija.nextLine();
+        return reader.nextLine();
     }
 
     @Override
-    public void print(String tuloste) {
-        System.out.println(tuloste);
+    public void print(String string) {
+        System.out.println(string);
     }
     
 }

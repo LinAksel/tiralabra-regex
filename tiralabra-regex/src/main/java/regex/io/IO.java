@@ -18,7 +18,7 @@ public interface IO {
     String next();
     /**
      * Tulostamisen rajapintametodi.
-     * @param tuloste Merkkijono, joka halutaan tulostaa.
+     * @param string Merkkijono, joka halutaan tulostaa.
      */
-    void print(String tuloste);
+    void print(String string);
 }

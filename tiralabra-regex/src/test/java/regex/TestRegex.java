@@ -22,120 +22,120 @@ public class TestRegex {
     @Test
     public void testTooLongString() {
         regex.setRegex("ylli");
-        regex.setSana("yllii");
-        regex.tulkki("", regex.getRegex().length() - 1);
+        regex.setString("yllii");
+        regex.translator("", regex.getRegex().length() - 1);
         assertFalse(regex.getFound()); 
     }
     
     @Test
     public void testBadStartingPoint() {
         regex.setRegex("ylli");
-        regex.setSana("yllii");
-        regex.tulkki("", -2);
+        regex.setString("yllii");
+        regex.translator("", -2);
         assertFalse(regex.getFound()); 
     }
     
     @Test
     public void testAlternation() {
         regex.setRegex("ylli|yyteri");
-        regex.setSana("yyteri");
-        regex.tulkki("", regex.getRegex().length() - 1);
+        regex.setString("yyteri");
+        regex.translator("", regex.getRegex().length() - 1);
         assertTrue(regex.getFound());
     }
     
     @Test
     public void testAlternationTwo() {
         regex.setRegex("ylli|yyteri");
-        regex.setSana("ylliyyteri");
-        regex.tulkki("", regex.getRegex().length() - 1);
+        regex.setString("ylliyyteri");
+        regex.translator("", regex.getRegex().length() - 1);
         assertFalse(regex.getFound());
     }
     
     @Test
     public void testAlternationThree() {
         regex.setRegex("ylli|yyteri|");
-        regex.setSana("");
-        regex.tulkki("", regex.getRegex().length() - 1);
+        regex.setString("");
+        regex.translator("", regex.getRegex().length() - 1);
         assertTrue(regex.getFound());
     }
     
     @Test
     public void testQuestionmark() {
         regex.setRegex("a?ccb?");
-        regex.setSana("acc");
-        regex.tulkki("", regex.getRegex().length() - 1);
+        regex.setString("acc");
+        regex.translator("", regex.getRegex().length() - 1);
         assertTrue(regex.getFound());
     }
     
     @Test
     public void testQuestionmarkTwo() {
         regex.setRegex("a?ccb?");
-        regex.setSana("aacc");
-        regex.tulkki("", regex.getRegex().length() - 1);
+        regex.setString("aacc");
+        regex.translator("", regex.getRegex().length() - 1);
         assertFalse(regex.getFound());
     }
     
     @Test
     public void testQuestionmarkThree() {
         regex.setRegex("a?(ccb)?");
-        regex.setSana("a");
-        regex.tulkki("", regex.getRegex().length() - 1);
+        regex.setString("a");
+        regex.translator("", regex.getRegex().length() - 1);
         assertTrue(regex.getFound());
     }
     
     @Test
     public void testPlus() {
         regex.setRegex("b+s");
-        regex.setSana("bbs");
-        regex.tulkki("", regex.getRegex().length() - 1);
+        regex.setString("bbs");
+        regex.translator("", regex.getRegex().length() - 1);
         assertTrue(regex.getFound());
     }
     
     @Test
     public void testPlusTwo() {
         regex.setRegex("b+s");
-        regex.setSana("s");
-        regex.tulkki("", regex.getRegex().length() - 1);
+        regex.setString("s");
+        regex.translator("", regex.getRegex().length() - 1);
         assertFalse(regex.getFound());
     }
     
     @Test
     public void testPlusThree() {
         regex.setRegex("(sb)+");
-        regex.setSana("sbsb");
-        regex.tulkki("", regex.getRegex().length() - 1);
+        regex.setString("sbsb");
+        regex.translator("", regex.getRegex().length() - 1);
         assertTrue(regex.getFound());
     }
     
     @Test
     public void testDot() {
         regex.setRegex("a.c");
-        regex.setSana("abc");
-        regex.tulkki("", regex.getRegex().length() - 1);
+        regex.setString("abc");
+        regex.translator("", regex.getRegex().length() - 1);
         assertTrue(regex.getFound());
     }
     
     @Test
     public void testDotTwo() {
         regex.setRegex("a.+b");
-        regex.setSana("aacb");
-        regex.tulkki("", regex.getRegex().length() - 1);
+        regex.setString("aacb");
+        regex.translator("", regex.getRegex().length() - 1);
         assertTrue(regex.getFound());
     }
     
     @Test
     public void testStar() {
         regex.setRegex("ab*a");
-        regex.setSana("abba");
-        regex.tulkki("", regex.getRegex().length() - 1);
+        regex.setString("abba");
+        regex.translator("", regex.getRegex().length() - 1);
         assertTrue(regex.getFound());
     }
     
     @Test
     public void testStarTwo() {
         regex.setRegex("ab*a");
-        regex.setSana("aa");
-        regex.tulkki("", regex.getRegex().length() - 1);
+        regex.setString("aa");
+        regex.translator("", regex.getRegex().length() - 1);
         assertTrue(regex.getFound());
     }
     
@@ -144,119 +144,119 @@ public class TestRegex {
     @Test
     public void testBackslash() {
         regex.setRegex("a\\*\\+");
-        regex.setSana("a*+");
-        regex.tulkki("", regex.getRegex().length() - 1);
+        regex.setString("a*+");
+        regex.translator("", regex.getRegex().length() - 1);
         assertTrue(regex.getFound());
     }
     
     @Test
     public void testBackslashTwo() {
         regex.setRegex("a\\**\\)?d\\\\e");
-        regex.setSana("a*******)d\\e");
-        regex.tulkki("", regex.getRegex().length() - 1);
+        regex.setString("a*******)d\\e");
+        regex.translator("", regex.getRegex().length() - 1);
         assertTrue(regex.getFound());
     }
     
     @Test
     public void testBackslash3() {
         regex.setRegex("(a*)\\?d\\e*");
-        regex.setSana("aaaa?d");
-        regex.tulkki("", regex.getRegex().length() - 1);
+        regex.setString("aaaa?d");
+        regex.translator("", regex.getRegex().length() - 1);
         assertTrue(regex.getFound());
     }
     
     @Test
     public void testParentheses() {
         regex.setRegex("(lu|ku|tai)mi");
-        regex.setSana("kumi");
-        regex.tulkki("", regex.getRegex().length() - 1);
+        regex.setString("kumi");
+        regex.translator("", regex.getRegex().length() - 1);
         assertTrue(regex.getFound());
     }
     
     @Test
     public void testParenthesesTwo() {
         regex.setRegex("(tuo|kaa|kah|vi|a)*");
-        regex.setSana("tuokaatuokaakahvia");
-        regex.tulkki("", regex.getRegex().length() - 1);
+        regex.setString("tuokaatuokaakahvia");
+        regex.translator("", regex.getRegex().length() - 1);
         assertTrue(regex.getFound());
     }
     
     @Test
     public void testEpsilon() {
         regex.setRegex("a\\eb");
-        regex.setSana("ab");
-        regex.tulkki("", regex.getRegex().length() - 1);
+        regex.setString("ab");
+        regex.translator("", regex.getRegex().length() - 1);
         assertTrue(regex.getFound());
     }
     
     @Test
     public void testDigit() {
         regex.setRegex("\\d*abc");
-        regex.setSana("123abc");
-        regex.tulkki("", regex.getRegex().length() - 1);
+        regex.setString("123abc");
+        regex.translator("", regex.getRegex().length() - 1);
         assertTrue(regex.getFound());
     }
     
     @Test
     public void testDigitTwo() {
         regex.setRegex("\\d*abc");
-        regex.setSana("abcabc");
-        regex.tulkki("", regex.getRegex().length() - 1);
+        regex.setString("abcabc");
+        regex.translator("", regex.getRegex().length() - 1);
         assertFalse(regex.getFound());
     }
     
     @Test
     public void testDigitThree() {
         regex.setRegex("\\d*abc");
-        regex.setSana("!abc");
-        regex.tulkki("", regex.getRegex().length() - 1);
+        regex.setString("!abc");
+        regex.translator("", regex.getRegex().length() - 1);
         assertFalse(regex.getFound());
     }
     
     @Test
     public void comboTest1() {
         regex.setRegex("a(\\\\*|(b+a.)|\\.?)*k(a)");
-        regex.setSana("a\\\\\\.bai..ka");
-        regex.tulkki("", regex.getRegex().length() - 1);
+        regex.setString("a\\\\\\.bai..ka");
+        regex.translator("", regex.getRegex().length() - 1);
         assertTrue(regex.getFound());
     }
     
     @Test
     public void comboTest2() {
         regex.setRegex("a(b*(\\\\+a.b?)*)*");
-        regex.setSana("a\\a#bb\\\\aibb");
-        regex.tulkki("", regex.getRegex().length() - 1);
+        regex.setString("a\\a#bb\\\\aibb");
+        regex.translator("", regex.getRegex().length() - 1);
         assertTrue(regex.getFound());
     }
     
     @Test
     public void comboTest3() {
         regex.setRegex("ab(c|d)+.*");
-        regex.setSana("xabd");
-        regex.tulkki("", regex.getRegex().length() - 1);
+        regex.setString("xabd");
+        regex.translator("", regex.getRegex().length() - 1);
         assertFalse(regex.getFound());
     }
     
     @Test
     public void comboTest4() {
         regex.setRegex("a(bb\\)|\\(cd|\\e?|@%!)*\\*+");
-        regex.setSana("abb)(cd@%!bb)***");
-        regex.tulkki("", regex.getRegex().length() - 1);
+        regex.setString("abb)(cd@%!bb)***");
+        regex.translator("", regex.getRegex().length() - 1);
         assertTrue(regex.getFound());
     }
     
     @Test
     public void comboTest5() {
         regex.setRegex("a((bc+|\\d*)\\|123\\e!)");
-        regex.setSana("a1234567890|123!");
-        regex.tulkki("", regex.getRegex().length() - 1);
+        regex.setString("a1234567890|123!");
+        regex.translator("", regex.getRegex().length() - 1);
         assertTrue(regex.getFound());
     }
     
     @Test
     public void getterWorks() {
         regex.setRegex("jjjj");
-        regex.setSana("jjjj");
-        assertEquals("jjjj", regex.getSana());
+        regex.setString("jjjj");
+        assertEquals("jjjj", regex.getString());
     }
 }

@@ -5,7 +5,7 @@
  */
 package regex;
 
-import regex.io.KonsoliIO;
+import regex.io.ConsoleIO;
 import regex.ui.UI;
 
 /**
@@ -21,7 +21,7 @@ public class MainTUI {
      */
     
     public static void main(String[] args) {
-    	UI ui = new UI(new KonsoliIO());
-        ui.suorita();
+    	UI ui = new UI(new ConsoleIO());
+        ui.start();
     }
 }

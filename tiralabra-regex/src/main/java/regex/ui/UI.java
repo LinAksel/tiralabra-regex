@@ -6,7 +6,7 @@
 package regex.ui;
 
 import regex.io.IO;
-import regex.logic.Tarkastaja;
+import regex.logic.Validator;
 import regex.logic.Regex;
 
 /**
@@ -17,47 +17,47 @@ public class UI {
     
     private IO io;
     private Regex regex;
-    private Tarkastaja tarkastaja;
+    private Validator validator;
             
     public UI(IO io) {
         this.io = io;
         this.regex = new Regex();
     }
     
-    public void suorita() {
+    public void start() {
         io.print("Enter regular expression");
         regex.setRegex(io.next());
-        tarkastaja = new Tarkastaja(regex.getRegex());
-        while (!tarkastaja.tarkasta()) {
-            io.print(tarkastaja.getViesti());
+        validator = new Validator(regex.getRegex());
+        while (!validator.validate()) {
+            io.print(validator.getMessage());
             regex.setRegex(io.next());
-            tarkastaja = new Tarkastaja(regex.getRegex());
+            validator = new Validator(regex.getRegex());
         }
         while (true) {
             io.print("Enter string to compare");
-            regex.setSana(io.next());
-            if (regex.getSana().equals("exit!")) {
+            regex.setString(io.next());
+            if (regex.getString().equals("exit!")) {
                 io.print("To exit, enter 'e', else compare");
                 if (io.next().toLowerCase().equals("e")) {
                     break;
                 }
             }
-            if (regex.getSana().equals("change!")) {
+            if (regex.getString().equals("change!")) {
                 io.print("To change regex, enter 'r', else compare");
                 if (io.next().toLowerCase().equals("r")) {
                     io.print("Enter regular expression");
-                    String uusregex = io.next();
-                    tarkastaja = new Tarkastaja(uusregex);
-                    if (tarkastaja.tarkasta()) {
-                        regex.setRegex(uusregex);
+                    String newregex = io.next();
+                    validator = new Validator(newregex);
+                    if (validator.validate()) {
+                        regex.setRegex(newregex);
                     } else {
-                        io.print(tarkastaja.getViesti() + ". Backing down to previous regular expression");
+                        io.print(validator.getMessage() + ". Backing down to previous regular expression");
                     }
                     continue;
                 }
             }
             
-            if (regex.getSana().equals("regex!")) {
+            if (regex.getString().equals("regex!")) {
                 io.print("To print regex, enter 'r', else compare");
                 if (io.next().toLowerCase().equals("r")) {
                     System.out.println(regex.getRegex());
@@ -65,7 +65,7 @@ public class UI {
                 }
             }
             
-            regex.tulkki("", regex.getRegex().length() - 1);
+            regex.translator("", regex.getRegex().length() - 1);
             io.print(Boolean.toString(regex.getFound()));
             regex.reset();
         }
