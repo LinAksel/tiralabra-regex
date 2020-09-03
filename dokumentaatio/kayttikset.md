@@ -3,6 +3,22 @@
 
 Regex-tulkkia käytetään testaamaan, kuuluuko jokin merkkijono annettuun säännölliseen lausekkeeseen (kieleen).
 
+## Käynnistäminen
+
+Ohjelma voidaan käynnistää joko lataamalla lähdekoodi, ja ajamalla kansiossa
+
+```
+mvn compile exec:java -Dexec.mainClass=regex.Main
+```
+
+TAI
+
+lataamalla uusin release, ja käynnistämällä suoraan .jar-tiedosto komennolla
+
+```
+java -jar RegexEngine.jar
+```
+
 ## Toiminta
 
 Merkkijonoon voi kuulua mitä tahansa utf-8:n mukaisia merkkejä, kuten myös kieleen. Niinpä esimerkiksi säännöllinen lause 'a@?x'

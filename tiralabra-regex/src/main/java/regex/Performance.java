@@ -34,11 +34,11 @@ public class Performance {
         regex.setString("a");
         
         System.out.println("Group repetiotion test:");
-        while (regex.getRegex().length() < 2500)  {
+        while (regex.getRegex().length() < 2000)  {
             long start = System.currentTimeMillis();
             regex.translator("", regex.getRegex().length() - 1);
             long time = System.currentTimeMillis() - start;
-            System.out.println(time + " match: " + regex.getFound() + ". Length of regex: " + regex.getRegex().length());
+            System.out.println("Time: " + time + " ms. Match: " + regex.getFound() + ". Length of regex: " + regex.getRegex().length());
             regex.setRegex("((" + regex.getRegex() + ")*)*");
         }
         
@@ -52,7 +52,7 @@ public class Performance {
     public static void groupRepetitionTestPart2() {
         
         System.out.println("Group repetition part 2:");
-        while (regex.getString().length() < 140)  {
+        while (regex.getString().length() < 100)  {
             long start = System.currentTimeMillis();
             regex.translator("", regex.getRegex().length() - 1);
             long time = System.currentTimeMillis() - start;
