@@ -6,9 +6,10 @@
 package regex.logic;
 
 /**
- *
+ * Logiikan pääluokka. Tässä tapahtuu itse tulkkaus annetusta säännöllisestä lauseesta verraten merkkijonoon.
  * @author linaksel
  */
+
 public class Regex {
     
     private String regex;
@@ -17,13 +18,17 @@ public class Regex {
     private int[] maarat;
     private int maara = 0;
     
+    /**
+     * Luokan konstruktori.
+     */
+    
     public Regex() {
         this.lukko = false;
     }
     
     //TÄTÄ __PITÄÄ__ SELKEYTTÄÄ ENNEN KURSSIN LOPPUA
     /** 
-     * Metodi hoitaa testisyötteeseen merkin lisäämisen
+     * Metodi hoitaa testisyötteeseen merkin lisäämisen.
      * @param kohta Säännöllisen lauseen kohta
      * @param testi Rakennettava merkkijono, jota verrataan sanaan.
      * @return Palauttaa joko annetun testijonon tai testijonon, johon lisätty kirjain
@@ -53,7 +58,7 @@ public class Regex {
     }
     
     /**
-     * Metodi tarkistaa, toimiiko säännöllisen lauseen annetussa kohdassa oleva merkki
+     * Metodi tarkistaa, toimiiko säännöllisen lauseen annetussa kohdassa oleva merkki.
      * metamerkkinä vai tavallisena merkkinä
      * @param kohta Säännöllisen lauseen kohta
      * @return Palauttaa true, jos kyseessä metamerkki, muutoin false
@@ -70,17 +75,17 @@ public class Regex {
             }
             if (maara % 2 != 0 && (merkki != 'e' && merkki != 'd')) {
                 return false;
-            } else if ((merkki == 'd' || merkki == 'e') && maara > 1 && maara % 2 == 0) {
+            } else if ((merkki == 'd' || merkki == 'e') && maara % 2 == 0) {
                 return false;
             }
-        } else if (kohta > 0 && regex.charAt(kohta - 1) != '\\' && (merkki == 'e' || merkki == 'd')) {
+        } else if (kohta > 0 && (merkki == 'e' || merkki == 'd')) {
             return false;
         }
         return true;
     }
     
     /**
-     * Metodi etsii käsiteltävän sulkutason alun
+     * Metodi etsii käsiteltävän sulkutason alun.
      * @param kohta Säännöllisen lauseen kohta
      * @return Palauttaa sulkutason aloituskohdan
      */
@@ -102,7 +107,7 @@ public class Regex {
     }
     
     /**
-     * Metodi etsii käsiteltävän sulkutason lopun
+     * Metodi etsii käsiteltävän sulkutason lopun.
      * @param kohta Säännöllisen lauseen kohta
      * @return Palauttaa sulkutason päätöskohdan
      */
@@ -110,7 +115,7 @@ public class Regex {
     public int etsiLoppu(int kohta) {
         int sulut = 0;
         int sullut = 0;
-        while (kohta < regex.length()) {
+        while (kohta < regex.length() - 1) {
             kohta++;
             if (regex.charAt(kohta) == ')' && onErikoismerkki(kohta) && sulut == sullut) {
                 break;
@@ -123,7 +128,7 @@ public class Regex {
         return kohta; 
     }
     /**
-     * Metodi etsii käsitelävällä sulkutasolla mahdollisesti olevan tai-merkin
+     * Metodi etsii käsitelävällä sulkutasolla mahdollisesti olevan tai-merkin.
      * @param kohta Säännöllisen lauseen kohta
      * @return Palauttaa joko sopivan tai-merkin kohdan tai säännöllisen lauseen alun
      */
@@ -188,8 +193,8 @@ public class Regex {
      * Metodi käsittelee erikoismerkin '*', eli mielivaltaisen toiston.
      * Tässä haaraudutaan kolmeen: lisätään merkki ja pysytään paikallaan, lisätään ja jatketaan,
      * tai ei lisätä ja jatketaan.
-     * @param testi
-     * @param kohta 
+     * @param testi Tämänhetkinen testattava merkkijono
+     * @param kohta Säännöllisen lauseen kohta
      */
     public void kleeneStar(String testi, int kohta) {
         String uustesti = lisaaja(kohta - 1, testi);
@@ -208,8 +213,8 @@ public class Regex {
     /**
      * Metodi käsittelee erikoismerkin '?', eli "kerran tai ei kertaakaan".
      * Käytännössä haaraudutaan siis kahteen, lisätyn ja lisäämättömän merkin tilanteeseen.
-     * @param testi
-     * @param kohta 
+     * @param testi Tämänhetkinen testattava merkkijono
+     * @param kohta Säännöllisen lauseen kohta
      */
     
     public void noneOrOnce(String testi, int kohta) {
@@ -228,8 +233,8 @@ public class Regex {
     /**
      * Metodi käsittelee erikoismerkin '+', eli "vähintään yhden toiston".
      * Käytännössä siis mikäli seuraava merkki ei ole erikoismerkki, lisätään se varmasti ainakin kerran.
-     * @param testi
-     * @param kohta 
+     * @param testi Tämänhetkinen testattava merkkijono
+     * @param kohta Säännöllisen lauseen kohta
      */
     
     public void atLeastOnce(String testi, int kohta) {
@@ -308,22 +313,33 @@ public class Regex {
         return false;
     }
     
-    //Getterit ja setterit UI-luokan erottamiseksi, sekä reset, jolla samaa regexiä tutkittaessa
-    //uudelleen nollataan sulkutasolista ja lukko
+    /**
+     * Metodi resetoi sulkuryhmälistan ja lukon uutta vertailua varten.  
+     */
     
     public void reset() {
         this.lukko = false;
         this.maarat = new int[regex.length()];
     }
     
+    /**
+     * Metodi asettaa annetun merkkijonon säännölliseksi lausekkeeksi.
+     * @param regex Uusi säännöllinen lauseke.
+     */
+    
     public void setRegex(String regex) {
-        this.lukko = false;
         this.regex = regex;
-        this.maarat = new int[regex.length()];
+        reset();
     }
+    
+    /**
+     * Metodi asettaa annetun merkkijonon vertailtavaksi merkkijonoksi.
+     * @param sana Uusi vertailtava merkkijono.
+     */
     
     public void setSana(String sana) {
         this.sana = sana;
+        reset();
     }
     
     public boolean getFound() {

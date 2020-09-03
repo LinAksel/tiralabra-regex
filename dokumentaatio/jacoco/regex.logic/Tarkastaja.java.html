@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Tarkastaja.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">tiralabra-regex</a> &gt; <a href="index.source.html" class="el_package">regex.logic</a> &gt; <span class="el_source">Tarkastaja.java</span></div><h1>Tarkastaja.java</h1><pre class="source lang-java linenums">package regex.logic;
 
 /**
- *
+ * Esitarkastaja säännölliselle lausekkeelle. Tämä tarkistaa, onko annetussa regexissä syntaksivirheitä.
  * @author linaksel
  */
 
@@ -14,14 +14,19 @@ public class Tarkastaja {
     private String regex;
     private String viesti;
     
-<span class="fc" id="L17">    public Tarkastaja(String regex) {</span>
-<span class="fc" id="L18">        this.avaava = 0;</span>
-<span class="fc" id="L19">        this.sulkeva = 0;</span>
-<span class="fc" id="L20">        this.edellinenmeta = false;</span>
-<span class="fc" id="L21">        this.edellinenescape = false;</span>
-<span class="fc" id="L22">        this.regex = regex;</span>
-<span class="fc" id="L23">        this.viesti = &quot;OK&quot;;</span>
-<span class="fc" id="L24">    }</span>
+    /**
+     * Luokan konstruktori.
+     * @param regex Tarkastettava uusi säännöllinen lauseke.
+     */
+    
+<span class="fc" id="L22">    public Tarkastaja(String regex) {</span>
+<span class="fc" id="L23">        this.avaava = 0;</span>
+<span class="fc" id="L24">        this.sulkeva = 0;</span>
+<span class="fc" id="L25">        this.edellinenmeta = false;</span>
+<span class="fc" id="L26">        this.edellinenescape = false;</span>
+<span class="fc" id="L27">        this.regex = regex;</span>
+<span class="fc" id="L28">        this.viesti = &quot;OK&quot;;</span>
+<span class="fc" id="L29">    }</span>
     
     /**
      * Metodi tutkii, onko merkki mahdollisesti metamerkki. Tähän ei lasketa backslashia
@@ -30,10 +35,10 @@ public class Tarkastaja {
      */
     
     public boolean erikoismerkki(char merkki) {
-<span class="fc bfc" id="L33" title="All 8 branches covered.">        if (merkki == '*' || merkki == '+' || merkki == '?' || merkki == '|') {</span>
-<span class="fc" id="L34">            return true;</span>
+<span class="fc bfc" id="L38" title="All 8 branches covered.">        if (merkki == '*' || merkki == '+' || merkki == '?' || merkki == '|') {</span>
+<span class="fc" id="L39">            return true;</span>
         }
-<span class="fc" id="L36">        return false;</span>
+<span class="fc" id="L41">        return false;</span>
     }
     
     /**
@@ -44,10 +49,10 @@ public class Tarkastaja {
      */
     
     public boolean escapeErikoismerkki(char merkki) {
-<span class="pc bpc" id="L47" title="3 of 12 branches missed.">        if (merkki == '(' || merkki == ')' || merkki == 'e' || merkki == 'd' || merkki == '.' || merkki == '\\') {</span>
-<span class="fc" id="L48">            return true;</span>
+<span class="fc bfc" id="L52" title="All 12 branches covered.">        if (merkki == '(' || merkki == ')' || merkki == 'e' || merkki == 'd' || merkki == '.' || merkki == '\\') {</span>
+<span class="fc" id="L53">            return true;</span>
         }
-<span class="fc" id="L50">        return false;</span>
+<span class="fc" id="L55">        return false;</span>
     }
     
     /**
@@ -57,9 +62,9 @@ public class Tarkastaja {
      */
     
     public void booleanSet(boolean meta, boolean escape) {
-<span class="fc" id="L60">        this.edellinenescape = escape;</span>
-<span class="fc" id="L61">        this.edellinenmeta = meta;</span>
-<span class="fc" id="L62">    }</span>
+<span class="fc" id="L65">        this.edellinenescape = escape;</span>
+<span class="fc" id="L66">        this.edellinenmeta = meta;</span>
+<span class="fc" id="L67">    }</span>
     
     /**
      * Apufunktio tarkastajalle. Hoitaa totuusarvojen ja sulkujen maaran asettamisen,
@@ -68,22 +73,22 @@ public class Tarkastaja {
      */
     
     public void tarkastaMerkki(char merkki) {
-<span class="pc bpc" id="L71" title="1 of 2 branches missed.">        if (edellinenescape) {</span>
-<span class="nc" id="L72">            booleanSet(false, false);</span>
-<span class="fc bfc" id="L73" title="All 2 branches covered.">        } else if (erikoismerkki(merkki)) {</span>
-<span class="fc" id="L74">            booleanSet(true, false);</span>
-<span class="fc bfc" id="L75" title="All 2 branches covered.">        } else if (merkki == '\\') {</span>
-<span class="fc" id="L76">            booleanSet(false, true);</span>
-<span class="fc bfc" id="L77" title="All 2 branches covered.">        } else if (merkki == '(') {</span>
-<span class="fc" id="L78">            booleanSet(false, false);</span>
-<span class="fc" id="L79">            this.avaava++;</span>
-<span class="fc bfc" id="L80" title="All 2 branches covered.">        } else if (merkki == ')') {</span>
-<span class="fc" id="L81">            booleanSet(false, false);</span>
-<span class="fc" id="L82">            this.sulkeva++;</span>
+<span class="fc bfc" id="L76" title="All 2 branches covered.">        if (edellinenescape) {</span>
+<span class="fc" id="L77">            booleanSet(false, false);</span>
+<span class="fc bfc" id="L78" title="All 2 branches covered.">        } else if (erikoismerkki(merkki)) {</span>
+<span class="fc" id="L79">            booleanSet(true, false);</span>
+<span class="fc bfc" id="L80" title="All 2 branches covered.">        } else if (merkki == '\\') {</span>
+<span class="fc" id="L81">            booleanSet(false, true);</span>
+<span class="fc bfc" id="L82" title="All 2 branches covered.">        } else if (merkki == '(') {</span>
+<span class="fc" id="L83">            booleanSet(false, false);</span>
+<span class="fc" id="L84">            this.avaava++;</span>
+<span class="fc bfc" id="L85" title="All 2 branches covered.">        } else if (merkki == ')') {</span>
+<span class="fc" id="L86">            booleanSet(false, false);</span>
+<span class="fc" id="L87">            this.sulkeva++;</span>
         } else {
-<span class="fc" id="L84">            booleanSet(false, false);</span>
+<span class="fc" id="L89">            booleanSet(false, false);</span>
         }
-<span class="fc" id="L86">    }</span>
+<span class="fc" id="L91">    }</span>
     
     /**
      * Tarkastajan toiminnallinen osa. Metodi tutkii, onko säännöllinen lauseke oikeinkirjoitettu,
@@ -93,30 +98,34 @@ public class Tarkastaja {
      */
     
     public boolean tarkasta() {
-<span class="pc bpc" id="L96" title="1 of 2 branches missed.">        if (regex.length() == 0) {</span>
-<span class="nc" id="L97">            return true;</span>
+<span class="fc bfc" id="L101" title="All 2 branches covered.">        if (regex.length() == 0) {</span>
+<span class="fc" id="L102">            return true;</span>
         }
-<span class="fc" id="L99">        char merkki = regex.charAt(0);</span>
-<span class="pc bpc" id="L100" title="1 of 4 branches missed.">        if (merkki == ')' || erikoismerkki(merkki)) {</span>
-<span class="fc" id="L101">            this.viesti = &quot;Invalid start of regular expression, check first character '&quot; + merkki + &quot;'&quot;;</span>
-<span class="fc" id="L102">            return false;</span>
+<span class="fc" id="L104">        char merkki = regex.charAt(0);</span>
+<span class="fc bfc" id="L105" title="All 4 branches covered.">        if (merkki == ')' || erikoismerkki(merkki)) {</span>
+<span class="fc" id="L106">            this.viesti = &quot;Invalid start of regular expression, check first character '&quot; + merkki + &quot;'&quot;;</span>
+<span class="fc" id="L107">            return false;</span>
         }
-<span class="fc bfc" id="L104" title="All 2 branches covered.">        for (int i = 0; i &lt; regex.length(); i++) {</span>
-<span class="fc" id="L105">            merkki = regex.charAt(i);</span>
-<span class="fc bfc" id="L106" title="All 4 branches covered.">            if (erikoismerkki(merkki) &amp;&amp; edellinenmeta) {</span>
-<span class="fc" id="L107">                this.viesti = &quot;Invalid quantifier at character &quot; + (i + 1) + &quot;: &quot; + merkki + &quot;, check for double quantifier error&quot;;</span>
-<span class="fc" id="L108">                return false;</span>
-<span class="fc bfc" id="L109" title="All 6 branches covered.">            } else if (!erikoismerkki(merkki) &amp;&amp; !escapeErikoismerkki(merkki) &amp;&amp; edellinenescape) {</span>
-<span class="fc" id="L110">                this.viesti = &quot;Invalid use of escape at character &quot; + (i + 1) + &quot;: &quot; + merkki + &quot;, check the manual for supported escape uses&quot;;</span>
-<span class="fc" id="L111">                return false;</span>
+<span class="fc bfc" id="L109" title="All 2 branches covered.">        for (int i = 0; i &lt; regex.length(); i++) {</span>
+<span class="fc" id="L110">            merkki = regex.charAt(i);</span>
+<span class="fc bfc" id="L111" title="All 4 branches covered.">            if (erikoismerkki(merkki) &amp;&amp; edellinenmeta) {</span>
+<span class="fc" id="L112">                this.viesti = &quot;Invalid quantifier at character &quot; + (i + 1) + &quot;: &quot; + merkki + &quot;, check for double quantifier error&quot;;</span>
+<span class="fc" id="L113">                return false;</span>
+<span class="fc bfc" id="L114" title="All 6 branches covered.">            } else if (!erikoismerkki(merkki) &amp;&amp; !escapeErikoismerkki(merkki) &amp;&amp; edellinenescape) {</span>
+<span class="fc" id="L115">                this.viesti = &quot;Invalid use of escape at character &quot; + (i + 1) + &quot;: &quot; + merkki + &quot;, check the manual for supported escape uses&quot;;</span>
+<span class="fc" id="L116">                return false;</span>
             }
-<span class="fc" id="L113">            tarkastaMerkki(merkki);</span>
+<span class="fc" id="L118">            tarkastaMerkki(merkki);</span>
+<span class="fc bfc" id="L119" title="All 2 branches covered.">            if(sulkeva &gt; avaava) {</span>
+<span class="fc" id="L120">                this.viesti = &quot;Invalid parenthesis at character &quot; + (i + 1) + &quot;: &quot; + merkki + &quot;, nothing to close.&quot;;</span>
+<span class="fc" id="L121">                return false;</span>
+            }
         }
-<span class="pc bpc" id="L115" title="1 of 2 branches missed.">        if (avaava != sulkeva) {</span>
-<span class="fc" id="L116">            this.viesti = &quot;Non-matching amount of parenthesis found&quot;;</span>
-<span class="fc" id="L117">            return false;</span>
+<span class="fc bfc" id="L124" title="All 2 branches covered.">        if (avaava != sulkeva) {</span>
+<span class="fc" id="L125">            this.viesti = &quot;Non-matching amount of parenthesis found&quot;;</span>
+<span class="fc" id="L126">            return false;</span>
         }
-<span class="nc" id="L119">        return true;</span>
+<span class="fc" id="L128">        return true;</span>
     }
     
     /**
@@ -125,7 +134,7 @@ public class Tarkastaja {
      */
     
     public String getViesti() {
-<span class="nc" id="L128">        return viesti;</span>
+<span class="fc" id="L137">        return viesti;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

@@ -9,13 +9,14 @@ import regex.ui.GUI;
 
 
 /**
- *
+ * Ohjelman käynnistävä pääluokka.
  * @author linaksel
  */
+
 public class Main {
     
     /**
-     * Ohjelman normaalisti käynnistävä pääluokka. Tämä avaa GUI-tyyppisen käyttöliittymän.
+     * Ohjelman käynnistävä metodi. Tämä avaa GUI-tyyppisen käyttöliittymän.
      * @param args 
      */
     public static void main(String[] args) {

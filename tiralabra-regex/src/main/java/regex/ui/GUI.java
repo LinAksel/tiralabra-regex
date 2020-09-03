@@ -84,7 +84,6 @@ public class GUI {
                     lokit.setBackground(Color.red);
                     kentat.setBackground(Color.red);
                 }
-                regex.reset();
                 stringfield.setText("");
             }
         };

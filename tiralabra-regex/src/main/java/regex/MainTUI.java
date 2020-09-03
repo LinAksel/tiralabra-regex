@@ -12,7 +12,13 @@ import regex.ui.UI;
  * Vaihtoehtoinen, tekstipohjaisen (TUI) käyttöliittymän käynnistys.
  * @author linaksel
  */
+
 public class MainTUI {
+
+    /**
+     * Tekstipohjaisen käyttöliittymän käynnistävä main-metodi.
+     * @param args 
+     */
     
     public static void main(String[] args) {
     	UI ui = new UI(new KonsoliIO());

@@ -9,26 +9,29 @@ import regex.io.IO;
 import java.util.Scanner;
 
 /**
- *
+ * Tekstikäyttöliittymän IO-toteutus.
  * @author linaksel
  */
 public class KonsoliIO implements IO {
     
     private Scanner lukija;
 
-<span class="nc" id="L19">    public KonsoliIO() {</span>
-<span class="nc" id="L20">        lukija = new Scanner(System.in);</span>
-<span class="nc" id="L21">    }</span>
+    /**
+     * Luokan konstruktori.
+     */
+<span class="nc" id="L22">    public KonsoliIO() {</span>
+<span class="nc" id="L23">        lukija = new Scanner(System.in);</span>
+<span class="nc" id="L24">    }</span>
 
     @Override
     public String next() {
-<span class="nc" id="L25">        return lukija.nextLine();</span>
+<span class="nc" id="L28">        return lukija.nextLine();</span>
     }
 
     @Override
     public void print(String tuloste) {
-<span class="nc" id="L30">        System.out.println(tuloste);</span>
-<span class="nc" id="L31">    }</span>
+<span class="nc" id="L33">        System.out.println(tuloste);</span>
+<span class="nc" id="L34">    }</span>
     
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

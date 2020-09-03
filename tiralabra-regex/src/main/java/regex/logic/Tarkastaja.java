@@ -1,7 +1,7 @@
 package regex.logic;
 
 /**
- *
+ * Esitarkastaja säännölliselle lausekkeelle. Tämä tarkistaa, onko annetussa regexissä syntaksivirheitä.
  * @author linaksel
  */
 
@@ -13,6 +13,11 @@ public class Tarkastaja {
     private boolean edellinenescape;
     private String regex;
     private String viesti;
+    
+    /**
+     * Luokan konstruktori.
+     * @param regex Tarkastettava uusi säännöllinen lauseke.
+     */
     
     public Tarkastaja(String regex) {
         this.avaava = 0;
@@ -111,6 +116,10 @@ public class Tarkastaja {
                 return false;
             }
             tarkastaMerkki(merkki);
+            if (sulkeva > avaava) {
+                this.viesti = "Invalid parenthesis at character " + (i + 1) + ": " + merkki + ", nothing to close.";
+                return false;
+            }
         }
         if (avaava != sulkeva) {
             this.viesti = "Non-matching amount of parenthesis found";

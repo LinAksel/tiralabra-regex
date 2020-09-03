@@ -9,13 +9,16 @@ import regex.io.IO;
 import java.util.Scanner;
 
 /**
- *
+ * Tekstikäyttöliittymän IO-toteutus.
  * @author linaksel
  */
 public class KonsoliIO implements IO {
     
     private Scanner lukija;
 
+    /**
+     * Luokan konstruktori.
+     */
     public KonsoliIO() {
         lukija = new Scanner(System.in);
     }

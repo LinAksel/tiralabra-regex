@@ -5,6 +5,7 @@
  */
 package regex;
 
+import static org.junit.Assert.assertEquals;
 import regex.logic.Regex;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -17,6 +18,22 @@ import org.junit.Test;
 public class TestRegex {
     
     private Regex regex = new Regex();
+    
+    @Test
+    public void testTooLongString() {
+        regex.setRegex("ylli");
+        regex.setSana("yllii");
+        regex.tulkki("", regex.getRegex().length() - 1);
+        assertFalse(regex.getFound()); 
+    }
+    
+    @Test
+    public void testBadStartingPoint() {
+        regex.setRegex("ylli");
+        regex.setSana("yllii");
+        regex.tulkki("", -2);
+        assertFalse(regex.getFound()); 
+    }
     
     @Test
     public void testAlternation() {
@@ -126,8 +143,8 @@ public class TestRegex {
     
     @Test
     public void testBackslash() {
-        regex.setRegex("a\\*");
-        regex.setSana("a*");
+        regex.setRegex("a\\*\\+");
+        regex.setSana("a*+");
         regex.tulkki("", regex.getRegex().length() - 1);
         assertTrue(regex.getFound());
     }
@@ -136,6 +153,14 @@ public class TestRegex {
     public void testBackslashTwo() {
         regex.setRegex("a\\**\\)?d\\\\e");
         regex.setSana("a*******)d\\e");
+        regex.tulkki("", regex.getRegex().length() - 1);
+        assertTrue(regex.getFound());
+    }
+    
+    @Test
+    public void testBackslash3() {
+        regex.setRegex("(a*)\\?d\\e*");
+        regex.setSana("aaaa?d");
         regex.tulkki("", regex.getRegex().length() - 1);
         assertTrue(regex.getFound());
     }
@@ -181,6 +206,14 @@ public class TestRegex {
     }
     
     @Test
+    public void testDigitThree() {
+        regex.setRegex("\\d*abc");
+        regex.setSana("!abc");
+        regex.tulkki("", regex.getRegex().length() - 1);
+        assertFalse(regex.getFound());
+    }
+    
+    @Test
     public void comboTest1() {
         regex.setRegex("a(\\\\*|(b+a.)|\\.?)*k(a)");
         regex.setSana("a\\\\\\.bai..ka");
@@ -200,6 +233,30 @@ public class TestRegex {
     public void comboTest3() {
         regex.setRegex("ab(c|d)+.*");
         regex.setSana("xabd");
+        regex.tulkki("", regex.getRegex().length() - 1);
         assertFalse(regex.getFound());
+    }
+    
+    @Test
+    public void comboTest4() {
+        regex.setRegex("a(bb\\)|\\(cd|\\e?|@%!)*\\*+");
+        regex.setSana("abb)(cd@%!bb)***");
+        regex.tulkki("", regex.getRegex().length() - 1);
+        assertTrue(regex.getFound());
+    }
+    
+    @Test
+    public void comboTest5() {
+        regex.setRegex("a((bc+|\\d*)\\|123\\e!)");
+        regex.setSana("a1234567890|123!");
+        regex.tulkki("", regex.getRegex().length() - 1);
+        assertTrue(regex.getFound());
+    }
+    
+    @Test
+    public void getterWorks() {
+        regex.setRegex("jjjj");
+        regex.setSana("jjjj");
+        assertEquals("jjjj", regex.getSana());
     }
 }

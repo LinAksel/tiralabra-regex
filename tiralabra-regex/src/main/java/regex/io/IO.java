@@ -6,10 +6,19 @@
 package regex.io;
 
 /**
- *
+ * Rajapinta merkkijonon I/O-logiikalle.
  * @author linaksel
  */
 public interface IO {
+    
+    /**
+     * Sisäänlukemisen rajapintametodi.
+     * @return Palauttaa luetun syötteen.
+     */
     String next();
+    /**
+     * Tulostamisen rajapintametodi.
+     * @param tuloste Merkkijono, joka halutaan tulostaa.
+     */
     void print(String tuloste);
 }

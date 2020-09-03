@@ -8,7 +8,7 @@ package regex;
 import regex.logic.Regex;
 
 /**
- * Tämä on testiluokista eriytetty suorituskykytestaaja.
+ * Testiluokista eriytetty suorituskykytestaaja.
  * @author linaksel
  */
 public class Performance {
@@ -22,36 +22,42 @@ public class Performance {
      */
     
     public static void main(String[] args) {
-        sulkuTestaus();
+        groupRepetitionTest();  
     }
     
     /**
-     * Metodi testaa sulkuryhmien toiston tehokkuutta eri sulkutasoilla
+     * Metodi testaa sulkuryhmien toiston tehokkuutta eri sulkutasoilla.
      */
     
-    public static void sulkuTestaus() {
+    public static void groupRepetitionTest() {
         regex.setRegex("(.)*");
-        regex.setSana("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaxxxxxxxxxxxxxxxxxxxaaaaaaaaaaaaaaayyyyyyyyyyaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-        
-        while (regex.getRegex().length() < 1000)  {
-            long alku = System.currentTimeMillis();
-            regex.tulkki("", regex.getRegex().length() - 1);
-            long aika = System.currentTimeMillis() - alku;
-            System.out.println(aika + " tunnistettu: " + regex.getFound());
-            regex.setRegex("(" + regex.getRegex() + ")*");
-        }
-    }
-    
-    public static void sulkuTestaus2() {
-        regex.setRegex("((((((((((((((((((((((((((((((.)*)*)*)*)*)*)*)*)*)*)*)*)*)*)*)*)*)*)*)*)*)*)*)*)*)*)*)*)*)*");
         regex.setSana("a");
         
-        while (regex.getSana().length() < 1000)  {
+        System.out.println("Group repetiotion test:");
+        while (regex.getRegex().length() < 2500)  {
             long alku = System.currentTimeMillis();
             regex.tulkki("", regex.getRegex().length() - 1);
             long aika = System.currentTimeMillis() - alku;
-            System.out.println(aika + " tunnistettu: " + regex.getFound());
-            regex.setSana(regex.getSana() + (char) System.currentTimeMillis() % 200);
+            System.out.println(aika + " match: " + regex.getFound() + ". Length of regex: " + regex.getRegex().length());
+            regex.setRegex("((" + regex.getRegex() + ")*)*");
+        }
+        
+        groupRepetitionTestPart2();
+    }
+    
+    /**
+     * Metodi testaa merkkijonon koon merkitystä suoritusaikaan. 
+     */
+    
+    public static void groupRepetitionTestPart2() {
+        
+        System.out.println("Group repetition part 2:");
+        while (regex.getSana().length() < 140)  {
+            long alku = System.currentTimeMillis();
+            regex.tulkki("", regex.getRegex().length() - 1);
+            long aika = System.currentTimeMillis() - alku;
+            System.out.println(aika + " match: " + regex.getFound() + ". Length of string: " + regex.getSana().length());
+            regex.setSana(regex.getSana() + (char) ((System.currentTimeMillis() % 50) + 50));
         }
     }
     
