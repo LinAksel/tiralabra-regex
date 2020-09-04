@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Validator.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">tiralabra-regex</a> &gt; <a href="index.source.html" class="el_package">regex.logic</a> &gt; <span class="el_source">Validator.java</span></div><h1>Validator.java</h1><pre class="source lang-java linenums">package regex.logic;
+
+/**
+ * Esitarkastaja säännölliselle lausekkeelle. Tämä tarkistaa, onko annetussa regexissä syntaksivirheitä.
+ * @author linaksel
+ */
+
+public class Validator {
+    
+    private int opening;
+    private int closing;
+    private boolean specialbefore;
+    private boolean escapebefore;
+    private String regex;
+    private String message;
+    
+    /**
+     * Luokan konstruktori.
+     * @param regex Tarkastettava uusi säännöllinen lauseke.
+     */
+    
+<span class="fc" id="L22">    public Validator(String regex) {</span>
+<span class="fc" id="L23">        this.opening = 0;</span>
+<span class="fc" id="L24">        this.closing = 0;</span>
+<span class="fc" id="L25">        this.specialbefore = false;</span>
+<span class="fc" id="L26">        this.escapebefore = false;</span>
+<span class="fc" id="L27">        this.regex = regex;</span>
+<span class="fc" id="L28">        this.message = &quot;OK&quot;;</span>
+<span class="fc" id="L29">    }</span>
+    
+    /**
+     * Metodi tutkii, onko merkki erikoismerkki.
+     * @param character Säännöllisen lauseen tarkasteltava character
+     * @return Palauttaa true, kun specialCharacter, muutoin false
+     */
+    
+    public boolean specialCharacter(char character) {
+<span class="fc bfc" id="L38" title="All 8 branches covered.">        if (character == '*' || character == '+' || character == '?' || character == '|') {</span>
+<span class="fc" id="L39">            return true;</span>
+        }
+<span class="fc" id="L41">        return false;</span>
+    }
+    
+    /**
+     * Metodi tutkii, onko merkki erikoismerkki escapekontekstissa.
+     * @param character Säännöllisen lauseen tarkasteltava character
+     * @return Palauttaa true, kun specialCharacter, muutoin false
+     */
+    
+    public boolean escapeSpecial(char character) {
+<span class="fc bfc" id="L51" title="All 12 branches covered.">        if (character == '(' || character == ')' || character == 'e' || character == 'd' || character == '.' || character == '\\') {</span>
+<span class="fc" id="L52">            return true;</span>
+        }
+<span class="fc" id="L54">        return false;</span>
+    }
+    
+    /**
+     * Apufunktio totuusarvojen asettamiseen copypasten poistamiseksi.
+     * @param special Asetettava arvo sille, onko edellinen specialCharacter vai ei
+     * @param escape Asetettava arvo sille, onko edellinen escape vai ei
+     */
+    
+    public void booleanSet(boolean special, boolean escape) {
+<span class="fc" id="L64">        this.escapebefore = escape;</span>
+<span class="fc" id="L65">        this.specialbefore = special;</span>
+<span class="fc" id="L66">    }</span>
+    
+    /**
+     * Apufunktio tarkastajalle. Hoitaa totuusarvojen ja sulkujen maaran asettamisen.
+     * @param character Tarkasteltava regexin character
+     */
+    
+    public void validateCharacter(char character) {
+<span class="fc bfc" id="L74" title="All 2 branches covered.">        if (escapebefore) {</span>
+<span class="fc" id="L75">            booleanSet(false, false);</span>
+<span class="fc bfc" id="L76" title="All 2 branches covered.">        } else if (specialCharacter(character)) {</span>
+<span class="fc" id="L77">            booleanSet(true, false);</span>
+<span class="fc bfc" id="L78" title="All 2 branches covered.">        } else if (character == '\\') {</span>
+<span class="fc" id="L79">            booleanSet(false, true);</span>
+<span class="fc bfc" id="L80" title="All 2 branches covered.">        } else if (character == '(') {</span>
+<span class="fc" id="L81">            booleanSet(false, false);</span>
+<span class="fc" id="L82">            this.opening++;</span>
+<span class="fc bfc" id="L83" title="All 2 branches covered.">        } else if (character == ')') {</span>
+<span class="fc" id="L84">            booleanSet(false, false);</span>
+<span class="fc" id="L85">            this.closing++;</span>
+        } else {
+<span class="fc" id="L87">            booleanSet(false, false);</span>
+        }
+<span class="fc" id="L89">    }</span>
+    
+    /**
+     * Tarkastajan toiminnallinen osa. Metodi tutkii, onko säännöllinen lauseke kirjoitettu oikein.
+     * @return Palauttaa true, mikäli säännöllinen lauseke on kirjoitettu oikein, muutoin false.
+     */
+    
+    public boolean validate() {
+<span class="fc bfc" id="L97" title="All 2 branches covered.">        if (regex.length() == 0) {</span>
+<span class="fc" id="L98">            return true;</span>
+        }
+<span class="fc" id="L100">        char character = regex.charAt(0);</span>
+<span class="fc bfc" id="L101" title="All 4 branches covered.">        if (character == ')' || specialCharacter(character)) {</span>
+<span class="fc" id="L102">            this.message = &quot;Invalid start of regular expression, check first character '&quot; + character + &quot;'&quot;;</span>
+<span class="fc" id="L103">            return false;</span>
+        }
+<span class="fc bfc" id="L105" title="All 2 branches covered.">        for (int i = 0; i &lt; regex.length(); i++) {</span>
+<span class="fc" id="L106">            character = regex.charAt(i);</span>
+<span class="fc bfc" id="L107" title="All 4 branches covered.">            if (specialCharacter(character) &amp;&amp; specialbefore) {</span>
+<span class="fc" id="L108">                this.message = &quot;Invalid quantifier at character &quot; + (i + 1) + &quot;: &quot; + character + &quot;, check for double quantifier error&quot;;</span>
+<span class="fc" id="L109">                return false;</span>
+<span class="fc bfc" id="L110" title="All 6 branches covered.">            } else if (!specialCharacter(character) &amp;&amp; !escapeSpecial(character) &amp;&amp; escapebefore) {</span>
+<span class="fc" id="L111">                this.message = &quot;Invalid use of escape at character &quot; + (i + 1) + &quot;: &quot; + character + &quot;, check the manual for supported escape uses&quot;;</span>
+<span class="fc" id="L112">                return false;</span>
+            }
+<span class="fc" id="L114">            validateCharacter(character);</span>
+<span class="fc bfc" id="L115" title="All 2 branches covered.">            if (closing &gt; opening) {</span>
+<span class="fc" id="L116">                this.message = &quot;Invalid parenthesis at character &quot; + (i + 1) + &quot;: &quot; + character + &quot;, nothing to close.&quot;;</span>
+<span class="fc" id="L117">                return false;</span>
+            }
+        }
+<span class="fc bfc" id="L120" title="All 2 branches covered.">        if (opening != closing) {</span>
+<span class="fc" id="L121">            this.message = &quot;Non-matching amount of parenthesis found&quot;;</span>
+<span class="fc" id="L122">            return false;</span>
+        }
+<span class="fc" id="L124">        return true;</span>
+    }
+    
+    /**
+     * Metodilla saadaan virheviesti haettua.
+     * @return Palauttaa virheviestin tai &quot;OK&quot;, mikäli virhettä ei ole
+     */
+    
+    public String getMessage() {
+<span class="fc" id="L133">        return message;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

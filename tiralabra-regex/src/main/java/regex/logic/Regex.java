@@ -108,7 +108,7 @@ public class Regex {
     public int findEnding(int index) {
         int open = 0;
         int close = 0;
-        while (index < regex.length() - 1) {
+        while (index < regex.length() - 2) {
             index++;
             if (regex.charAt(index) == ')' && isSpecialCharacter(index) && open == close) {
                 break;
@@ -257,7 +257,7 @@ public class Regex {
     
     public void endOfGroup(String test, int index) {
         int newindex = findEnding(index);
-        if (newindex < regex.length() - 1 && (regex.charAt(newindex + 1) == '+' || regex.charAt(newindex + 1) == '*') && test.length() > 0 && lolimits[newindex] < test.length()) {
+        if ((regex.charAt(newindex + 1) == '+' || regex.charAt(newindex + 1) == '*') && test.length() > 0 && lolimits[newindex] < test.length()) {
             translator(test, newindex);
         }
         translator(test, index - 1);

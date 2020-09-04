@@ -13,304 +13,287 @@ package regex.logic;
 public class Regex {
     
     private String regex;
-    private String sana;
-    private Boolean lukko;
-    private int[] maarat;
-<span class="fc" id="L19">    private int maara = 0;</span>
+    private String string;
+    private Boolean matchfound;
+    private int[] lolimits;
     
     /**
      * Luokan konstruktori.
      */
     
-<span class="fc" id="L25">    public Regex() {</span>
-<span class="fc" id="L26">        this.lukko = false;</span>
-<span class="fc" id="L27">    }</span>
+<span class="fc" id="L24">    public Regex() {</span>
+<span class="fc" id="L25">        this.matchfound = false;</span>
+<span class="fc" id="L26">    }</span>
     
-    //TÄTÄ __PITÄÄ__ SELKEYTTÄÄ ENNEN KURSSIN LOPPUA
     /** 
      * Metodi hoitaa testisyötteeseen merkin lisäämisen.
-     * @param kohta Säännöllisen lauseen kohta
-     * @param testi Rakennettava merkkijono, jota verrataan sanaan.
+     * @param index Säännöllisen lauseen kohta
+     * @param test Rakennettava merkkijono, jota verrataan sanaan.
      * @return Palauttaa joko annetun testijonon tai testijonon, johon lisätty kirjain
      */
     
-    public String lisaaja(int kohta, String testi) {
-<span class="fc" id="L38">        char merkki = regex.charAt(kohta);</span>
-<span class="fc" id="L39">        int erotus = sana.length() - testi.length();</span>
-<span class="fc bfc" id="L40" title="All 2 branches covered.">        if (!onErikoismerkki(kohta)) {</span>
-<span class="fc" id="L41">            return merkki + testi;</span>
-<span class="fc bfc" id="L42" title="All 4 branches covered.">        } else if (regex.charAt(kohta) == '.' &amp;&amp; erotus &gt; 0) {</span>
-<span class="fc" id="L43">            merkki = sana.charAt(erotus - 1);</span>
-<span class="fc" id="L44">            return merkki + testi;</span>
-<span class="fc bfc" id="L45" title="All 2 branches covered.">        } else if (regex.charAt(kohta) == '.') {</span>
-<span class="fc" id="L46">            return merkki + testi;</span>
-<span class="fc bfc" id="L47" title="All 4 branches covered.">        } else if (regex.charAt(kohta) == 'd' &amp;&amp; erotus &gt; 0) {</span>
-<span class="fc" id="L48">            merkki = sana.charAt(erotus - 1);</span>
-<span class="fc bfc" id="L49" title="All 2 branches covered.">            if (isNumber(merkki)) {</span>
-<span class="fc" id="L50">                return merkki + testi;</span>
-            } else {
-<span class="fc" id="L52">                return &quot;1&quot; + testi;</span>
-            }
-<span class="fc bfc" id="L54" title="All 2 branches covered.">        } else if (regex.charAt(kohta) == 'd') {</span>
-<span class="fc" id="L55">            return merkki + testi;</span>
+    public String stringBuilder(int index, String test) {
+<span class="fc" id="L36">        char character = regex.charAt(index);</span>
+<span class="fc" id="L37">        int diff = string.length() - test.length();</span>
+<span class="fc bfc" id="L38" title="All 2 branches covered.">        if (!isSpecialCharacter(index)) {</span>
+<span class="fc" id="L39">            return character + test;</span>
+<span class="fc bfc" id="L40" title="All 4 branches covered.">        } else if (regex.charAt(index) == '.' &amp;&amp; diff &gt; 0) {</span>
+<span class="fc" id="L41">            character = string.charAt(diff - 1);</span>
+<span class="fc" id="L42">            return character + test;</span>
+<span class="fc bfc" id="L43" title="All 2 branches covered.">        } else if (regex.charAt(index) == '.') {</span>
+<span class="fc" id="L44">            return character + test;</span>
+<span class="fc bfc" id="L45" title="All 6 branches covered.">        } else if (regex.charAt(index) == 'd' &amp;&amp; diff &gt; 0 &amp;&amp; isNumber(string.charAt(diff - 1))) {</span>
+<span class="fc" id="L46">            character = string.charAt(diff - 1);</span>
+<span class="fc" id="L47">            return character + test;</span>
+<span class="fc bfc" id="L48" title="All 2 branches covered.">        } else if (regex.charAt(index) == 'd') {</span>
+<span class="fc" id="L49">            return &quot;1&quot; + test;</span>
         }
-<span class="fc" id="L57">        return testi;</span>
+<span class="fc" id="L51">        return test;</span>
     }
     
     /**
-     * Metodi tarkistaa, toimiiko säännöllisen lauseen annetussa kohdassa oleva merkki.
-     * metamerkkinä vai tavallisena merkkinä
-     * @param kohta Säännöllisen lauseen kohta
-     * @return Palauttaa true, jos kyseessä metamerkki, muutoin false
+     * Metodi tarkistaa, toimiiko säännöllisen lauseen annetussa kohdassa oleva merkki erikoismerkkinä.
+     * @param index Säännöllisen lauseen kohta
+     * @return Palauttaa true, jos kyseessä erikoismerkki, muutoin false
      */
     
-    public boolean onErikoismerkki(int kohta) {
-<span class="fc" id="L68">        char merkki = regex.charAt(kohta);</span>
-<span class="fc bfc" id="L69" title="All 20 branches covered.">        if ((merkki != ')' &amp;&amp; merkki != '(' &amp;&amp; merkki != '*' &amp;&amp; merkki != '?' &amp;&amp; merkki != '+' &amp;&amp; merkki != '.' &amp;&amp; merkki != '|' &amp;&amp; merkki != (char) 92 &amp;&amp; merkki != 'e' &amp;&amp; merkki != 'd')) {</span>
-<span class="fc" id="L70">            return false;</span>
-<span class="fc bfc" id="L71" title="All 4 branches covered.">        } else if (kohta &gt; 0 &amp;&amp; regex.charAt(kohta - 1) == '\\') {</span>
-<span class="fc" id="L72">            int maara = 1;</span>
-<span class="fc bfc" id="L73" title="All 4 branches covered.">            while (kohta - maara - 1 &gt; -1 &amp;&amp; regex.charAt(kohta - maara - 1) == '\\') {</span>
-<span class="fc" id="L74">                maara++;</span>
+    public boolean isSpecialCharacter(int index) {
+<span class="fc" id="L61">        char character = regex.charAt(index);</span>
+<span class="fc bfc" id="L62" title="All 20 branches covered.">        if ((character != ')' &amp;&amp; character != '(' &amp;&amp; character != '*' &amp;&amp; character != '?' &amp;&amp; character != '+' &amp;&amp; character != '.' &amp;&amp; character != '|' &amp;&amp; character != (char) 92 &amp;&amp; character != 'e' &amp;&amp; character != 'd')) {</span>
+<span class="fc" id="L63">            return false;</span>
+<span class="fc bfc" id="L64" title="All 4 branches covered.">        } else if (index &gt; 0 &amp;&amp; regex.charAt(index - 1) == '\\') {</span>
+<span class="fc" id="L65">            int escapes = 1;</span>
+<span class="fc bfc" id="L66" title="All 4 branches covered.">            while (index - escapes - 1 &gt; -1 &amp;&amp; regex.charAt(index - escapes - 1) == '\\') {</span>
+<span class="fc" id="L67">                escapes++;</span>
             }
-<span class="fc bfc" id="L76" title="All 6 branches covered.">            if (maara % 2 != 0 &amp;&amp; (merkki != 'e' &amp;&amp; merkki != 'd')) {</span>
-<span class="fc" id="L77">                return false;</span>
-<span class="fc bfc" id="L78" title="All 6 branches covered.">            } else if ((merkki == 'd' || merkki == 'e') &amp;&amp; maara % 2 == 0) {</span>
-<span class="fc" id="L79">                return false;</span>
+<span class="fc bfc" id="L69" title="All 6 branches covered.">            if (escapes % 2 != 0 &amp;&amp; (character != 'e' &amp;&amp; character != 'd')) {</span>
+<span class="fc" id="L70">                return false;</span>
+<span class="fc bfc" id="L71" title="All 6 branches covered.">            } else if ((character == 'd' || character == 'e') &amp;&amp; escapes % 2 == 0) {</span>
+<span class="fc" id="L72">                return false;</span>
             }
-<span class="fc bfc" id="L81" title="All 6 branches covered.">        } else if (kohta &gt; 0 &amp;&amp; (merkki == 'e' || merkki == 'd')) {</span>
-<span class="fc" id="L82">            return false;</span>
+<span class="fc bfc" id="L74" title="All 6 branches covered.">        } else if (index &gt; 0 &amp;&amp; (character == 'e' || character == 'd')) {</span>
+<span class="fc" id="L75">            return false;</span>
         }
-<span class="fc" id="L84">        return true;</span>
+<span class="fc" id="L77">        return true;</span>
     }
     
     /**
      * Metodi etsii käsiteltävän sulkutason alun.
-     * @param kohta Säännöllisen lauseen kohta
+     * @param index Säännöllisen lauseen kohta
      * @return Palauttaa sulkutason aloituskohdan
      */
     
-    public int etsiAlku(int kohta) {
-<span class="fc" id="L94">        int sulut = 0;</span>
-<span class="fc" id="L95">        int sullut = 0;</span>
-<span class="fc bfc" id="L96" title="All 2 branches covered.">        while (kohta &gt; 0) {</span>
-<span class="fc" id="L97">            kohta--;</span>
-<span class="fc bfc" id="L98" title="All 6 branches covered.">            if (regex.charAt(kohta) == '(' &amp;&amp; onErikoismerkki(kohta) &amp;&amp; sulut == sullut) {</span>
-<span class="fc" id="L99">                return kohta;</span>
-<span class="fc bfc" id="L100" title="All 4 branches covered.">            } else if (regex.charAt(kohta) == ')' &amp;&amp; onErikoismerkki(kohta)) {</span>
-<span class="fc" id="L101">                sullut++;</span>
-<span class="fc bfc" id="L102" title="All 4 branches covered.">            } else if (regex.charAt(kohta) == '(' &amp;&amp; onErikoismerkki(kohta)) {</span>
-<span class="fc" id="L103">                sulut++;</span>
+    public int findStart(int index) {
+<span class="fc" id="L87">        int open = 0;</span>
+<span class="fc" id="L88">        int close = 0;</span>
+<span class="fc bfc" id="L89" title="All 2 branches covered.">        while (index &gt; 0) {</span>
+<span class="fc" id="L90">            index--;</span>
+<span class="fc bfc" id="L91" title="All 6 branches covered.">            if (regex.charAt(index) == '(' &amp;&amp; isSpecialCharacter(index) &amp;&amp; open == close) {</span>
+<span class="fc" id="L92">                return index;</span>
+<span class="fc bfc" id="L93" title="All 4 branches covered.">            } else if (regex.charAt(index) == ')' &amp;&amp; isSpecialCharacter(index)) {</span>
+<span class="fc" id="L94">                close++;</span>
+<span class="fc bfc" id="L95" title="All 4 branches covered.">            } else if (regex.charAt(index) == '(' &amp;&amp; isSpecialCharacter(index)) {</span>
+<span class="fc" id="L96">                open++;</span>
             }
         }
-<span class="fc" id="L106">        return -1;</span>
+<span class="fc" id="L99">        return -1;</span>
     }
     
     /**
      * Metodi etsii käsiteltävän sulkutason lopun.
-     * @param kohta Säännöllisen lauseen kohta
+     * @param index Säännöllisen lauseen kohta
      * @return Palauttaa sulkutason päätöskohdan
      */
     
-    public int etsiLoppu(int kohta) {
-<span class="fc" id="L116">        int sulut = 0;</span>
-<span class="fc" id="L117">        int sullut = 0;</span>
-<span class="fc bfc" id="L118" title="All 2 branches covered.">        while (kohta &lt; regex.length() - 1) {</span>
-<span class="fc" id="L119">            kohta++;</span>
-<span class="fc bfc" id="L120" title="All 6 branches covered.">            if (regex.charAt(kohta) == ')' &amp;&amp; onErikoismerkki(kohta) &amp;&amp; sulut == sullut) {</span>
-<span class="fc" id="L121">                break;</span>
-<span class="fc bfc" id="L122" title="All 4 branches covered.">            } else if (regex.charAt(kohta) == ')' &amp;&amp; onErikoismerkki(kohta)) {</span>
-<span class="fc" id="L123">                sullut++;</span>
-<span class="fc bfc" id="L124" title="All 4 branches covered.">            } else if (regex.charAt(kohta) == '(' &amp;&amp; onErikoismerkki(kohta)) {</span>
-<span class="fc" id="L125">                sulut++;</span>
+    public int findEnding(int index) {
+<span class="fc" id="L109">        int open = 0;</span>
+<span class="fc" id="L110">        int close = 0;</span>
+<span class="fc bfc" id="L111" title="All 2 branches covered.">        while (index &lt; regex.length() - 2) {</span>
+<span class="fc" id="L112">            index++;</span>
+<span class="fc bfc" id="L113" title="All 6 branches covered.">            if (regex.charAt(index) == ')' &amp;&amp; isSpecialCharacter(index) &amp;&amp; open == close) {</span>
+<span class="fc" id="L114">                break;</span>
+<span class="fc bfc" id="L115" title="All 4 branches covered.">            } else if (regex.charAt(index) == ')' &amp;&amp; isSpecialCharacter(index)) {</span>
+<span class="fc" id="L116">                close++;</span>
+<span class="fc bfc" id="L117" title="All 4 branches covered.">            } else if (regex.charAt(index) == '(' &amp;&amp; isSpecialCharacter(index)) {</span>
+<span class="fc" id="L118">                open++;</span>
             }
         }
-<span class="fc" id="L128">        return kohta; </span>
+<span class="fc" id="L121">        return index; </span>
     }
     /**
      * Metodi etsii käsitelävällä sulkutasolla mahdollisesti olevan tai-merkin.
-     * @param kohta Säännöllisen lauseen kohta
+     * @param index Säännöllisen lauseen kohta
      * @return Palauttaa joko sopivan tai-merkin kohdan tai säännöllisen lauseen alun
      */
     
-    public int etsiTai(int kohta) {
-<span class="fc" id="L137">        int sulut = 0;</span>
-<span class="fc" id="L138">        int sullut = 0;</span>
-<span class="fc bfc" id="L139" title="All 2 branches covered.">        while (kohta &gt; 0) {</span>
-<span class="fc" id="L140">            kohta--;</span>
-<span class="fc bfc" id="L141" title="All 4 branches covered.">            if (regex.charAt(kohta) == '(' &amp;&amp; onErikoismerkki(kohta)) {</span>
-<span class="fc" id="L142">                sulut++;</span>
-<span class="fc bfc" id="L143" title="All 4 branches covered.">            } else if (regex.charAt(kohta) == ')' &amp;&amp; onErikoismerkki(kohta)) {</span>
-<span class="fc" id="L144">                sullut++;</span>
-<span class="fc bfc" id="L145" title="All 6 branches covered.">            } else if (regex.charAt(kohta) == '|' &amp;&amp; onErikoismerkki(kohta) &amp;&amp; sulut == sullut) {</span>
-<span class="fc" id="L146">                return kohta;</span>
+    public int findOr(int index) {
+<span class="fc" id="L130">        int open = 0;</span>
+<span class="fc" id="L131">        int close = 0;</span>
+<span class="fc bfc" id="L132" title="All 2 branches covered.">        while (index &gt; 0) {</span>
+<span class="fc" id="L133">            index--;</span>
+<span class="fc bfc" id="L134" title="All 4 branches covered.">            if (regex.charAt(index) == '(' &amp;&amp; isSpecialCharacter(index)) {</span>
+<span class="fc" id="L135">                open++;</span>
+<span class="fc bfc" id="L136" title="All 4 branches covered.">            } else if (regex.charAt(index) == ')' &amp;&amp; isSpecialCharacter(index)) {</span>
+<span class="fc" id="L137">                close++;</span>
+<span class="fc bfc" id="L138" title="All 6 branches covered.">            } else if (regex.charAt(index) == '|' &amp;&amp; isSpecialCharacter(index) &amp;&amp; open == close) {</span>
+<span class="fc" id="L139">                return index;</span>
             }
         }
-<span class="fc" id="L149">        return kohta;</span>
+<span class="fc" id="L142">        return index;</span>
     }
     
     /**
      * Tulkin toiminnallinen osa. Metodi käy läpi annettua säännöllistä lausetta oikealta vasemmalle,
      * ja rakentaa sen pohjalta rekursiivisesti merkkijonoja, joita verrataan annettuun sanaan.
-     * Mikäli vastaavuus löytyy annetun sanan ja testimerkkijonon väliltä niin, että ollaan päästy samalla säännöllisen lauseen loppuun,
-     * kytketään päälle lukko, joka pysäyttää nopeasti loput rekursiot ja toimii myös &quot;löydetty&quot;-totuusarvona.
-     * @param testi Säännöllisen lauseen pohjalta rakennettavia testimerkkijonoja
-     * @param kohta Säännöllisen lauseen kohta
+     * @param test Säännöllisen lauseen pohjalta rakennettavia testimerkkijonoja
+     * @param index Säännöllisen lauseen kohta
      */
     
-    public void tulkki(String testi, int kohta) {
-<span class="fc bfc" id="L162" title="All 8 branches covered.">        if (testi.length() &gt; sana.length() || !sana.endsWith(testi) || lukko || kohta &lt; -1) {</span>
-<span class="fc" id="L163">            return;</span>
+    public void translator(String test, int index) {
+<span class="fc bfc" id="L153" title="All 8 branches covered.">        if (test.length() &gt; string.length() || !string.endsWith(test) || matchfound || index &lt; -1) {</span>
+<span class="fc" id="L154">            return;</span>
         }
-<span class="fc bfc" id="L165" title="All 2 branches covered.">        if (kohta == -1) {</span>
-<span class="fc bfc" id="L166" title="All 2 branches covered.">            if (testi.equals(sana)) {</span>
-<span class="fc" id="L167">                lukko = true;</span>
+<span class="fc bfc" id="L156" title="All 2 branches covered.">        if (index == -1) {</span>
+<span class="fc bfc" id="L157" title="All 2 branches covered.">            if (test.equals(string)) {</span>
+<span class="fc" id="L158">                matchfound = true;</span>
             }
-<span class="fc" id="L169">            return;</span>
+<span class="fc" id="L160">            return;</span>
         }
-<span class="fc bfc" id="L171" title="All 6 branches covered.">        if ((regex.charAt(kohta) == ')' &amp;&amp; onErikoismerkki(kohta)) || kohta == regex.length() - 1) {</span>
-<span class="fc" id="L172">            startOfGroup(testi, kohta);</span>
+<span class="fc bfc" id="L162" title="All 6 branches covered.">        if ((regex.charAt(index) == ')' &amp;&amp; isSpecialCharacter(index)) || index == regex.length() - 1) {</span>
+<span class="fc" id="L163">            startOfGroup(test, index);</span>
         }
-<span class="fc bfc" id="L174" title="All 4 branches covered.">        if (regex.charAt(kohta) == '(' &amp;&amp; onErikoismerkki(kohta)) {</span>
-<span class="fc" id="L175">            endOfGroup(testi, kohta);</span>
-<span class="fc bfc" id="L176" title="All 4 branches covered.">        } else if (regex.charAt(kohta) == '+' &amp;&amp; onErikoismerkki(kohta)) {</span>
-<span class="fc" id="L177">            atLeastOnce(testi, kohta);</span>
-<span class="fc bfc" id="L178" title="All 4 branches covered.">        } else if (regex.charAt(kohta) == '*' &amp;&amp; onErikoismerkki(kohta)) {</span>
-<span class="fc" id="L179">            kleeneStar(testi, kohta);</span>
-<span class="fc bfc" id="L180" title="All 4 branches covered.">        } else if (regex.charAt(kohta) == '?' &amp;&amp; onErikoismerkki(kohta)) {</span>
-<span class="fc" id="L181">            noneOrOnce(testi, kohta);</span>
-<span class="fc bfc" id="L182" title="All 4 branches covered.">        } else if (regex.charAt(kohta) == '|' &amp;&amp; onErikoismerkki(kohta)) {</span>
-<span class="fc" id="L183">            thisOrThat(testi, kohta);</span>
-<span class="fc bfc" id="L184" title="All 4 branches covered.">        } else if (regex.charAt(kohta) == 'e' &amp;&amp; onErikoismerkki(kohta)) {</span>
-<span class="fc" id="L185">            tulkki(testi, kohta - 2);</span>
+<span class="fc bfc" id="L165" title="All 4 branches covered.">        if (regex.charAt(index) == '(' &amp;&amp; isSpecialCharacter(index)) {</span>
+<span class="fc" id="L166">            endOfGroup(test, index);</span>
+<span class="fc bfc" id="L167" title="All 4 branches covered.">        } else if (regex.charAt(index) == '+' &amp;&amp; isSpecialCharacter(index)) {</span>
+<span class="fc" id="L168">            atLeastOnce(test, index);</span>
+<span class="fc bfc" id="L169" title="All 4 branches covered.">        } else if (regex.charAt(index) == '*' &amp;&amp; isSpecialCharacter(index)) {</span>
+<span class="fc" id="L170">            kleeneStar(test, index);</span>
+<span class="fc bfc" id="L171" title="All 4 branches covered.">        } else if (regex.charAt(index) == '?' &amp;&amp; isSpecialCharacter(index)) {</span>
+<span class="fc" id="L172">            noneOrOnce(test, index);</span>
+<span class="fc bfc" id="L173" title="All 4 branches covered.">        } else if (regex.charAt(index) == '|' &amp;&amp; isSpecialCharacter(index)) {</span>
+<span class="fc" id="L174">            thisOrThat(test, index);</span>
+<span class="fc bfc" id="L175" title="All 4 branches covered.">        } else if (regex.charAt(index) == 'e' &amp;&amp; isSpecialCharacter(index)) {</span>
+<span class="fc" id="L176">            translator(test, index - 2);</span>
         } else {
-<span class="fc" id="L187">            String uustesti = lisaaja(kohta, testi);</span>
-<span class="fc" id="L188">            tulkki(uustesti, kohta - 1);</span>
+<span class="fc" id="L178">            String newtest = stringBuilder(index, test);</span>
+<span class="fc" id="L179">            translator(newtest, index - 1);</span>
         }
-<span class="fc" id="L190">    }</span>
+<span class="fc" id="L181">    }</span>
     
     /**
      * Metodi käsittelee erikoismerkin '*', eli mielivaltaisen toiston.
-     * Tässä haaraudutaan kolmeen: lisätään merkki ja pysytään paikallaan, lisätään ja jatketaan,
-     * tai ei lisätä ja jatketaan.
-     * @param testi Tämänhetkinen testattava merkkijono
-     * @param kohta Säännöllisen lauseen kohta
+     * @param test Tämänhetkinen testattava merkkijono
+     * @param index Säännöllisen lauseen kohta
      */
-    public void kleeneStar(String testi, int kohta) {
-<span class="fc" id="L200">        String uustesti = lisaaja(kohta - 1, testi);</span>
-<span class="fc bfc" id="L201" title="All 2 branches covered.">        if (!uustesti.equals(testi)) {</span>
-<span class="fc" id="L202">            tulkki(uustesti, kohta);</span>
-<span class="fc" id="L203">            tulkki(uustesti, kohta - 2);</span>
-<span class="fc" id="L204">            tulkki(testi, kohta - 2);</span>
+    public void kleeneStar(String test, int index) {
+<span class="fc" id="L189">        String newtest = stringBuilder(index - 1, test);</span>
+<span class="fc bfc" id="L190" title="All 2 branches covered.">        if (!newtest.equals(test)) {</span>
+<span class="fc" id="L191">            translator(newtest, index);</span>
+<span class="fc" id="L192">            translator(newtest, index - 2);</span>
+<span class="fc" id="L193">            translator(test, index - 2);</span>
         } else {
-<span class="fc bfc" id="L206" title="All 2 branches covered.">            if (regex.charAt(kohta - 1) == ')') {</span>
-<span class="fc" id="L207">                tulkki(testi, etsiAlku(kohta - 1));</span>
+<span class="fc bfc" id="L195" title="All 2 branches covered.">            if (regex.charAt(index - 1) == ')') {</span>
+<span class="fc" id="L196">                translator(test, findStart(index - 1));</span>
             }
-<span class="fc" id="L209">            tulkki(testi, kohta - 1);</span>
+<span class="fc" id="L198">            translator(test, index - 1);</span>
         }
-<span class="fc" id="L211">    }</span>
+<span class="fc" id="L200">    }</span>
     
     /**
      * Metodi käsittelee erikoismerkin '?', eli &quot;kerran tai ei kertaakaan&quot;.
-     * Käytännössä haaraudutaan siis kahteen, lisätyn ja lisäämättömän merkin tilanteeseen.
-     * @param testi Tämänhetkinen testattava merkkijono
-     * @param kohta Säännöllisen lauseen kohta
+     * @param test Tämänhetkinen testattava merkkijono
+     * @param index Säännöllisen lauseen kohta
      */
     
-    public void noneOrOnce(String testi, int kohta) {
-<span class="fc" id="L221">        String uustesti = lisaaja(kohta - 1, testi);</span>
-<span class="fc bfc" id="L222" title="All 2 branches covered.">        if (!uustesti.equals(testi)) {</span>
-<span class="fc" id="L223">            tulkki(uustesti, kohta - 2);</span>
-<span class="fc" id="L224">            tulkki(testi, kohta - 2);</span>
+    public void noneOrOnce(String test, int index) {
+<span class="fc" id="L209">        String newtest = stringBuilder(index - 1, test);</span>
+<span class="fc bfc" id="L210" title="All 2 branches covered.">        if (!newtest.equals(test)) {</span>
+<span class="fc" id="L211">            translator(newtest, index - 2);</span>
+<span class="fc" id="L212">            translator(test, index - 2);</span>
         } else {
-<span class="fc bfc" id="L226" title="All 2 branches covered.">            if (regex.charAt(kohta - 1) == ')') {</span>
-<span class="fc" id="L227">                tulkki(testi, etsiAlku(kohta - 1));</span>
+<span class="fc bfc" id="L214" title="All 2 branches covered.">            if (regex.charAt(index - 1) == ')') {</span>
+<span class="fc" id="L215">                translator(test, findStart(index - 1));</span>
             }
-<span class="fc" id="L229">            tulkki(testi, kohta - 1);</span>
+<span class="fc" id="L217">            translator(test, index - 1);</span>
         }
-<span class="fc" id="L231">    }</span>
+<span class="fc" id="L219">    }</span>
     
     /**
      * Metodi käsittelee erikoismerkin '+', eli &quot;vähintään yhden toiston&quot;.
-     * Käytännössä siis mikäli seuraava merkki ei ole erikoismerkki, lisätään se varmasti ainakin kerran.
-     * @param testi Tämänhetkinen testattava merkkijono
-     * @param kohta Säännöllisen lauseen kohta
+     * @param test Tämänhetkinen testattava merkkijono
+     * @param index Säännöllisen lauseen kohta
      */
     
-    public void atLeastOnce(String testi, int kohta) {
-<span class="fc" id="L241">        String uustesti = lisaaja(kohta - 1, testi);</span>
-<span class="fc bfc" id="L242" title="All 2 branches covered.">        if (!uustesti.equals(testi)) {</span>
-<span class="fc" id="L243">            tulkki(uustesti, kohta);</span>
-<span class="fc" id="L244">            tulkki(uustesti, kohta - 2);</span>
+    public void atLeastOnce(String test, int index) {
+<span class="fc" id="L228">        String newtest = stringBuilder(index - 1, test);</span>
+<span class="fc bfc" id="L229" title="All 2 branches covered.">        if (!newtest.equals(test)) {</span>
+<span class="fc" id="L230">            translator(newtest, index);</span>
+<span class="fc" id="L231">            translator(newtest, index - 2);</span>
         } else {
-<span class="fc" id="L246">            tulkki(testi, kohta - 1);</span>
+<span class="fc" id="L233">            translator(test, index - 1);</span>
         }
-<span class="fc" id="L248">    }</span>
+<span class="fc" id="L235">    }</span>
     
     /**
      * Metodi käsittelee erikoismerkin '|', eli &quot;tain&quot;.
      * Käytännössä metodi vain vie sulkutason loppuun, sillä kaikki mahdolliset &quot;tait&quot; aloitetaan
-     * metodissa startOfGroup. Pieni lisämausta on kuitenkin, että tyhjä syöte sallitaan yksinkertaisten
-     * regexien lopussa epsilonina. Siispä 'a|' on sama kuin 'a|\e'.
-     * @param testi Tämänhetkinen testattava merkkijono
-     * @param kohta Säännöllisen lauseen kohta
+     * metodissa startOfGroup.
+     * @param test Tämänhetkinen testattava merkkijono
+     * @param index Säännöllisen lauseen kohta
      */
     
-    public void thisOrThat(String testi, int kohta) {
-<span class="fc" id="L260">        tulkki(testi, etsiAlku(kohta));</span>
-<span class="fc bfc" id="L261" title="All 2 branches covered.">        if (kohta == regex.length() - 1) {</span>
-<span class="fc" id="L262">            tulkki(testi, kohta - 1);</span>
+    public void thisOrThat(String test, int index) {
+<span class="fc" id="L246">        translator(test, findStart(index));</span>
+<span class="fc bfc" id="L247" title="All 2 branches covered.">        if (index == regex.length() - 1) {</span>
+<span class="fc" id="L248">            translator(test, index - 1);</span>
         }
+<span class="fc" id="L250">    }</span>
+    
+    /**
+     * Metodi käsittelee tilanteen, jossa nykyinen sulkutaso loppuu, ja tason mahdollisen toiston.
+     * @param test Tämänhetkinen testattava merkkijono
+     * @param index Säännöllisen lauseen kohta
+     */
+    
+    public void endOfGroup(String test, int index) {
+<span class="fc" id="L259">        int newindex = findEnding(index);</span>
+<span class="fc bfc" id="L260" title="All 8 branches covered.">        if ((regex.charAt(newindex + 1) == '+' || regex.charAt(newindex + 1) == '*') &amp;&amp; test.length() &gt; 0 &amp;&amp; lolimits[newindex] &lt; test.length()) {</span>
+<span class="fc" id="L261">            translator(test, newindex);</span>
+        }
+<span class="fc" id="L263">        translator(test, index - 1);</span>
 <span class="fc" id="L264">    }</span>
     
     /**
-     * Metodi käsittelee tilanteen, jossa nykyinen sulkutaso loppuu.
-     * Käytännössä se tutkii, voidaanko sulkutasoa toistaa merkein '*' tai '+',
-     * haarautuu toistoon ja jatkoon, tai vain jatkoon.
-     * @param testi Tämänhetkinen testattava merkkijono
-     * @param kohta Säännöllisen lauseen kohta
-     */
-    
-    public void endOfGroup(String testi, int kohta) {
-<span class="fc" id="L275">        int uusikohta = etsiLoppu(kohta);</span>
-<span class="fc bfc" id="L276" title="All 10 branches covered.">        if (uusikohta &lt; regex.length() - 1 &amp;&amp; (regex.charAt(uusikohta + 1) == '+' || regex.charAt(uusikohta + 1) == '*') &amp;&amp; testi.length() &gt; 0 &amp;&amp; maarat[uusikohta] &lt; testi.length()) {</span>
-<span class="fc" id="L277">            tulkki(testi, uusikohta);</span>
-        }
-<span class="fc" id="L279">        tulkki(testi, kohta - 1);</span>
-<span class="fc" id="L280">    }</span>
-    
-    /**
      * Metodi käsittelee tilanteen, jossa kohdataan uusi sulkutaso.
-     * Käytännössä se etsii kaikki uuden tason mahdolliset aloituskohdat apufunktion avulla, ja
-     * estää ikuiset loopit merkitsemällä, minkä pituinen merkkijonon on tässä kohdassa vähintään oltava
-     * toistojen tapahtuessa.
-     * @param testi Tämänhetkinen testattava merkkijono
-     * @param kohta Säännöllisen lauseen kohta
+     * Metodi etsii tason mahdolliset aloituskohdat avulla, ja
+     * estää tyhjän loopin merkitsemällä listaan toistomerkkijonon vähimmäispituuden.
+     * @param test Tämänhetkinen testattava merkkijono
+     * @param index Säännöllisen lauseen kohta
      */
     
-    public void startOfGroup(String testi, int kohta) {
-<span class="fc" id="L292">        int uusikohta = etsiTai(kohta);</span>
-<span class="fc bfc" id="L293" title="All 2 branches covered.">        if (kohta != regex.length() - 1) {</span>
-<span class="fc" id="L294">            maarat[kohta] = testi.length();</span>
+    public void startOfGroup(String test, int index) {
+<span class="fc" id="L275">        int newindex = findOr(index);</span>
+<span class="fc bfc" id="L276" title="All 2 branches covered.">        if (index != regex.length() - 1) {</span>
+<span class="fc" id="L277">            lolimits[index] = test.length();</span>
         }
-<span class="fc bfc" id="L296" title="All 2 branches covered.">        while (uusikohta &gt; 0) {</span>
-<span class="fc" id="L297">            tulkki(testi, uusikohta - 1);</span>
-<span class="fc" id="L298">            uusikohta = etsiTai(uusikohta);</span>
+<span class="fc bfc" id="L279" title="All 2 branches covered.">        while (newindex &gt; 0) {</span>
+<span class="fc" id="L280">            translator(test, newindex - 1);</span>
+<span class="fc" id="L281">            newindex = findOr(newindex);</span>
         }
-<span class="fc" id="L300">    }</span>
+<span class="fc" id="L283">    }</span>
     
     /**
-     * Metodi tutkii, onko annettu char-muotoinen merkki numero välillä 0-9 vai ei.
+     * Metodi tutkii, onko annettu char-muotoinen merkki numero välillä 0-9.
      * Ascii-arvoiltaan nämä ovat 48-57.
-     * @param merkki Tutkittava merkki
+     * @param character Tutkittava merkki
      * @return Palauttaa true, mikäli merkki on numero, muutoin false
      */
     
-    public boolean isNumber(char merkki) {
-<span class="fc bfc" id="L310" title="All 4 branches covered.">        if ((int) merkki &gt;= 48 &amp;&amp; (int) merkki &lt; 58) {</span>
-<span class="fc" id="L311">            return true;</span>
+    public boolean isNumber(char character) {
+<span class="fc bfc" id="L293" title="All 4 branches covered.">        if ((int) character &gt;= 48 &amp;&amp; (int) character &lt; 58) {</span>
+<span class="fc" id="L294">            return true;</span>
         }
-<span class="fc" id="L313">        return false;</span>
+<span class="fc" id="L296">        return false;</span>
     }
     
     /**
@@ -318,9 +301,9 @@ public class Regex {
      */
     
     public void reset() {
-<span class="fc" id="L321">        this.lukko = false;</span>
-<span class="fc" id="L322">        this.maarat = new int[regex.length()];</span>
-<span class="fc" id="L323">    }</span>
+<span class="fc" id="L304">        this.matchfound = false;</span>
+<span class="fc" id="L305">        this.lolimits = new int[regex.length()];</span>
+<span class="fc" id="L306">    }</span>
     
     /**
      * Metodi asettaa annetun merkkijonon säännölliseksi lausekkeeksi.
@@ -328,30 +311,30 @@ public class Regex {
      */
     
     public void setRegex(String regex) {
-<span class="fc" id="L331">        this.regex = regex;</span>
-<span class="fc" id="L332">        reset();</span>
-<span class="fc" id="L333">    }</span>
+<span class="fc" id="L314">        this.regex = regex;</span>
+<span class="fc" id="L315">        reset();</span>
+<span class="fc" id="L316">    }</span>
     
     /**
      * Metodi asettaa annetun merkkijonon vertailtavaksi merkkijonoksi.
-     * @param sana Uusi vertailtava merkkijono.
+     * @param string Uusi vertailtava merkkijono.
      */
     
-    public void setSana(String sana) {
-<span class="fc" id="L341">        this.sana = sana;</span>
-<span class="fc" id="L342">        reset();</span>
-<span class="fc" id="L343">    }</span>
+    public void setString(String string) {
+<span class="fc" id="L324">        this.string = string;</span>
+<span class="fc" id="L325">        reset();</span>
+<span class="fc" id="L326">    }</span>
     
     public boolean getFound() {
-<span class="fc" id="L346">        return lukko;</span>
+<span class="fc" id="L329">        return matchfound;</span>
     }
     
-    public String getSana() {
-<span class="fc" id="L350">        return sana;</span>
+    public String getString() {
+<span class="fc" id="L333">        return string;</span>
     }
     
     public String getRegex() {
-<span class="fc" id="L354">        return regex;</span>
+<span class="fc" id="L337">        return regex;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

@@ -12,7 +12,7 @@ Käyttäjä syöttää ohjelmaan aina kaksi eri merkkijonoa: säännöllisen lau
 
 ### Vaativuudet
 
-Ohjelman teoreettinen aikavaativuus rekursiototeutuksella on O(n<sup>3</sup>). Tämä johtuu siitä, että Kleenen tähti kohdattaessa joudutaan haarautumaan kolmeen: lisätään ja jäädään tähteen, lisätään ja jatketaan eteenpäin, ei lisätä ja jatketaan. Tämä voidaan kuitenkin korjata käytännön tilanteisiin peruuttavaa hakua optimoimalla niin, että kaikkia haaroja ei käydä loppuun asti, vaan yksikin väärä merkki katkaisee vertailun, samoin merkkijonoa pidemmäksi edennyt vertailu. Käytännön tilanteissa tulkin tulisi toimia siis hyvinkin nopeasti.
+Ohjelman teoreettinen aikavaativuus rekursiototeutuksella on O(n<sup>3</sup>). Tämä johtuu siitä, että Kleenen tähti kohdattaessa joudutaan haarautumaan kolmeen: lisätään ja jäädään tähteen, lisätään ja jatketaan eteenpäin, ei lisätä ja jatketaan. Tämä voidaan kuitenkin korjata käytännön tilanteisiin peruuttavaa hakua optimoimalla niin, että kaikkia haaroja ei käydä loppuun asti, vaan yksikin väärä merkki katkaisee vertailun, samoin merkkijonoa pidemmäksi edennyt vertailu. Käytännön tilanteissa tulkin tulisi toimia siis hyvinkin nopeasti. Tilavaativuus vaikuttaisi olevan O(m), jossa m on merkkijonon pituus, eli syvin mahdollinen rekursion pituus.
 
 ### Lähteet
 

@@ -231,7 +231,7 @@ public class TestRegex {
     
     @Test
     public void comboTest3() {
-        regex.setRegex("ab(c|d)+.*");
+        regex.setRegex("ab(c|d)+.*()");
         regex.setString("xabd");
         regex.translator("", regex.getRegex().length() - 1);
         assertFalse(regex.getFound());
