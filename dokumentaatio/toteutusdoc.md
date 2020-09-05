@@ -2,9 +2,11 @@
 
 ## Rakenne
 
-Kuten kuvasta nähdään, ohjelma koostuu muutamasta pääpakkauksesta:
+Ohjelma koostuu neljästä pakkauksesta, ja niiden sisältämien luokkien riippuvuudet ovat seuraavat:
 
 ![diagram.png](https://raw.githubusercontent.com/LinAksel/tiralabra-regex/master/dokumentaatio/kuvat/diagram.png)
+
+Pakkausten sisällöstä hieman tarkemmin:
 
 * regex-kansio pitää sisällään luokat Main, MainTUI ja Performance. Näistä molemmat Main-luokat toimivat vain käynnistäjinä käyttöliittymälle. Performance-luokka kuuluu pakkaukseen siksi, että sillä myös sillä on oma, erillinen main-funktionsa. Muista poiketen se sisältää kuitenkin suorituskykytestausmetodit eriteltynä varsinaisista testeistä.
 

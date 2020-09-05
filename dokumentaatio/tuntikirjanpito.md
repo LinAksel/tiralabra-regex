@@ -25,5 +25,6 @@ Päivä      | Aika (h)| Mitä tein |
 31.8.2020  | 3       | Uusi ominaisuus \d, kokeilua []-sulkeilla ja käyttöliittymän säätöä |
 1.9.2020   | 2       | Testien lisäystä ja määrittelydokumentin uudelleenkirjoitus |
 3.9.2020   | 4       | Testien lisäystä haaraumakattavuuden lisäämiseksi, JavaDocin checkstyle ja Docien lisäämistä, suorituskykytestauksen tuloksien analyysia, uudelleennimeämistä |
-4.9.2020   | 1       | Testausdokumentin päivitystä |
-YHTEENSÄ   | 70       | |
+4.9.2020   | 3       | Dokumentoinnin päivitystä |
+5.9.2020   | 1       | Dokumentoinnin viimeistelyä, yleistä ohjelman silmäilyä loppupalautusta varten |
+YHTEENSÄ   | 73       | |

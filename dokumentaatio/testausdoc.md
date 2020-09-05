@@ -2,7 +2,7 @@
 
 ## Yksikkötestaus
 
-Yksikkötestit löytyvät sekä TestValidator- että TestRegex-luokista, ja ne testaavat tulkin kummankin toiminnallisen pääosan toimintaan suhteellisen kattavasti. Testit voidaan ajaa komennolla
+JUnit-yksikkötestit löytyvät sekä TestValidator- että TestRegex-luokista, ja ne testaavat tulkin kummankin toiminnallisen pääosan toimintaan suhteellisen kattavasti. Testit voidaan ajaa komennolla
 
 ```
 mvn test
@@ -49,6 +49,6 @@ eli minkä tahansa merkin hyväksyvälle merkille '.' rakennettiin ympärille uu
 (.)\+ -> ((.)\+)\+ -> (((.)\+)\+)\+ -> ... ,  
 jonka teoreettinen aikavaativuus on O(n<sup>2</sup>), ja lopulta vain suluilla  
 (.) -> ((.)) -> (((.))) -> ... ,  
-rakennettu regex, jonka aikavaativuuden tulisi olla lineaarinen. Vertailtavana merkkijonona oli jälleen vain kirjain 'a'. Nämä oletukset vaikuttavat toteutuvan, '+'-merkeistä koostuva regex suoritetaan huomattavasti nopeammin kuin '*'-merkeistä ja ilman toistoja suoritusaika on lähes sama koko ajan.
+rakennettu regex, jonka aikavaativuuden tulisi olla lineaarinen. Vertailtavana merkkijonona oli jälleen vain kirjain 'a'. Nämä oletukset vaikuttavat toteutuvan: '+'-merkeistä koostuva regex suoritetaan huomattavasti nopeammin kuin '*'-merkeistä koostuva, ja ilman toistoja suoritusaika on lähes sama (~0ms) koko ajan.
 
 Suorituskykytestauksen toinen osa tutkii vertailtavan merkkijonon pituuden vaikutusta suoritusaikaan. Tulokset näyttävät selvästi, että merkkijonon pituus m ei vaikuta suoritusaikaan, sillä aika pysyy samana koko testiskaalalla, joten sen kummempaa analyysia tästä ei tarvita.
