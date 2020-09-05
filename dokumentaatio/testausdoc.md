@@ -27,12 +27,12 @@ Tämäntyyppistä testausta on huomattavasti vähemmän kuin yksikkötestausta, 
 
 ### Yksikkötestit
 
-Yksikkötestauksen perusteella kaikkien ominaisuuksien tulisi toimia tällä hetkellä oikein,
+Yksikkötestauksen perusteella kaikkien [käyttöohjeessa](/dokumentaatio/kayttikset.md) mainittujen ominaisuuksien tulisi toimia tällä hetkellä oikein,
 ja erilaisia yhdistelmiä on koettu testata kattavasti. Testit ovat nopeita, sillä säännölliset lausekkeet ovat tarkoituksella pieniä, yhtä tai muutamaa ominaisuutta nimenomaisesti testaavia.
 
 ![testcoverage.png](https://raw.githubusercontent.com/LinAksel/tiralabra-regex/master/dokumentaatio/kuvat/testcoverage.png)
 
-* Jacoco-raportin perusteella haaraumakattavuus on nyt lähes täydellinen kummallakin testattavalla luokalla, ja testejä lisätään edelleen, mikäli uusia yhdistelmiä ja ominaisuuksia keksitään.  
+* Jacoco-raportin perusteella haaraumakattavuus on nyt täydellinen kummallakin testattavalla luokalla, ja testejä lisätään edelleen, mikäli uusia yhdistelmiä ja ominaisuuksia keksitään.  
 
 ### Suorituskykytestit
 Suorituskykytestauksessa testataan oletuksena tällä hetkellä "pahimman mahdollisen" regexrakenteen, jatkuvien Kleenen tähtien, vaikutusta ohjelman suoritusaikaan. Katsotaan tarkemmin paria testiajoa:  
